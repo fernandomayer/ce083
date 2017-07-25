@@ -1,0 +1,33 @@
+# whitelist
+branches:
+  only:
+    - master
+    - gh-pages
+
+# environment variables
+env:
+  - R_LIBS_USER=~/R
+
+# install dependencies
+install:
+  - sudo apt-add-repository -y ppa:marutter/rdev
+  - sudo apt-get update
+  - which pandoc
+  - which pandoc-citeproc
+  - pandoc --version
+  - sudo apt-get install r-base
+  - sudo apt-get install tree
+  - "[ ! -d ~/R ] && mkdir ~/R"
+  - R --version
+  - Rscript -e '.libPaths(); sessionInfo()'
+  - Rscript -e 'install.packages(c("devtools", "roxygen2", "revealjs", "latticeExtra", "gdata"), type = "source", repos = "http://cran-r.c3sl.ufpr.br/")'
+  - Rscript -e 'devtools::install_github("yihui/knitr")'
+  - Rscript -e 'devtools::install_github("rstudio/rmarkdown")'
+
+# build site
+
+before_script:
+  - rm -rf figures
+
+script:
+  - Rscript -e 'rmarkdown::render_site()'
