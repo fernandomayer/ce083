@@ -1,0 +1,67 @@
+name: "ce083"
+output_dir: "docs"
+exclude: ["README.md"]
+output:
+  html_document:
+    theme: flatly
+    highlight: default
+    code_folding: hide
+    number_sections: false
+    toc: true
+    toc_depth: 4
+    toc_float:
+      collapsed: false
+      smooth_scroll: false
+    includes:
+      in_header: analytics.html
+      after_body: footer.html
+navbar:
+  title: "CE083"
+  left:
+    - text: "Home"
+      href: index.html
+    - text: "Aulas"
+      href: aulas.html
+    - text: "Referências"
+      href: referencias.html
+    - text: "Recursos"
+      href: recursos.html
+    - text: "Materiais"
+      menu:
+      - text: "Configurações iniciais"
+      - text: "Guia de instalação do R"
+        href: R-instalacao.html
+      - text: "Introdução ao uso do Linux"
+        href: http://fernandomayer.github.io/linux-intro
+      - text: "Uso dos sistemas do C3SL"
+        href: c3sl-sistemas.html
+      - text: "----------"
+      - text: "Introdução"
+      - text: "Computação científica e interação com R [HTML]"
+        href: 00_ce083-intro.html
+      - text: "Dados"
+      - text: "Estrutura de dados [HTML]"
+        href: 02_funcoes_e_objetos.html
+      - text: "Indexação e seleção condicional [HTML]"
+        href: 03_indexacao_e_selecao.html
+      - text: "Entrada de dados [HTML]"
+        href: 04_Entrada_de_dados.html
+      - text: "Estatística"
+      - text: "Análise exploratória de dados [HTML]"
+        href: 05_Analise_exploratoria.html
+      - text: "Inferência e regressão [Rmd]"
+        href: misc/inferencia_regressao.Rmd
+      - text: "----------"
+      - text: "Exercícios"
+      - text: "Estatística básica [HTML]"
+        href: ex01_intro.html
+      - text: "Comandos básicos e classes de objetos [PDF]"
+        href: exercicios/ex02_basico.pdf
+      - text: "Análise exploratória de dados [R]"
+        href: exercicios/ex03_exploratoria.R
+      - text: "Inferência e regressão [Rmd]"
+        href: exercicios/ex04_inferencia.Rmd
+  right:
+    - text: GitHub
+      icon: fa-github fa-lg
+      href: https://github.com/fernandomayer/ce083

@@ -1,0 +1,87 @@
+---
+title: "CE083 - Estatística Computacional I"
+output:
+  html_document:
+    toc: false
+---
+
+```{r setup, include=FALSE}
+source("setup_knitr.R")
+```
+
+# Detalhes da oferta da disciplina
+
+- **Curso:** Estatística (EST)
+- **Período:** segundo semestre de 2017
+- **Professor Responsável:** [Fernando de Pol Mayer][], ([LEG][]:
+  Laboratório de Estatística e Geoinformação)
+- **Horários e Locais:**
+    - Terça, 19:00 - 20:30h, **LABEST**
+    - Quinta, 20:40 - 22:00h, **Lab. 1 (Departamento de Informática)**
+- **Horários de atendimento do professor:**
+    - Terças e quintas, 14:00-18:00 (preferenciais). Outros horários
+      podem ser agendados previamente por email.
+- **Frequência**: de acordo com as normas da Universidade, mínimo de 75%
+- **Avaliação**: serão realizadas 3 provas durante o semestre
+    - As datas das provas serão definidas conforme o andamento da
+      disciplina, mas serão confirmadas com pelo menos uma semana de
+      antecedência.
+    - A média final será a média simples das 3 provas (todas tem o mesmo
+      peso).
+- **Datas importantes:** De acordo com a [Resolução 49/15 - CEPE][]:
+    - **01/08**: Início do semestre letivo
+    - **12/12**: Final do semestre letivo
+    - **15/12-21/12**: Período de exames
+
+# Programa/objetivos da disciplina
+
+O objetivo desta disciplina é capacitar os alunos em uma linguagem de
+programação para estatística, onde terão a capacidade de desenvolver
+suas análises em qualquer disciplina. Neste curso usaremos a linguagem R
+que é livre, de código aberto, e já se tornou a linguagem "padrão" para
+análises estatísticas. O objetivo também é ensinar os alunos sobre o
+conceito de ciência reproduzível, e como utilizar o R para gerar
+documentos dinâmicos, misturando código e texto, facilitando e tornando
+clara a difusão do conhecimento.
+
+O curso compreende os seguintes tópicos:
+
+- Filosofia e conceitos iniciais sobre software livre e R
+- Uma primeira sessão com o R
+- R: essencial
+    - Instalação, interfaces gráficas
+    - Funções e argumentos
+    - Objetos e suas classes
+    - Valores perdidos e especiais
+    - Manipulação de dados: indexação e seleção condicional
+- R: dados
+    - Importação e exportação de dados
+    - Lendo dados de uma URL
+- R: análise exploratória de dados
+    - Funções para resumo de dados
+    - Gráficos exploratórios
+      - Sistemas gráficos
+      - Gráficos básicos
+      - Sistemas de cores
+      - Gráficos com o pacote Lattice
+      - Gráficos com o pacote ggplot2
+- R: estatística
+    - Geração de números aleatórios
+    - Distribuições de probabilidade
+    - Intervalos de confiança e teste de hipótese
+    - Regressão linear e ANOVA
+- R: programação
+    - Estruturas de controle e repetição
+    - Criando funções
+    - A família de funções `apply()`
+- Linguagens de marcação
+    - LaTeX
+    - Markdown (Rmarkdown)
+    - Documentos dinâmicos com knitr e rmarkdown
+
+
+<!-- links -->
+
+[Fernando de Pol Mayer]: http://leg.ufpr.br/~fernandomayer
+[LEG]: http://www.leg.ufpr.br
+[Resolução 49/15 - CEPE]: http://www.ufpr.br/soc/descarregar_arquivo.php?cod=1064
