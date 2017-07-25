@@ -12,7 +12,12 @@ env:
 install:
   - sudo apt-add-repository -y ppa:marutter/rdev
   - sudo apt-get update
-  - sudo apt-get install pandoc pandoc-citeproc
+  - curl -s https://api.github.com/repos/jgm/pandoc/releases/latest \
+    | grep "browser_download_url.*deb" \
+    | cut -d : -f 2,3 \
+    | tr -d \" \
+    | wget -qi -
+  - sudo dpkg -i pandoc*.deb$
   - which pandoc
   - which pandoc-citeproc
   - pandoc --version
