@@ -9,6 +9,8 @@ output:
 source("setup_knitr.R")
 ```
 
+[![Build Status](https://travis-ci.org/fernandomayer/ce083.svg?branch=master)](https://travis-ci.org/fernandomayer/ce083)
+
 # Detalhes da oferta da disciplina
 
 - **Curso:** Estatística (EST)

@@ -1,5 +1,7 @@
 # CE083
 
+[![Build Status](https://travis-ci.org/fernandomayer/ce083.svg?branch=master)](https://travis-ci.org/fernandomayer/ce083)
+
 ## CE083 - Estatística Computacional I
 
 Repositório da disciplina CE083 - Estatística Computacional I,
