@@ -1,0 +1,15 @@
+docs/
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+Rplots.pdf
+cache/
+auto/
+.synctex.gz
+.aux
+.log
+.nav
+.out
+.snm
+.toc
