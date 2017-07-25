@@ -1,0 +1,95 @@
+---
+title: "Referências Bibliográficas"
+output:
+  html_document:
+    toc: false
+---
+
+## Referências básicas
+
+
+- Dalgaard, P.
+  [Introductory statistics with R](http://www.springer.com/us/book/9780387790534).
+  New York: Springer, 2008.
+- Krause, A; Olson,
+  M.
+  [The basics of S-Plus](http://www.springer.com/gp/book/9780387261096).
+  New York: Springer, 2005.
+- Murrell, P.
+  [Introduction to data technologies](https://www.crcpress.com/Introduction-to-Data-Technologies/Murrell/9781420065176).
+  Boca Raton: Chapman & Hall/CRC, 2009. Disponível em
+  [HTML](https://www.stat.auckland.ac.nz/~paul/ItDT/HTML) e
+  [PDF](https://www.stat.auckland.ac.nz/~paul/ItDT/itdt-2013-03-26.pdf).
+- Peng, RD.
+  [R programming for data science](https://leanpub.com/rprogramming).
+  Leanpub, 2015. (Gratuito)
+- Peng, RD.
+  [Exploratory data analysis with R](https://leanpub.com/exdata).
+  Leanpub, 2015. (Gratuito)
+- Ribeiro Jr., PJ.
+  [Introdução ao ambiente estatístico R](http://www.leg.ufpr.br/~paulojus/embrapa/Rembrapa/).
+  (HTML). Versão em
+  [PDF](http://www.leg.ufpr.br/~paulojus/embrapa/Rembrapa/Rembrapa.pdf).
+
+## Referências complementares
+
+- Adler, J.
+  [R in a nutshell](http://shop.oreilly.com/product/0636920022008.do).
+  O'Reilly, 2010.
+- Leek, J.
+  [The elements of data analytic style](https://leanpub.com/datastyle).
+  Leanpub, 2015. (Gratuito)
+- Matloff, N.
+  [The art of R programming: A tour of statistical software design](https://www.nostarch.com/artofr.htm).
+  No Starch Press, 2011.
+- Mello, MP; Peternelli, LA.
+  [Conhecendo o R: uma visão mais que Estatística](http://www.dsr.inpe.br/~mello/Conhecendo_o_R.html).
+  Viçosa: Editora UFV, 2013.
+- Peng, RD.
+  [Report writing for data science in R](https://leanpub.com/reportwriting).
+  Leanpub, 2015. (Gratuito)
+- Rizzo, ML.
+  [Statistical computing with R](https://www.crcpress.com/Statistical-Computing-with-R/Rizzo/9781584885450).
+  Boca Raton: Chapman & Hall/CRC, 2008.
+- Teetor, P.
+  [R cookbook](http://shop.oreilly.com/product/9780596809164.do).
+  O'Reilly, 2011.
+- Venables, WB; Ripley, BD.
+  [Modern applied statistics with S](http://www.springer.com/us/book/9780387954578).
+  New York: Springer, 2002.
+
+## Referências *online*
+
+- Horton, NJ; Pruim, R; Kaplan, DT.
+  [A student's guide to R](http://cran-r.c3sl.ufpr.br/doc/contrib/Horton+Pruim+Kaplan_MOSAIC-StudentGuide.pdf). 2015.
+- Jonge, E; Loo, M.
+  [An introduction to data cleaning with R](http://cran-r.c3sl.ufpr.br/doc/contrib/de_Jonge+van_der_Loo-Introduction_to_data_cleaning_with_R.pdf). 2013.
+- Maindonald, JH.
+  [Using R for data analysis and graphics](http://cran-r.c3sl.ufpr.br/doc/contrib/usingR.pdf). 2008.
+- Paradis, E.
+  [R for beginners](http://cran-r.c3sl.ufpr.br/doc/contrib/Paradis-rdebuts_en.pdf). 2005.
+- Torgo, L.
+  [Introdução à programação em R](http://cran-r.c3sl.ufpr.br/doc/contrib/Torgo-ProgrammingIntro.pdf). 2006.
+
+## Leituras complementares
+
+- Huff, D.
+  [Como mentir com estatística](http://www.intrinseca.com.br/livro/624/).
+  Rio de Janeiro: Intrínseca, 2016.
+- Mlodinow, L.
+  [O andar do bêbado. Como o acaso determina nossas vidas](http://zahar.com.br/livro/o-andar-do-b%C3%AAbado).
+  Rio de Janeiro: Zahar, 2009.
+- Salsburg, D.
+  [Uma senhora toma chá. Como a estatística revolucionou a ciência no século XX](http://www.zahar.com.br/livro/uma-senhora-toma-cha).
+  Rio de Janeiro: Zahar, 2009.
+- Wheelan, C.
+  [Estatística: o que é, para que serve, como funciona](http://www.zahar.com.br/livro/estatistica).
+  Rio de Janeiro: Zahar, 2016.
+
+## Referências sobre Linux
+
+- [Guia Foca GNU/Linux](http://www.guiafoca.org)
+- [Apostila de Linux](http://www.inf.ufpr.br/cursos/ci055/linux.pdf) do
+  Departamento de Informática (UFPR)
+- [Introdução ao Linux](http://br-linux.org/tutoriais/apostila_linux.sxw.pdf)
+  de Augusto C. Campos
