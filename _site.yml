@@ -1,6 +1,6 @@
 name: "ce083"
 output_dir: "docs"
-exclude: ["README.md"]
+exclude: ["README.md", "\\.sh"]
 output:
   html_document:
     theme: flatly
