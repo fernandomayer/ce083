@@ -1,0 +1,75 @@
+---
+title: "Histórico das aulas do curso"
+output:
+  html_document:
+    toc: false
+---
+
+```{r setup, include=FALSE}
+source("setup_knitr.R")
+```
+
+Abaixo o histórico de atividades realizadas em classe e atividades extra
+classe aplicadas.
+
+
+```{r, eval=FALSE, include=FALSE}
+## Gera a lista com as datas de todas as aulas. O resultado do último
+## comando pode ser copiado direto para o documento
+datas.ter <- seq.Date(as.Date("2017-08-01"), as.Date("2017-11-28"),
+                      by = "week")
+datas.ter <- format.Date(datas.ter, format = "%d/%m")
+datas.qui <- seq.Date(as.Date("2017-08-03"), as.Date("2017-11-30"),
+                      by = "week")
+datas.qui <- format.Date(datas.qui, format = "%d/%m")
+cat(paste0("- **", datas.ter, "**:\n", "- **", datas.qui, "**:\n"))
+```
+
+- **01/08**:
+- **03/08**:
+- **08/08**:
+- **10/08**:
+- **15/08**:
+- **17/08**:
+- **22/08**:
+- **24/08**:
+- **29/08**:
+- **31/08**:
+- **05/09**:
+- **07/09**: Feriado.
+- **12/09**:
+- **14/09**:
+- **19/09**:
+- **21/09**:
+- **26/09**:
+- **28/09**:
+- **03/10**:
+- **05/10**:
+- **10/10**:
+- **12/10**: Feriado.
+- **17/10**:
+- **19/10**:
+- **24/10**:
+- **26/10**:
+- **31/10**:
+- **02/11**: Feriado.
+- **07/11**:
+- **09/11**:
+- **14/11**:
+- **16/11**:
+- **21/11**:
+- **23/11**:
+- **28/11**:
+- **30/11**:
+
+## Exercícios
+
+Em breve.
+
+## Provas anteriores
+
+Em brave.
+
+## Notas
+
+As notas estão disponíveis [nesta página](notas.html).
