@@ -19,9 +19,9 @@ source("setup_knitr.R")
   Laboratório de Estatística e Geoinformação)
 - **Horários e Locais:**
     - Terça, 19:00 - 20:30h, **LABEST**
-    - Quinta, 20:40 - 22:00h, **Lab. 1 (Departamento de Informática)**
+    - Quinta, 20:40 - 22:00h, **LABEST**
 - **Horários de atendimento do professor:**
-    - Terças e quintas, 14:00-18:00 (preferenciais). Outros horários
+    - Quartas e sextas, 14:00-20:00 (preferenciais). Outros horários
       podem ser agendados previamente por email.
 - **Frequência**: de acordo com as normas da Universidade, mínimo de 75%
 - **Avaliação**: serão realizadas 3 provas durante o semestre
