@@ -12,8 +12,8 @@ env:
 install:
   - sudo apt-add-repository -y ppa:marutter/rdev
   - sudo apt-get update
-  - curl -s https://api.github.com/repos/jgm/pandoc/releases/latest | grep "browser_download_url.*deb" | cut -d : -f 2,3 | tr -d \" | wget -qi -
-  - sudo dpkg -i pandoc*.deb$
+  - curl -L -O https://github.com/jgm/pandoc/releases/download/1.19.2.1/pandoc-1.19.2.1-1-amd64.deb
+  - sudo dpkg -i pandoc-1.19.2.1-1-amd64.deb
   - which pandoc
   - which pandoc-citeproc
   - pandoc --version
