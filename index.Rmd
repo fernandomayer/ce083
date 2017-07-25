@@ -28,10 +28,10 @@ source("setup_knitr.R")
       antecedência.
     - A média final será a média simples das 3 provas (todas tem o mesmo
       peso).
-- **Datas importantes:** De acordo com a [Resolução 49/15 - CEPE][]:
-    - **01/08**: Início do semestre letivo
-    - **12/12**: Final do semestre letivo
-    - **15/12-21/12**: Período de exames
+- **Datas importantes:** De acordo com a [Resolução 62/16 - CEPE][]:
+    - **31/07**: Início do semestre letivo
+    - **02/12**: Final do semestre letivo
+    - **11/12-16/12**: Período de exames
 
 # Programa/objetivos da disciplina
 
@@ -84,4 +84,4 @@ O curso compreende os seguintes tópicos:
 
 [Fernando de Pol Mayer]: http://leg.ufpr.br/~fernandomayer
 [LEG]: http://www.leg.ufpr.br
-[Resolução 49/15 - CEPE]: http://www.ufpr.br/soc/descarregar_arquivo.php?cod=1064
+[Resolução 62/16 - CEPE]: http://www.est.ufpr.br/calendario/cepe6216.pdf
