@@ -12,6 +12,7 @@ env:
 install:
   - sudo apt-add-repository -y ppa:marutter/rdev
   - sudo apt-get update
+  - sudo apt-get install pandoc pandoc-citeproc
   - which pandoc
   - which pandoc-citeproc
   - pandoc --version
