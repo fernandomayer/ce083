@@ -1,0 +1,196 @@
+---
+title: "Introdução ao Shell Linux"
+---
+
+```{r setup, include=FALSE}
+source("setup_knitr.R")
+```
+
+# Introdução
+
+Em um alto nível, computadores fazem quatro coisas:
+
+- Rodam programas
+- Armazenam dados
+- Comunicam-se entre eles
+- Interagem com humanos
+
+A interação com humanos pode ser feita de diferentes maneiras, mas a que
+mais conhecemos é atrave'sde um teclado, mouse e monitor. Embora a
+maioria dos sistemas operacionais atuais se comuniquem com humanos
+através de janelas, ícones e botões, essa tecnologia só começou a se
+popularizar em meados dos anos 1980.
+
+Este tipo de interface é chamada de **interface gráfica do usuário**
+(GUI, *graphical user interface*). Antes dessa fase, a interação com
+computadores se resumia a comandos digitados em um *terminal*, uma
+interface chamada de **interface por linha de comando** (CLI,
+*command-line interface*). A CLI consiste no processo em um  **loop
+ler-avaliar-imprimir** (REPL, *read-evaluate-print loop*). Ou seja,
+quando um usuário digita um comando e aperta <kbd>Enter</kbd>, o
+computador lê, executa e imprime uma saída.
+
+Com esta descrição, pode parecer que o usuário envia um comando direto
+para o computador, e o computador envia um resultado direto para o
+usuário. Na verdade, existe um programa intermediário, chamado de
+**shell**. O que um usuário digita é enviado para o shell, que então
+determina a execução pelo computador.
+
+O shell é um programa como qualquer outro. O que ele tem de especial é
+que seu trabalho é executar outros programas ao invés de fazer cálculos
+propriamente ditos. O shell mais popular se chama **Bash**, e é o padrão
+na maioria das distribuições Linux.
+
+Usar o Bash é muito mais parecido com programação do que com usar um
+mouse para executar programas. Alguns comandos podem parecer "estranhos"
+em um primeiro momento, e você pode se sentir como se estivesse voltando
+ao passado para usar o computador quando não existiam GUIs (apenas CLIs,
+como o DOS por exemplo). No entanto, com apenas alguns comandos você
+será capaz de executar diversas tarefas rotineiras de maneira muito mais
+rápida, e principalmente automatizar tarefas (com um pouco mais de
+dedicação).
+
+Possui r familiaridade com o shell é essencial para rodar uma variedade
+de ferramentas especializadas, como por exemplo servidores remotos de
+alta-performance. Como clusters e computação em nuvem estão se tornando
+cada vez mais popular para análise de grandes bases de dados, ser capaz
+de interagir com estes sistemas é uma habilidade essencial.
+
+# Navegando por arquivos e diretórios
+
+A parte do sistema operacional responsável por gerenciar arquivos e
+diretórios é chamada de **sistema de arquivos**. Ele organiza nossos
+dados em arquivos que contém informação, e em diretórios (também
+chamados de "pasta") que contém arquivos e outros diretórios.
+
+Diversos comandos são utilizados para criar, inspecionar, renomear e
+deletar arquivos e diretórios. Para começar a explorá-los, abra uma
+janela de terminal (shell). A primeira coisa que você verá é algo como:
+
+```{sh, eval=FALSE}
+[fpmayer@turing ~]$
+```
+que corresponde ao seu nome de usuário (`fpmayer` nesse caso), o nome
+dado ao seu computador (`turing` nesse caso) e um til (`~`). O til nada
+mais é do que um atalho (*alias*) para a sua pasta pessoal (que nesse
+caso é `/home/fpmayer`). Em seguida o símbolo de `$` é o **prompt**, que
+indica que o shell está aguardando algum comando. Dependendo do seu
+sistema operacional, o prompt pode ser diferente, ou pode haver
+informações diferentes nessa linha, o que não altera em nada os comandos
+do shell.
+
+<div class="panel panel-warning">
+  <div class="panel-heading">Atenção!</div>
+  <div class="panel-body">
+  Daqui em diante só serão mostrados os comandos do shell, omitindo o
+  prompt e qualquer outra informação adicional.
+  </div>
+</div>
+
+Digite o comando `whoami` e aperte <kbd>Enter</kbd>. O resultado deste
+comando deve ser seu nome de usuário:
+```{sh, eval=FALSE}
+whoami
+```
+Mais especificamente, quando digitamos `whoami` o shell:
+
+1. Encontra um programa chamado `whoami`
+2. Executa o programa
+3. Mostra a saída do programa
+4. Mostra um novo prompt para mostrar que está pronto para receber mais
+   comandos
+
+Agora podemos descobrir aonde estamos (em qual diretório do sistema de
+arquivos) com o comando `pwd` (*print working directory*). Daqui em
+diante os termos "diretório de trabalho" ou "diretório atual" ou
+"diretório padrão" se referem sempre à mesma coisa, ou seja, o diretório
+que o computador assume que queremos executar o comando, a não ser que
+algum outro seja especificado explicitamente.
+```{sh, eval=FALSE}
+pwd
+```
+```{sh, echo=FALSE, eval=FALSE}
+cd /home/fpmayer && pwd
+```
+A resposta para esse comando é `/home/fpmayer` que é denominado de
+diretório *home* de um usuário. Normalmente quando se inicia um
+terminal, ele começa nesse diretório. Como usuário comum, este é o único
+diretório ao qual você terá permissão de acesso, ou seja, permissão para
+criar, modificar ou deletar arquivos e diretórios.
+
+<!-- colocar figuras -->
+
+<div class="panel panel-warning">
+  <div class="panel-heading">Atenção!</div>
+  <div class="panel-body">
+  Note que a barra que divide diretórios no Linux é deitada para a
+  direita (`/`), ao contrário do Windows que é deitada para a esquerda
+  (`\`).
+  </div>
+</div>
+
+Agora, para visualizar o conteúdo de um diretório, usamos o comando `ls`
+(*listing*):
+```{sh, eval=FALSE}
+ls
+```
+```{sh, echo=FALSE, eval=FALSE}
+ls /home/fpmayer
+```
+(Note que o seu resultado pode ser diferente dependendo do seu sistema
+operacional e de customizações).
+
+O comando `ls` mostra os nomes dos arquivos e diretórios no diretório
+atual em ordem alfabetica. Podemos fazer essa saída ficar um pouco mais
+informativa usando um **argumento adicional ao comando** (também chamado
+de *flag*) `-F`, que diz para o `ls` adicionar uma barra (`/`) aos nomes
+de diretórios:
+```{sh, eval=FALSE}
+ls -F
+```
+```{sh, echo=FALSE, eval=FALSE}
+ls -F /home/fpmayer
+```
+
+O comando `ls` possui muitas opções (*flags*) para alterar a saída do
+resultado. Isso é muito comum em diversos comandos shell, e para
+visualizar as opções podemos digitar
+```{sh}
+ls --help
+```
+
+Para mais informações ou detalhes de um comando, você pode acessar um
+manual através de
+```{sh, eval=FALSE}
+man ls
+```
+Você entrará em uma página de documentação mais detalhada e
+possivelmente com exemplos de uso. Para navegar por essa página, use as
+setas para baixo e para cime, e para sair e voltar ao terminal digite
+`q`.
+
+No exemplo acima, vimos que todo o conteúdo do diretório atual é
+composto por **sub-diretórios**, pois todos os nomes contém uma barra no
+final. Nomes sem a barra seriam arquivos. Nós também podemos usar o `ls`
+para mostrar o conteúdo de outros diretórios. Por exemplo, para ver o
+conteúdo do diretório `Documents`:
+```{sh, eval=FALSE}
+ls -F Documents
+```
+```{sh, echo=FALSE, eval=FALSE}
+ls -F /home/fpmayer/Documents
+```
+Note que agora aparecem diretórios e também arquivos (os nomes sem a
+barra no final).
+
+Como você já deve estar percebendo, o uso do shell é altamente
+dependente da ideia de que seus arquivos são organizados em um sistema
+de arquivos hierárquico. Organizar arquivos e diretórios desta forma
+ajuda-nos a organizar nosso trabalho. É possível colocar centenas de
+arquivos em nossa pasta pessoal, assim como é possível empilhar centenas
+de papéis na sua mesa, mas não é uma estratégia adequada.
+
+# Referências
+
+- [Software Carpentry Foundation](http://software-carpentry.org).
+  [The Unix Shell](http://swcarpentry.github.io/shell-novice).
