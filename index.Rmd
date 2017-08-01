@@ -18,8 +18,8 @@ source("setup_knitr.R")
 - **Professor Responsável:** [Fernando de Pol Mayer][], ([LEG][]:
   Laboratório de Estatística e Geoinformação)
 - **Horários e Locais:**
-    - Terça, 19:00 - 20:30h, **LABEST**
-    - Quinta, 20:40 - 22:00h, **LABEST**
+    - Terça, 19:00 - 20:30h, **[DINF][] - Lab. 12**
+    - Quinta, 20:40 - 22:00h, **[DINF][] - Lab. 12**
 - **Horários de atendimento do professor:**
     - Quartas e sextas, 14:00-20:00 (preferenciais). Outros horários
       podem ser agendados previamente por email.
@@ -79,7 +79,7 @@ O curso compreende os seguintes tópicos:
 - Linguagens de marcação
     - LaTeX
     - Markdown (Rmarkdown)
-    - Documentos dinâmicos com knitr e rmarkdown
+- Documentos dinâmicos com knitr e rmarkdown
 
 
 <!-- links -->
@@ -87,3 +87,4 @@ O curso compreende os seguintes tópicos:
 [Fernando de Pol Mayer]: http://leg.ufpr.br/~fernandomayer
 [LEG]: http://www.leg.ufpr.br
 [Resolução 62/16 - CEPE]: http://www.est.ufpr.br/calendario/cepe6216.pdf
+[DINF]: http://www.inf.ufpr.br/dinf/
