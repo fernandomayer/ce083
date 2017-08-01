@@ -10,6 +10,13 @@ pelo [C3SL]() (Centro de Computação Científica e Software Livre). Para
 acesso ao sistema e dicas computacionais leia:
 [Uso do sistema computacional do C3SL](c3sl-sistemas.html).
 
+## Linux
+
+Os recursos computacionais mantidos pelo C3SL são todos baseados em
+Linux. Alguns materiais que podem ser consultados são [Introdução ao uso
+do Linux](http://fernandomayer.github.io/linux-intro/)
+e [Introdução ao shell Linux](01_shell-linux.html).
+
 ## R
 
 O R é um programa para análise estatística de livre distribuição e de
