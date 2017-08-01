@@ -1,0 +1,244 @@
+---
+title: "R - Guia de instalação"
+output:
+  html_document:
+    toc: true
+    code_folding: show
+---
+
+```{r setup, include=FALSE}
+source("setup_knitr.R")
+```
+
+## Introdução
+
+Este guia está dividido em duas seções, **Windows** e **Linux**, e em
+cada uma existe uma versão “rápida” da instalação (para os apressados),
+e uma versão “longa” (explicada em mais detalhes).
+
+## Windows
+
+### Instalação rápida
+
+1. http://cran-r.c3sl.ufpr.br/bin/windows/base/R-3.4.1-win.exe
+
+2. https://download1.rstudio.org/RStudio-1.0.153.zip
+
+**Importante!** Instale nessa ordem: primeiro o R e só depois o
+RStudio. O RStudio é apenas uma interface para o R, e por isso, precisa
+encontrar a instalação do R para poder ser instalado.
+
+### Instalação longa
+
+#### R
+
+1.  O primeiro passo é entrar na página do projeto em
+    [www.r-project.org](www.r-project.org).
+
+2.  Do lado esquerdo da página clique sobre o link `CRAN` abaixo de
+    `Download, Packages`.
+
+3.  Uma nova página com uma série de links irá se abrir. Esses links são
+    chamados de “espelhos” e servem para que você possa escolher o local
+    mais próximo de onde você está para fazer o download do programa.
+    Vamos selecionar o espelho da Universidade Federal do Paraná.
+    Procure o link `http://cran-r.c3sl.ufpr.br` e clique sobre ele.
+
+4.  Na seção `Download and Install R`, clique sobre o link
+    `Download R for Windows` para baixar a versão para esse sistema.
+
+5.  Clique sobre o link `base`.
+
+6.  Clique sobre o link `Download R 3.4.1 for Windows` para fazer o
+    download do arquivo `R-3.4.1-win.exe`.
+
+7.  A instalação segue o formato padrão de instalação de programas no
+    Windows, e portanto não são necessários maiores detalhes.
+
+Após a instalação do R, você pode abrir o programa clicando no ícone na
+sua área de trabalho ou através do menu de programas. Se você já fez
+isso, deve ter percebido que o programa tem uma aparência bem “crua”.
+Esta interface, na verdade, é apenas a “casca” do R, que por ser uma
+linguagem de programação, não deve ter mesmo muitos recursos gráficos.
+Seu grande potencial é através dos códigos que vamos programar. Por esse
+motivo, os desenvolvedores do programa não gastam tempo desenvolvendo
+uma inteface gráfica, mas sim na linguagem em si, que é o mais
+importante.
+
+Felizmente existem diversas pessoas que se empenharam em fazer
+interfaces mais elaboradas para o R, que não alteram como o programa
+funciona (ou seja, não alteram em nada a linguagem), mas ajudam o
+programador a ter um melhor controle e visualização sobre o código que
+ele está escrevendo. Uma dessas interfaces é o
+[Tinn-R](http://www.sciviews.org/Tinn-R), por exemplo. Há pouco tempo
+atrás, uma nova interface chamada RStudio foi lançada, com diversas propriedades
+que ajudam muito quem está programando, e principalmente, quem nunca
+usou o R antes. Além disso, o funciona da mesma forma em todas as
+plataformas. Essa será a interface que vamos utilizar.
+
+#### RStudio
+
+1.  Para baixar o entre no endereço [www.rstudio.com](www.rstudio.com)
+
+2.  Clique no link `Products > RStudio`
+
+3.  Selecione a versão `Desktop`
+
+4. Clique em `DOWNLOAD RSTUDIO DESKTOP`
+
+5.  Será exibida uma página com a recomendação para você baixar o
+    `RStudio 1.0.153 - Windows Vista/7/8/10`
+
+6.  Clicando nesse link, você irá baixar o arquivo
+    `RStudio-1.0.153.exe`
+
+7.  Depois é só clicar e instalar da forma convencional do Windows
+
+Após a instalação, você pode abrir o pelo ícone, e o estará pronto para
+ser utilizado.
+
+## Linux
+
+### Instalação rápida
+
+1.  Entre em <http://cran-r.c3sl.ufpr.br/bin/linux> e veja as
+    instruções específicas para sua distribuição. As distribuições que
+    já possuem pacotes pré-compilados para o estão listadas ali (Debian,
+    RedHat [Fedora], Suse [OpenSuse], Ubuntu). Por exemplo, para
+    instalar no Ubuntu, execute em um terminal
+
+```{bash, eval=FALSE}
+sudo apt-get install r-base r-base-core
+```
+
+Se a sua distribuição não está listada ali, provavelmente será
+necessário compilar o código-fonte (veja na seção abaixo).
+
+2.  Entre em <http://www.rstudio.com/products/rstudio/download> e
+    procure um pacote pré-compilado para sua distribuição. Normalmente,
+    após baixar esse pacote, a instalação pode ser executada apenas
+    abrindo o arquivo. Em todo caso, tomando o Ubuntu novamente como
+    exemplo, a instalação pode ser feita também via terminal com
+
+```{bash, eval=FALSE}
+sudo dpkg -i rstudio-1.0.153-amd64.deb
+```
+
+Note que o arquivo `rstudio-1.0.153-amd64.deb` é uma versão específica
+para o Ubuntu 64 bits, e você deve estar no diretório
+onde o arquivo foi baixado (use o comando `cd` para mudar
+diretórios).
+
+**Importante!** Instale nessa ordem: primeiro o R e só depois o
+RStudio. O Rstudio é apenas uma interface para o R, e por isso, precisa
+encontrar a instalação do R para poder ser instalado.
+
+### Instalação longa
+
+#### R
+
+Se você não encontrou um pacote pré-compilado do para sua distribuição
+específica, ou, se você quer instalar o compilando o código-fonte, siga
+as instruções abaixo. Compilar o código-fonte oferece uma série de
+vantagens como a personalização da instalação, e um ganho de performance
+do programa quando comparado com versões pré-compiladas.
+
+1.  O primeiro passo é entrar na página do projeto em
+    [www.r-project.org](www.r-project.org).
+
+2.  Do lado esquerdo da página clique sobre o link `CRAN` abaixo de
+    `Download, Packages`.
+
+3.  Uma nova página com uma série de links irá se abrir. Esses links são
+    chamados de “espelhos” e servem para que você possa escolher o local
+    mais próximo de onde você está para fazer o download do programa.
+    Vamos selecionar o espelho da Universidade Federal do Paraná.
+    Procure o link <http://cran-r.c3sl.ufpr.br> e clique sobre ele.
+
+4.  Na seção `Source Code for all Platforms`, baixe o arquivo
+    `R-3.4.1.tar.gz` (link direto:
+    <http://cran-r.c3sl.ufpr.br/src/base/R-3/R-3.4.1.tar.gz>)
+
+5.  Coloque esse arquivo em um diretório de sua escolha, abra um
+    terminal e acesse esse diretório (usando `cd`). Por exemplo, se o
+    arquivo estiver dentro de um diretório chamado `Programas`, no
+    diretório padrão do usuário
+
+```{sh, eval=FALSE}
+cd Programas
+```
+
+6.  Descompacte o arquivo com o comando `tar`
+
+```{sh, eval=FALSE}
+tar -zxvf R-3.4.1.tar.gz
+```
+
+Isso irá criar um diretório chamado `R-3.4.1`. Entre nesse diretório
+
+```{sh, eval=FALSE}
+cd R-3.4.1
+```
+
+7.  Agora você pode configurar (`configure`), compilar (`make`),
+    verificar a compilação (`make check-all`) (esse processo pode ser
+    demorado), e finalmente instalar (`make install`). O processo todo
+    fica assim
+
+```{sh, eval=FALSE}
+./configure
+make
+sudo make install
+```
+
+**Detalhe**: se você for realmente utilizar o como interface no Linux, é
+necessário compilar o como um *shared library*. Para isso, substitua a
+primeira linha acima por
+
+```{sh, eval=FALSE}
+./configure --enable-R-shlib
+```
+
+e continue com os demais comandos.
+
+8.  No Linux, o não tem interface alguma, ele é um programa que roda no
+    terminal. Por isso, você pode verificar a instalação apenas
+    digitando
+
+```{sh, eval=FALSE}
+R
+```
+
+no terminal.
+
+Como por padrão o R não tem uma interface no Linux, você pode optar por
+muitas alternativas como o [ESS](http://ess.r-project.org) (Emacs Speaks
+Statistics) para o [Emacs](http://www.gnu.org/software/emacs/), o
+[Vim-R-plugin](http://www.lepem.ufc.br/jaa/r-plugin.html) para o
+[Vim](http://www.vim.org), ou o [RGedit](http://rgedit.sourceforge.net)
+para o [Gedit](http://projects.gnome.org/gedit).
+
+Além destas opções mais tradicionais, o RStudio também têm suporte para
+Linux, e funciona exatamente da mesma forma como no Windows.
+
+#### RStudio
+
+1.  Para baixar o entre no endereço [www.rstudio.org](www.rstudio.org)
+
+2.  Clique no link `Products > RStudio`
+
+3.  Selecione a versão `Desktop`
+
+4. Clique em `DOWNLOAD RSTUDIO DESKTOP`
+
+5.  Será exibida uma página com a recomendação para você baixar o RStudio de
+    acordo com a distribuição que você estiver usando
+
+6.  Clique no link recomendado para baixar o arquivo
+
+7.  Normalmente clicando duas vezes sobre o arquivo, o programa já será
+    instalado. Um exemplo de instlação via terminal no Ubuntu está na
+    acima.
+
+Após a instalação, você pode abrir o RStudio pelo ícone (dependendo da
+sua distribuição), e o R estará pronto para ser utilizado.
