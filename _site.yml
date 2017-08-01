@@ -29,13 +29,13 @@ navbar:
     - text: "Materiais"
       menu:
       - text: "Configurações iniciais"
-      - text: "Uso dos sistemas do C3SL"
+      - text: "Uso dos sistemas do C3SL [HTML]"
         href: c3sl-sistemas.html
-      - text: "Introdução ao uso do Linux"
+      - text: "Introdução ao uso do Linux [HTML,slides]"
         href: http://fernandomayer.github.io/linux-intro
-      - text: "Introdução ao Shell Linux"
+      - text: "Introdução ao Shell Linux [HTML]"
         href: 01_shell-linux.html
-      - text: "Guia de instalação do R"
+      - text: "Guia de instalação do R [HTML]"
         href: R-instalacao.html
       - text: "----------"
       - text: "Introdução"
