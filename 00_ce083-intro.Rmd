@@ -1,0 +1,403 @@
+---
+title: "Computação científica e interação com R"
+output:
+  html_document:
+    code_folding: show
+---
+
+```{r setup, include=FALSE}
+source("setup_knitr.R")
+```
+
+# Interagindo com o computador
+
+O que significa este ícone?
+
+<img src="img/excelcsvgrey.png" width="400px" />
+
+- É um documento do Microsoft Excel?
+- É um arquivo de **texto pleno**, separado por vírgulas (CSV *comma
+  separated values*)
+- De fato, o nome do arquivo é `final.csv` e não `final`
+- O Excel pode sim abrir este arquivo... assim como milhares de outros
+  programas!
+
+O que está acontecendo?
+
+- O computador (leia-se, nesse caso, o sistema operacional Windows)
+  "proteje" o usuário dos detalhes sujos
+- Isso é ruim? **Sim!**
+- O usuário se acostuma com o computador ditando as regras
+- É importante lembrar que é você quem deve dizer o que o computador
+  deve fazer (nesse caso, com qual programa abrir certo arquivo)
+
+O que deve acontecer?
+
+- Para a maioria dos usuários, a interação com o computador se limita a
+  clicar em links, selecionar menus e caixas de diálogo
+- O problema com essa abordagem é que parece que o usuário é controlado
+  pelo computador
+- A verdade deve ser o oposto!
+- É o usuário que possui o controle e deve dizer para o computador
+  exatamente o que fazer
+- Escrever código ainda tem a vantagem de deixar registrado tudo o que
+  foi feito
+
+# Escrevendo código
+
+Aprender a interagir com o computador através de uma linguagem de
+programação, coloca o usuário na sua posição original de poder!
+
+<img src="img/power.gif" width="400px" />
+
+Uma linguagem de programação nos permite interagir não só com outros
+*softwares*, mas também com o nosso *hardware*
+
+<img src="img/script-hardware.png" width="800px" />
+
+<!-- # Software livre -->
+
+<!-- ## Software Livre -->
+
+<!-- ### O que é software livre? -->
+
+<!-- - Software que pode ser utilizado, estudado e modificado sem -->
+<!--     restrições -->
+<!-- - Pode ser copiado e redistribuido (modificado ou não) -->
+<!-- - A redistribuição tem uma única restrição: assegurar que os -->
+<!--     receptores tenham a mesma liberdade -->
+<!-- - Para isso é necessário que os desenvolvedores (ou modificadores) -->
+<!--     disponibilizem o **código fonte**! -->
+<!-- - Não confundir software **livre** com software **grátis** -->
+<!-- - Livre como em “liberdade de expressão”, não grátis como “cerveja -->
+<!--   grátis” -->
+
+<!-- ## Software Livre -->
+
+<!-- ### Um software só é considerado livre quando é possível ter as 4 liberdades -->
+
+<!-- 0. Liberdade para usar o programa para qualquer propósito -->
+<!-- 1. Liberdade para estudar como o programa funciona, e modificá-lo para -->
+<!--     sua necessidade -->
+<!-- 2. Liberdade para redistribuir cópias (e ajudar o seu vizinho) -->
+<!-- 3. Liberdade para aprimorar o programa, e redistribuí-lo para que todos -->
+<!--     se beneficiem -->
+
+<!-- ## Software Livre -->
+
+<!-- - Os principais motivos para user software livre: -->
+<!-- 	- Garantir que sabemos (ou temos como saber) o que o software está -->
+<!-- 	  fazendo -->
+<!-- 	- Garantir que sabemos aonde estão nossos dados, e o que o software -->
+<!--       faz com eles -->
+
+<!-- - A importância disso aparece cada vez mais na academia, indústria e -->
+<!--   governo: -->
+<!-- 	- [http://www.softwarelivre.gov.br](http://www.softwarelivre.gov.br) -->
+<!-- 	- [http://www.softwarepublico.gov.br](http://www.softwarepublico.gov.br) -->
+<!--     - [https://www.serpro.gov.br](https://www.serpro.gov.br) -->
+
+# Data Science? Estatística?
+
+- [The data science Venn diagram][DSVD]
+
+![Diagrama de Venn para Ciência de Dados](img/Data_Science_VD.png)
+
+- Conhecimento de matemática e estatística: é o que você está fazendo
+  aqui
+- Habilidade hacker:
+    - Saber programar (aqui vamos saber usar o R)
+    - Saber responder perguntas sozinho.
+    -  Saber buscar respostas
+- Experiência substancial: depende da área dos dados, da interação com o
+    pesquisador, ou de buscar o conhecimento
+
+# Editores de texto
+
+Uma característica importante de códigos de programação é que eles são
+em **texto puro**, por isso precisamos de um bom **editor de textos**
+
+Características de um bom editor:
+
+- **Identação automática**
+- **Complementação de parênteses**
+- **Destaque de sintaxe** (*syntax highlighting*)
+- **Numeração de linhas**
+- **Auto completar comandos**
+
+# Editores para o R
+
+## Windows
+
+- Interface padrão: pouco recomendado
+- Tinn-R
+
+## Linux
+
+- Vim-R-plugin
+- Gedit-R-plugin
+
+## Todas as plataformas
+
+- Rstudio: recomendado para iniciantes
+- Emacs + ESS: altamente recomendado
+
+# R
+
+## O que é o R
+
+Um dialeto do S.
+
+> *"The statistical software should help, by supporting each step from
+> user to programmer, with as few intrusive barriers as possible."*
+
+> *"... to turn ideas into software, quickly and faithfully."*
+
+--- John M. Chambers
+
+- *Ambiente* estatístico para análise de dados e produção de gráficos
+- Uma completa linguagem de programação:
+	- Interpretada (contrário de compilada)
+	- Orientada a objetos:
+
+	*Tudo no R é um objeto...*
+
+- Livre distribuição (código-aberto)
+- Mais de 6000 pacotes adicionais
+
+## Histórico
+
+- 1980: Linguagem S: desenvolvida por R. Becker, J. Chambers e A. Wilks
+(AT&T Bell Laboratories)
+- 1980: Versão comercial: S-Plus (Insightful Corporation)
+- 1996: Versão livre: R desenvolvido por R. Ihaka e R. Gentleman
+(Universidade de Auckland)
+- 1997: R Development Core Team
+- Hoje: 20 desenvolvedores principais e muitos outros colaboradores em
+todo o mundo
+- Estatísticos, matemáticos e programadores
+
+<!-- ## Vantagens -->
+
+<!-- - A linguagem mais comum em *data science*, e certamente a mais -->
+<!--     utilizada em estatística hoje em dia -->
+<!-- - Permite ir rapidamente de dados brutos para gráficos para relatórios -->
+<!--    dinâmicos para aplicativos web -->
+<!-- - Software livre -->
+<!-- - Funciona em praticamente todos os sistemas operacionais: Unix (Linux, -->
+<!-- FreeBSD, \ldots), Macintosh e Windows -->
+<!-- - É o produto da cooperação entre estatísticos do mundo todo -->
+<!-- - Linguagem lógica e intuitiva -->
+<!-- - Flexibilidade nas análises estatísticas -->
+<!-- - Gráficos de alta qualidade -->
+<!-- - [R no New York Times][RNYT] -->
+
+<!-- ## Desvantagens -->
+
+<!-- - Sem interface gráfica (?) -->
+<!-- - Não há visualização direta dos dados -->
+<!-- - Curva de aprendizado longa -->
+<!-- - Pode ser lento com grandes (GB, TB, ...) bases de dados -->
+<!-- 	- Necessidade de **vetorização** -->
+
+
+## Configuração inicial
+
+### Configurando o diretório de trabalho
+
+- O diretório de trabalho é uma pasta onde o R será
+  direcionado. Todos os arquivos que serão importados (base de dados,
+  ...) ou exportados (base de dados, gráficos, ...) por ele
+  ficarão nesta pasta.
+- Existem duas maneiras de configurar o
+  diretório de trabalho (suponha que vamos usar a pasta
+  `~/estatcomp1`):
+
+- `1)` Utilizando a função `setwd()` dentro do R:
+```{r, eval=FALSE}
+setwd("~/estatcomp1")
+```
+
+- `2)` Pelo menu do RStudio em `Session > Set Working Directory > Choose Directory...`
+Confira o diretório que está trabalhando com a função
+```{r, eval=FALSE}
+getwd()
+```
+
+## O R como uma calculadora
+
+O símbolo `>` indica que o R está pronto para receber um comando:
+```{r, prompt=TRUE, comment=NA}
+2 + 2
+```
+O símbolo `>` muda para `+` se o comando estiver incompleto:
+```{r, prompt=TRUE, tidy=FALSE, comment=NA}
+2 *
+2
+```
+Espaços entre os números não fazem diferença:
+```{r, prompt=TRUE, comment=NA}
+2+         2
+```
+
+## Para onde vão os resultados?
+
+```{r, prompt=TRUE, comment=NA}
+1 + 3 + 5 + 7
+```
+
+![](img/script-commandline.png)
+![](img/script-commandlinedata.png)
+
+- Note que o resultado é apenas mostrado na tela, nada é salvo na
+  memória (por enquanto)
+
+## O editor de scripts
+
+- Para criar rotinas computacionais é necessário utilizar um editor
+    de scripts.
+- Clique em `File > New file > R script`. Salve com a extensão
+    `.R`.
+- Para enviar comandos diretamente para o console, selecione-os e
+    aperte `Ctrl + <Enter>`.
+- Para adicionar comentários ao script, utiliza-se o símbolo
+    `#` antes do texto e/ou comandos. O que estiver depois do
+    símbolo não será interpretado pelo R. Portanto:
+```{r, eval=FALSE}
+2 + 2     # esta linha será executada
+# 2 + 2     esta linha não será executada
+```
+
+## Operadores aritméticos
+
+Operador | Significado
+-------- | -----------
+`+` | adição
+`-` | subtração
+`*` | multiplicação
+`/` | divisão
+`^` | potência
+`exp()` | exponencial
+`sqrt()` | raíz quadrada
+`factorial()` | fatorial
+`log()`; `log2()`; `log10()` | logaritmos
+
+## Ordens de execução
+
+As operações são realizadas sempre seguindo as prioridades:
+
+1. De dentro para fora de parênteses `()`
+2. Multiplicação e divisão
+3. Adição e subtração
+
+```{r, prompt=TRUE, comment=NA}
+5 * 2 - 10 + 7
+5 * 2 - (10 + 7)
+5 * (2 - 10 + 7)
+5 * (2 - (10 + 7))
+```
+
+## Exercícios
+
+1. Calcule a seguinte equação: $32 + 16^2 - 25^3$
+2. Divida o resultado por $345$
+3. Qual o resultado da expressão $\frac{e^{-2}  2^{4} - 1}{4!}$?
+4. E do logaritmo desta expressão?
+
+## "Salvando" resultados
+
+Do exercício anterior
+
+```{r, prompt=TRUE, comment=NA}
+x <- 32 + 16^2 - 25^3
+x
+x/345
+(y <- (exp(-2) * 2^4 - 1)/factorial(4))
+log(y)
+```
+
+Quando criamos uma variável (`x`, `y`), ela fica armazenada
+**temporariamente** na memória RAM.
+
+<img src="img/script-assign.png" width="400px" />
+
+Para saber quais objetos estão criados, usamos a **função** `ls()`
+
+```{r, prompt=TRUE, comment=NA}
+ls()
+```
+
+Estas variáveis ficam armazenadas no chamado *workspace* do R
+
+- O *workspace* consiste de tudo que or criado durante uma sessão do R,
+  armazenado na memória RAM
+
+Para efetivamente salvar esas variáveis, podemos armazenar esse *workspace*
+do R em disco, em um arquivo chamdo `.Rdata`
+
+![](img/script-workspace.png)
+![](img/script-workspacedata.png)
+
+- Quando o R é iniciado em um diretório com um arquivo `.Rdata`, as
+  variáveis salvas são automaticamente carregadas
+- No entanto, é sempre melhor salvar os dados e o **script**, assim é
+  possível gerar os resultados novamente, sem salvar nada sem
+  necessidade
+- Veremos mais pra frente como salvar variáveis específicas, por
+  exemplo, resultados de uma análise que leva muito tempo para ser
+  executada
+- O mais importante é salvar o **código**, assim sabemos **como**
+  chegamos a determinado resultado, e podemos recriá-lo depois
+
+## Finalizando o programa
+
+A qualquer momento durante uma sessão você pode usar o comando
+```{r, prompt=TRUE, eval=FALSE}
+save.image()
+```
+
+No RStudio:
+
+- `File > Save As...`
+- Na janela que abrir, digite o nome do arquivo (por exemplo
+  `script_aula1`) e salve
+- Automaticamente o script será salvo com a extensão `.R`
+  (nesse caso `script_aula1.R`) no diretório de trabalho que você
+  configurou no início
+
+Alternativamente, você pode também salvar toda sua área de trabalho,
+clicando em `Workspace > Save As Default Workspace`. Este
+processo irá gerar dois arquivos:
+
+- `.Rdata`: contém todos os objetos criados durante uma
+  sessão. Não é necessário (e nem recomendado) dar um nome antes do
+  ponto. Dessa forma, a próxima vez que o programa for iniciado neste
+  diretório, a área de trabalho será carregada automaticamente.
+- `.Rhistory`: um arquivo texto que contém todos os comandos
+  que foram digitados no console.
+
+
+<!-- ## Layout de código -->
+
+<!-- ## Formatos de arquivos -->
+
+<!-- ### Texto pleno -->
+
+<!-- ### CSV -->
+
+<!-- ### Encoding -->
+
+# Referências
+
+* Leek, J. [The Elements of Data Analytic Style][datastyle]. Leanpub, 2015.
+* Murrell,
+  P. [Introduction to data technologies](https://www.stat.auckland.ac.nz/~paul/ItDT/HTML). Boca
+  Raton: Chapman & Hall/CRC, 2009.
+* Peng,
+  RD. [R programming for data science](https://leanpub.com/rprogramming). Leanpub, 2015.
+
+
+[dados]: http://simplystatistics.org/2013/12/12/the-key-word-in-data-science-is-not-data-it-is-science/
+[RNYT]: http://www.nytimes.com/2009/01/07/technology/business-computing/07program.html?pagewanted=all&_r=0
+[DSVD]: http://drewconway.com/zia/2013/3/26/the-data-science-venn-diagram
+[datastyle]: https://leanpub.com/datastyle
