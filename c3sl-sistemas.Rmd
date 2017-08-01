@@ -1,0 +1,248 @@
+---
+title: "Uso do sistema computacional do C3SL"
+---
+
+# Introdução
+
+O [C3SL][] (Centro de Computação Científica e Software Livre) da UFPR é
+responsável por gerenciar toda a rede e a infra-estrutura física que
+utilizamos nas aulas de Estatística Computacional I.
+
+No começo do semestre, todo aluno recebe um login e uma senha para
+acessar esse sistema, e que permanecerá válido até o final da sua
+graduação. Isso significa que você poderá utilizar estes recursos em
+qualquer disciplina futuramente. Por esse motivo, é importante saber
+como funciona e como utilzar corretamente os recursos oferecidos pelo
+C3SL.
+
+Antes de mais nada, você deve ler as
+[dúvidas frequentes sobre o suporte aos sistemas](http://www.inf.ufpr.br/dinf/faqs_suporte.html)
+e saber as
+[normas para uso do sistema computacional](http://www.inf.ufpr.br/dinf/Arquivos/normasuso_labsdinf.pdf).
+As informações apresentadas aqui são apenas complementares às que já
+existem nestes documentos.
+
+Como todo o sistema é Linux, você deve saber no mínimo alguns poucos
+comandos para utilizar o sistema corretamente. Um ponto de partida para
+se familiarizar com o Linux e alguns comandos é
+[Introdução ao uso do Linux](http://fernandomayer.github.io/linux-intro).
+
+# Login e senha
+
+O login geralmente será composto das iniciais do nome do aluno seguido
+de dois dígitos do ano do GRR. Por exemplo, o aluno:
+
+- João Alberto Silva
+- GRR: 20161234
+
+terá como login: `jas16`. A senha inicial será gerada aletoriamente, e
+deve ser alterada depois do primeiro login.
+
+o primeiro login deverá ser feito em um dos computadores dos
+laboratórios. Depois disso, abra um terminal e digite
+
+```{sh, eval=FALSE}
+passwd
+```
+
+Será solicitado para você digitar uma nova senha e a confirmação.
+
+<div class="panel panel-primary">
+  <div class="panel-heading">Observação</div>
+  <div class="panel-body">
+  Ao digitar uma senha no terminal *em qualquer sistema Linux*, você não
+  verá caracteres para representar a senha, e nem mesmo o cursor irá se
+  mover. Isto é normal e garante maior segurança para os usuários.
+  </div>
+</div>
+
+Se você não alterar sua senha em tempo hábil, então sua conta será
+bloqueada. Para desbloquear veja:
+[desbloqueando sua conta](http://www.inf.ufpr.br/dinf/faqs_suporte.html#contabloqueada).
+
+Se você esqueceu a senha deverá seguir o procedimento descrito em:
+[recuperando sua senha](http://www.inf.ufpr.br/dinf/faqs_suporte.html#senha).
+
+# Espaço em disco
+
+Por padrão todos os usuários do sistema possuem um limite de 2 GB de
+espaço em disco e 30000 arquivos. Para verificar a sua quota, use o
+comando
+
+```{sh, eval=FALSE}
+quota -s
+```
+
+o resultado desse comando deverá ser parecido com:
+
+```
+Cotas de disco para usuário fernandomayer (uid 1554):
+Sistema de arquivos espaço   quota  limite   gracearquivos   quota  limite   grace
+urquell.home:/home
+                  1340K   1954M   2149M             164   30000   30000
+urquell.home:/nobackup
+                     4K   1954M   2149M               1       0       0
+```
+
+Na tabela acima, as informações se referem ao espaço utilizado
+atualmente (`espaço`), a sua `quota` e o `limite` máximo disponível (em
+MB), número de arquivos (`gracearquivos`), e `quota` e `limite` máximo
+(em número de arquivos).
+
+
+A primeira linha com `urquell.home:/home` mostra as informações
+referentes aos arquivos armazenados no seu diretório `/home`, que por
+padrão deve ser `/home/est/<login>` (onde `<login>` é o seu login). Você
+pode verificar seu diretório com o comando
+
+```{sh, eval=FALSE}
+echo $HOME
+```
+
+A segunda linha com `urquell.home:/nobackup` é referente ao diretório
+`/nobackup/est/<login>`, que é um diretório separado (e independente do
+seu `/home`) que não possui limite de número de arquivos, apenas de
+espaço em disco (também 2 GB). Este diretório pode ser utilizado como um
+espaço adicional **apenas se necessário** pois como o próprio nome diz,
+ele não pussui backup. Ou seja, se houver algum problema nos servidores,
+você não terá como recuperar seus arquivos armazenados neste local. (O
+C3SL mantém backups regulares de todos os diretórios em `/home`).
+
+Para saber o espaço total utilizado em disco use o comando
+
+```{sh, eval=FALSE}
+du -shc
+```
+
+E para saber o espaço utilizado em disco por cada um dos diretórios,
+faça
+
+```{sh, eval=FALSE}
+du -shc * | sort -nr
+```
+
+Para saber o tamanho dos arquivos e diretórios ocultos use
+
+```{sh, eval=FALSE}
+du -shc .[A-Z]* | sort -nr
+```
+
+# Acesso remoto
+
+Você pode acessar a sua conta (incluindo arquivos e recursos
+computacionais) nos sistemas do C3SL do seu computador de casa ou de
+outro lugar (a partir de um sistema Linux).
+
+Para isso você precisa saber quais são os nomes dos servidores
+disponíveis para acesso:
+
+- `bowmore` (121GB RAM, 32 núcleos)
+- `priorat` (29GB RAM, 16 núcleos)
+- `talisker` (29GB RAM, 16 núcleos)
+- `macalan` (8GB RAM, 16 núcleos)
+
+Para acessar qualquer um destes servidores remotamente, você irá
+utilizar o programa `ssh` (certifique-se de que ele esteja instalado no
+seu sistema) da seguine forma:
+
+```{sh, eval=FALSE}
+ssh <login>@<servidor>.c3sl.ufpr.br
+```
+
+Onde `<login>` é o seu login e `<servidor>` é qualquer um da lista
+acima.
+
+<div class="panel panel-primary">
+  <div class="panel-heading">Importante!</div>
+  <div class="panel-body">
+  Acessando sua conta utilizando qualquer um dos servidores listados
+  acima, seus arquivos serão sempre os mesmos. A única diferença é a
+  estrutura física do servidor.
+  </div>
+</div>
+
+Por exemplo, para acessar meus arquivos pelo servidor `bowmore`:
+
+```{sh, eval=FALSE}
+ssh fernandomayer@bowmore.c3sl.ufpr.br
+```
+
+No primeiro acesso a qualquer um dos servidores (e apenas no primeiro)
+deverá aparecer a seguinte menesagem
+
+```
+The authenticity of host 'bowmore.c3sl.ufpr.br (200.17.202.53)' can't be established.
+ECDSA key fingerprint is SHA256:DPIcGqSIoWJ6X0T6PnKmKrS5GyDzkXZyGnNx8P88U/w.
+Are you sure you want to continue connecting (yes/no)?
+```
+
+Responda `yes` para guardar a chave e continuar o acesso. Com isso
+deverá aparecer
+
+```
+Warning: Permanently added 'bowmore.c3sl.ufpr.br,200.17.202.53' (ECDSA) to the list of known hosts.
+fernandomayer@bowmore.c3sl.ufpr.br's password:
+```
+
+Onde você deverá digitar sua senha, e o acesso é liberado.
+
+É importante lembrar que o acesso remoto é restrito à linha de comando
+(terminal), então você não poderá usar a interface do RStudio
+remotamente, por exemplo. No entanto, outros recursos, como o R, estão
+disponíveis via terminal e você pode executar diversos scripts
+remotamente.
+
+Se for solicitado que você crie chaves públicas, veja
+[acesso remoto](http://www.inf.ufpr.br/dinf/faqs_suporte.html#remoto).
+
+# Transferindo arquivos
+
+## Do C3SL para sua máquina
+
+Para copiar um arquivo ou diretório dos servidores do C3SL para a sua
+máquina utilze o comando `scp`.
+
+Da sua máquina faça:
+
+```{sh, eval=FALSE}
+scp -r <login>@<servidor>.c3sl.ufpr.br:/home/est/<login>/<diretório> .
+```
+
+(Note o ponto no final, ele significa "aqui" ou diretório atual). Por
+exemplo, para copiar o diretório `ce083` e todo seu conteúdo que está na
+minha pasta pessoal (`/home/est/fernandomayer/ce083`) para outro
+computador
+
+```{sh, eval=FALSE}
+scp -r fernandomayer@bowmore.c3sl.ufpr.br:/home/est/fernandomayer/ce083 .
+```
+
+Isso irá copiar (e criar) o diretório `ce083` no diretório atual na
+máquina onde o comando foi executado.
+
+## Da sua máquina para o C3SL
+
+Para fazer o caminho inverso, basta inverter a ordem no comando `scp`.
+Por exemplo, se eu quiser enviar o diretório `ce083` para o servidor de
+C3SL
+
+```{sh, eval=FALSE}
+scp -r ce083 fernandomayer@bowmore.c3sl.ufpr.br:/home/est/fernandomayer
+```
+
+<div class="panel panel-primary">
+  <div class="panel-heading">Atenção!</div>
+  <div class="panel-body">
+  O comando `scp` irá sobrescrever todo o conteúdo de um diretório sem
+  pedido de confirmação. Por isso tenha certeza antes de executar o
+  comando.
+  </div>
+</div>
+
+
+
+
+
+<!-- links -->
+
+[C3SL]: http://www.c3sl.ufpr.br/
