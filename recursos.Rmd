@@ -1,0 +1,56 @@
+---
+title: "Recursos computacionais"
+output:
+  html_document:
+    toc: false
+---
+
+Os recursos computacionais físicos nos laboratórios de aula são mantidos
+pelo [C3SL]() (Centro de Computação Científica e Software Livre). Para
+acesso ao sistema e dicas computacionais leia:
+[Uso do sistema computacional do C3SL](c3sl-sistemas.html).
+
+## R
+
+O R é um programa para análise estatística de livre distribuição e de
+código aberto. Isso significa que você pode baixar, instalar, repassar
+para seus amigos e até mesmo alterar o código fonte de acordo com suas
+necessidades. Ele pode ser instalado em diversas arquiteturas e sistemas
+operacionais diferentes, incluindo Windows, Linux, Macintosh e outros.
+
+Para instalar o R, veja este [guia de instalação](R-instalacao.html).
+
+[The R project for Statistical Computing](http://www.r-project.org):
+página do programa **R**
+
+- [Curso sobre o uso do R](http://www.leg.ufpr.br/doku.php/sofware:material-r) no LEG
+- [R-rautu](http://git.leg.ufpr.br/fernandomayer/R-rautu) uma introdução
+  ao uso do R
+- [R-Studio](http://www.rstudio.org) um ambiente para facilitar uso do R
+- [R-br](https://listas.inf.ufpr.br/cgi-bin/mailman/listinfo/r-br) é a
+  lista de discussão em português sobre o uso do R
+
+## Outros programas
+
+Estes programas não serão abordados no curso, mas podem ser úteis.
+
+### Programas para matemática simbólica
+
+- [Wolfram alpha](http://www.wolframalpha.com)
+- [Maxima](http://maxima.sourceforge.net) (e interface
+  [wxmaxima](http://andrejv.github.com/wxmaxima/))
+- [Yacas](http://yacas.sourceforge.net)
+
+### Planilhas
+
+Planilhas eletrônicas são úteis para digitação e organização de dados,
+mas não são recomendadas para estatística.
+
+- [LibreOffice](https://pt-br.libreoffice.org) suíte de programas
+  semelhante ao MS-Office (editor de texto, banco de dados, apresentação
+  e planilha) gratuito
+- [Google sheets](https://www.google.com/sheets/about)
+
+<!-- links -->
+
+[C3SL]: http://www.c3sl.ufpr.br/
