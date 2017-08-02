@@ -25,7 +25,8 @@ datas.qui <- format.Date(datas.qui, format = "%d/%m")
 cat(paste0("- **", datas.ter, "**:\n", "- **", datas.qui, "**:\n"))
 ```
 
-- **01/08**:
+- **01/08**: Apresentação da disciplina.
+  Ler [Uso dos sistemas do C3SL](c3sl-sistemas.html).
 - **03/08**:
 - **08/08**:
 - **10/08**:
