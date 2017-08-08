@@ -136,10 +136,8 @@ outro lugar (a partir de um sistema Linux).
 Para isso você precisa saber quais são os nomes dos servidores
 disponíveis para acesso:
 
-- `bowmore` (121GB RAM, 32 núcleos)
-- `priorat` (29GB RAM, 16 núcleos)
-- `talisker` (29GB RAM, 16 núcleos)
-- `macalan` (8GB RAM, 16 núcleos)
+- `orval` (uso geral, processamento)
+- `macalan` (apenas acesso a arquivos)
 
 Para acessar qualquer um destes servidores remotamente, você irá
 utilizar o programa `ssh` (certifique-se de que ele esteja instalado no
@@ -161,17 +159,17 @@ acima.
   </div>
 </div>
 
-Por exemplo, para acessar meus arquivos pelo servidor `bowmore`:
+Por exemplo, para acessar meus arquivos pelo servidor `macalan`:
 
 ```{sh, eval=FALSE}
-ssh fernandomayer@bowmore.c3sl.ufpr.br
+ssh fernandomayer@macalan.c3sl.ufpr.br
 ```
 
 No primeiro acesso a qualquer um dos servidores (e apenas no primeiro)
 deverá aparecer a seguinte menesagem
 
 ```
-The authenticity of host 'bowmore.c3sl.ufpr.br (200.17.202.53)' can't be established.
+The authenticity of host 'macalan.c3sl.ufpr.br (200.17.202.6)' can't be established.
 ECDSA key fingerprint is SHA256:DPIcGqSIoWJ6X0T6PnKmKrS5GyDzkXZyGnNx8P88U/w.
 Are you sure you want to continue connecting (yes/no)?
 ```
@@ -180,8 +178,8 @@ Responda `yes` para guardar a chave e continuar o acesso. Com isso
 deverá aparecer
 
 ```
-Warning: Permanently added 'bowmore.c3sl.ufpr.br,200.17.202.53' (ECDSA) to the list of known hosts.
-fernandomayer@bowmore.c3sl.ufpr.br's password:
+Warning: Permanently added 'macalan.c3sl.ufpr.br,200.17.202.6' (ECDSA) to the list of known hosts.
+fernandomayer@macalan.c3sl.ufpr.br's password:
 ```
 
 Onde você deverá digitar sua senha, e o acesso é liberado.
