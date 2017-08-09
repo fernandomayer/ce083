@@ -28,7 +28,8 @@ cat(paste0("- **", datas.ter, "**:\n", "- **", datas.qui, "**:\n"))
 - **01/08**: Apresentação da disciplina.
   Ler [Uso dos sistemas do C3SL](c3sl-sistemas.html).
 - **03/08**: Sem aula - recepção aos calouros.
-- **08/08**:
+- **08/08**: Introdução ao uso do Linux. Ver comandos básicos nos
+  [slides](http://fernandomayer.github.io/linux-intro).
 - **10/08**:
 - **15/08**:
 - **17/08**:
