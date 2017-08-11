@@ -30,7 +30,8 @@ cat(paste0("- **", datas.ter, "**:\n", "- **", datas.qui, "**:\n"))
 - **03/08**: Sem aula - recepção aos calouros.
 - **08/08**: Introdução ao uso do Linux. Ver comandos básicos nos
   [slides](http://fernandomayer.github.io/linux-intro).
-- **10/08**:
+- **10/08**: Comandos e exercícios do Linux.
+  [Slides](http://fernandomayer.github.io/linux-intro).
 - **15/08**:
 - **17/08**:
 - **22/08**:
