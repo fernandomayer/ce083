@@ -42,8 +42,8 @@ navbar:
       - text: "Computação científica e interação com R [HTML]"
         href: computacao-cientifica.html
       - text: "Dados"
-      - text: "Estrutura de dados [HTML]"
-        href: 02_funcoes_e_objetos.html
+      - text: "Funções, objetos e classes [HTML]"
+        href: objetos-classes.html
       - text: "Indexação e seleção condicional [HTML]"
         href: 03_indexacao_e_selecao.html
       - text: "Entrada de dados [HTML]"
