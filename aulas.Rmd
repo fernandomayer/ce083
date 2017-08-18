@@ -34,7 +34,8 @@ cat(paste0("- **", datas.ter, "**:\n", "- **", datas.qui, "**:\n"))
   [Slides](http://fernandomayer.github.io/linux-intro).
 - **15/08**: Computação científica e interação com o R. Ver
   [material](computacao-cientifica.html).
-- **17/08**:
+- **17/08**: Funções, argumentos e busca de ajuda no R. Ver
+  [material](objetos-classes.html).
 - **22/08**:
 - **24/08**:
 - **29/08**:
