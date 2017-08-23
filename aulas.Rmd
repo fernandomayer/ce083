@@ -38,7 +38,8 @@ cat(paste0("- **", datas.ter, "**:\n", "- **", datas.qui, "**:\n"))
   [material](objetos-classes.html).
 - **22/08**: Criando funções, definição de objetos. Classes de objetos.
   Vetores e sequências de números. Ver [material](objetos-classes.html).
-- **24/08**: **Não haverá aula**. Fazer os exercícios
+- **24/08**: **Não haverá aula**. Fazer os exercícios de [comandos
+  básicos e classes de objetos](exercicios/ex_objetos.pdf).
 - **29/08**:
 - **31/08**:
 - **05/09**:
@@ -70,11 +71,7 @@ cat(paste0("- **", datas.ter, "**:\n", "- **", datas.qui, "**:\n"))
 
 ## Exercícios
 
-Em breve.
-
-## Provas anteriores
-
-Em breve.
+- [Exercícios de comandos básicos e classes de objetos](exercicios/ex_objetos.pdf).
 
 ## Notas
 
