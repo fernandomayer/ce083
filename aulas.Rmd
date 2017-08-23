@@ -36,8 +36,9 @@ cat(paste0("- **", datas.ter, "**:\n", "- **", datas.qui, "**:\n"))
   [material](computacao-cientifica.html).
 - **17/08**: Funções, argumentos e busca de ajuda no R. Ver
   [material](objetos-classes.html).
-- **22/08**:
-- **24/08**:
+- **22/08**: Criando funções, definição de objetos. Classes de objetos.
+  Vetores e sequências de números. Ver [material](objetos-classes.html).
+- **24/08**: **Não haverá aula**. Fazer os exercícios
 - **29/08**:
 - **31/08**:
 - **05/09**:
