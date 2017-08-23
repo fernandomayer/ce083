@@ -55,10 +55,10 @@ navbar:
         href: misc/inferencia_regressao.Rmd
       - text: "----------"
       - text: "Exercícios"
+      - text: "Comandos básicos e classes de objetos [PDF]"
+        href: exercicios/ex_objetos.pdf
       - text: "Estatística básica [HTML]"
         href: ex01_intro.html
-      - text: "Comandos básicos e classes de objetos [PDF]"
-        href: exercicios/ex02_basico.pdf
       - text: "Análise exploratória de dados [R]"
         href: exercicios/ex03_exploratoria.R
       - text: "Inferência e regressão [Rmd]"
