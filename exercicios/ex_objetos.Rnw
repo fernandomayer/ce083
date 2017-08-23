@@ -1,0 +1,630 @@
+\documentclass[a4paper,11pt,fleqn]{article}
+
+%%----------------------------------------------------------------------
+%% opções comuns
+\usepackage[brazilian]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{textcomp}
+%\usepackage[margin=2cm]{geometry}
+\usepackage{indentfirst}
+\usepackage{fancybox}
+%\usepackage[usenames,dvipsnames]{color}
+\usepackage{amsmath,amsfonts,amssymb,amsthm}
+\usepackage{lscape}
+\usepackage{natbib}
+\setlength{\bibsep}{0.0pt}
+\usepackage{url}
+\usepackage{multicol}
+\usepackage{multirow}
+\usepackage[final]{pdfpages}
+\usepackage{setspace}
+\usepackage{paralist} % enumitem, compactitem
+%%----------------------------------------------------------------------
+
+%%----------------------------------------------------------------------
+%% FLOATS: graficos e tabelas
+\usepackage{graphicx}
+\usepackage{float} % fornece a opção [H] para floats
+\usepackage{longtable}
+\usepackage{supertabular}
+%% captions e headings em sans-serif
+\usepackage[font={sf},labelfont={sf,bf}]{caption}
+\usepackage{subcaption}
+\renewcommand{\thesubfigure}{\Alph{subfigure}}
+\usepackage{titlesec}
+\titleformat*{\section}{\normalsize\bfseries\sffamily}
+\titleformat*{\subsection}{\normalsize\bfseries\sffamily}
+\titleformat*{\subsubsection}{\normalsize\bfseries\sffamily}
+\titleformat*{\paragraph}{\normalsize\bfseries\sffamily}
+\titleformat*{\subparagraph}{\normalsize\bfseries\sffamily}
+\theoremstyle{definition}
+\newtheorem*{mydef}{Definição}
+%%----------------------------------------------------------------------
+
+%%----------------------------------------------------------------------
+%% definiçoes de hyperref e xcolor
+\usepackage{hyperref}
+\usepackage{xcolor}
+%%----------------------------------------------------------------------
+
+%%----------------------------------------------------------------------
+%% FONTES
+
+%% micro-tipografia
+\usepackage[protrusion=true,expansion=true]{microtype}
+%% Bitstream Charter with mathdesign
+%% \usepackage{lmodern} % sans-serif: Latin Modern
+%% \usepackage[charter]{mathdesign} % serif: Bitstream Charter
+\usepackage[scaled]{beramono} % truetype: Bistream Vera Sans Mono
+%% \usepackage[scaled]{helvet}
+%\usepackage{inconsolata}
+\usepackage{mathpazo}
+\linespread{1.05}
+
+%\usepackage[sf]{titlesec}
+%%----------------------------------------------------------------------
+
+%%----------------------------------------------------------------------
+%% hifenização
+\usepackage[htt]{hyphenat} % permite hifenizar texttt. Ao inves disso
+% pode usar \allowbreak no ponto qu quiser quebrar dentro do texttt
+\hyphenation{con-si-de-ra-ção pes-que-i-ros pes-que-i-ra se-gui-do-ras
+  di-fe-ren-tes pla-ni-lha pla-ni-lhão re-fe-ren-te con-ta-gem
+  em-bar-ques qua-li-da-de a-le-a-to-ri-za-dos}
+%%----------------------------------------------------------------------
+
+%%----------------------------------------------------------------------
+%% comandos customizados
+\usepackage{xspace} % lida com os espaços depois dos comandos
+\providecommand{\eg}{\textit{e.g.}\xspace}
+\providecommand{\ie}{\textit{i.e.}\xspace}
+\providecommand{\R}{\textsf{R}\xspace}
+\newcommand{\mb}[1]{\mathbf{#1}}
+\newcommand{\bs}[1]{\boldsymbol{#1}}
+\providecommand{\E}{\text{E}}
+\providecommand{\Var}{\text{Var}}
+\providecommand{\logit}{\text{logit}}
+%% Para alterar o titulo do thebibliography
+\addto\captionsbrazilian{%
+  \renewcommand{\refname}{Bibliografia}
+}
+%%----------------------------------------------------------------------
+
+%%----------------------------------------------------------------------
+%% Comandos para deixar o texto mais compacto
+\usepackage{marginnote}
+\usepackage[top=1cm, bottom=1cm, inner=1cm, outer=1cm,nohead, nofoot, heightrounded, marginparsep=.05cm]{geometry}
+\setlength{\parindent}{0pt}
+%%----------------------------------------------------------------------
+
+\begin{document}
+
+\reversemarginpar % para colocar a marginnote a esquerda
+
+<<setup, include=FALSE, cache=FALSE>>=
+## Opcoes globais
+opts_chunk$set(size = "small",
+               prompt = FALSE,
+               comment = NA,
+               tidy = FALSE,
+               cache = TRUE,
+               fig.align = "center",
+               fig.width = 10,
+               fig.height = 8,
+               out.width=".8\\textwidth")
+thm <- knit_theme$get("print")
+knit_theme$set(thm)
+options(width = 80, digits = 7, continue = "  ") # 65
+## Use pdfcrop=TRUE nos chunks para reduzir a area do PDF
+knit_hooks$set(pdfcrop = hook_pdfcrop)
+@
+
+<<pacotes, echo=FALSE>>=
+require(xtable, quietly = TRUE)
+@
+
+\hrule
+\vspace{0.3cm}
+%%----------------------------------------------------------------------
+%% Cabeçalho e título
+% \begin{minipage}[c]{.15\textwidth}
+% \flushleft
+% \includegraphics[width=1.4cm]{../../../logos/furgPM.png}
+% \end{minipage}
+% \begin{minipage}[c]{.70\textwidth}
+%   \begin{center}
+%     \textsc{Universidade Federal do Rio Grande --- FURG} \\
+%     \textsc{Instituto de Matemática, Estatística e Física --- IMEF} \\
+%     %Prof. Fernando de Pol Mayer
+%   \end{center}
+% \end{minipage}\hfill
+% \begin{minipage}[c]{.15\textwidth}
+% \flushright
+% \includegraphics[width=1.4cm]{../../../logos/logo_IMEF2.png}
+% \end{minipage}
+
+% \vspace{0.3cm}
+% \hrule
+% \vspace{0.3cm}
+
+
+\begin{minipage}[c]{.85\textwidth}
+  Estatística Computacional I --- CE083 \\
+  Prof. Fernando de Pol Mayer --- Departamento de Estatística --- DEST \\
+  Exercícios: comandos básicos e classes de objetos \\
+  Nome:  \hfill GRR: \hspace{2cm}
+\end{minipage}\hfill
+\begin{minipage}[c]{.15\textwidth}
+\flushright
+\includegraphics[width=2.2cm]{../img/ufpr-logo2.jpg}
+\end{minipage}
+
+\vspace{0.3cm}
+\hrule
+\vspace{0.3cm}
+
+%% Instruções:
+%% \begin{compactitem}[---]
+%% \item Responda todas as questões na folha em anexo. Apenas a resposta
+%%   final deve ser à caneta.
+%% %% \item Use pelo menos 3 casas decimais nas questões que envolvem
+%% %%   cálculo.
+%% \item As questões não precisam ser respondidas em ordem, mas não esqueça
+%%   de identificá-las.
+%% \end{compactitem}
+
+%% \vspace{0.3cm}
+%% \hrule
+%% \vspace{0.3cm}
+
+% \begin{compactenum}[1.]
+% \item A linguagem R é um dialeto de qual das seguintes linguagens de
+%   programação?
+%   \begin{compactenum}
+%   \item[] (a) C++ \qquad (b) Python \qquad (c) S \qquad (d) Fortran
+%   \end{compactenum}
+%   %% \begin{compactenum}
+%   %% \item C++
+%   %% \item Python
+%   %% \item S
+%   %% \item Fortran
+%   %% \end{compactenum}
+% \end{compactenum}
+
+% \vspace{0.3cm}
+% \hrule
+% \vspace{0.3cm}
+
+% \begin{compactenum}[2.]
+% \item A definição de \textit{software livre} consiste de quatro
+%   liberdades. Qual das frases abaixo \underline{não} é uma destas
+%   liberdades que fazem parte dessa definição?
+%   \begin{compactenum}
+%   \item A liberdade de restringir o acesso ao código fonte do programa
+%   \item A liberdade de estudar como o programa funciona, e adaptá-lo
+%     para as suas necessidades
+%   \item A liberdade de aprimorar o programa, e distribuir suas
+%     modificações para que todos se beneficiem
+%   \item A liberdade de redistribuir cópias do programa
+%   \end{compactenum}
+% \end{compactenum}
+
+% \vspace{0.3cm}
+% \hrule
+% \vspace{0.3cm}
+
+\begin{compactenum}[1.]
+\item Ao executar a expressão
+<<>>=
+x <- c(4, 7, 10, 1)
+@
+qual a classe do objeto \texttt{x}, determinado pela função \texttt{class()}?
+\begin{compactenum}
+  \item[] (a) \texttt{integer} \qquad (b) \texttt{matrix} \qquad (c)
+    \texttt{numeric} \qquad (d) \texttt{complex}
+\end{compactenum}
+<<echo=FALSE,eval=FALSE>>=
+class(x)
+@
+\end{compactenum}
+
+\vspace{0.3cm}
+\hrule
+\vspace{0.3cm}
+
+\begin{compactenum}[2.]
+\item Qual é a classe do objeto definido pela expressão
+<<>>=
+x <- c(4, "a", TRUE)
+@
+\begin{compactenum}
+  \item[] (a) \texttt{logical} \qquad (b) \texttt{character} \qquad (c)
+    \texttt{numeric} \qquad (d) \texttt{factor}
+\end{compactenum}
+<<echo=FALSE, eval=FALSE>>=
+class(x)
+@
+\end{compactenum}
+
+\vspace{0.3cm}
+\hrule
+\vspace{0.3cm}
+
+\begin{compactenum}[3.]
+\item Qual o resultado do comando abaixo?
+<<prompt=TRUE, eval=FALSE>>=
+rep(c("A", "B", "C"), times = c(1, 3, 2))
+@
+\begin{tabular}{| p{1cm} | p{1cm} | p{1cm} | p{1cm} | p{1cm} | p{1cm}
+  | p{1cm} | p{1cm} | p{1cm} | p{1cm} |}
+  \hline
+  & & & & & & & & & \\
+  \hline
+\end{tabular}
+\end{compactenum}
+
+\vspace{0.3cm}
+\hrule
+\vspace{0.3cm}
+
+\begin{compactenum}[4.]
+\item Qual é a classe do objeto definido pela expressão
+<<>>=
+x <- c(4, TRUE)
+@
+\begin{compactenum}
+  \item[] (a) \texttt{numeric} \qquad (b) \texttt{logical} \qquad (c)
+    \texttt{character} \qquad (d) \texttt{vector}
+\end{compactenum}
+<<echo=FALSE, eval=FALSE>>=
+class(x)
+@
+\end{compactenum}
+
+\vspace{0.3cm}
+\hrule
+\vspace{0.3cm}
+
+\begin{compactenum}[5.]
+\item Considere os dois vetores abaixo
+<<>>=
+x <- c(1, 3, 5)
+y <- c(3, 2, 10)
+@
+Qual o resultado da expressão
+<<eval=FALSE>>=
+rbind(x, y)
+@
+\begin{compactenum}
+  \item Uma matriz 2x2
+  \item Uma matriz 2x3
+  \item Um vetor de comprimento 6
+  \item Um \texttt{data.frame} com 2 linhas e 3 colunas
+\end{compactenum}
+<<echo=FALSE, eval=FALSE>>=
+rbind(x, y)
+@
+\end{compactenum}
+
+\vspace{0.3cm}
+\hrule
+\vspace{0.3cm}
+
+\begin{compactenum}[6.]
+\item Considere os dois vetores abaixo
+<<>>=
+x <- c(5, 10)
+y <- c(2, 8)
+@
+Qual o resultado da expressão
+<<eval=FALSE>>=
+cbind(x, y)
+@
+\begin{compactenum}
+  \item Uma matriz 2x1
+  \item Uma matriz 2x2
+  \item Um vetor de comprimento 4
+  \item Um \texttt{data.frame} com 2 linhas e 2 colunas
+\end{compactenum}
+<<echo=FALSE, eval=FALSE>>=
+cbind(x, y)
+@
+\end{compactenum}
+
+\vspace{0.3cm}
+\hrule
+\vspace{0.3cm}
+
+\begin{compactenum}[7.]
+\item Uma propriedade fundamental de vetores no R é que
+\begin{compactenum}
+  \item elementos de um vetor podem ser de classes diferentes
+  \item um vetor não possui atributos como \texttt{dim()} e
+    \texttt{length()}
+  \item um vetor não pode ser convertido para outras classes
+  \item elementos de um vetor devem ser todos da mesma classe
+\end{compactenum}
+\end{compactenum}
+
+\vspace{0.3cm}
+\hrule
+\vspace{0.3cm}
+
+\newpage
+
+\vspace{0.3cm}
+\hrule
+\vspace{0.3cm}
+
+\begin{compactenum}[8.]
+\item Considere o objeto abaixo:
+<<>>=
+x <- list(2, "a", "b", TRUE)
+@
+Qual o comprimento e a classe do objeto \texttt{x}, respectivamente?
+\begin{compactenum}
+  \item 2, \quad \texttt{logical}
+  \item 4, \quad \texttt{character}
+  \item 4, \quad \texttt{list}
+  \item 2, \quad \texttt{numeric}
+\end{compactenum}
+<<echo=FALSE, eval=FALSE>>=
+length(x); class(x)
+@
+\end{compactenum}
+
+\vspace{0.3cm}
+\hrule
+\vspace{0.3cm}
+
+\begin{compactenum}[9.]
+\item Considere os dois vetores abaixo:
+<<>>=
+x <- 1:4
+y <- 2:3
+@
+Qual o resultado da expressão
+<<eval=FALSE>>=
+x * y
+@
+\begin{tabular}{| p{1cm} | p{1cm} | p{1cm} | p{1cm} | p{1cm} | p{1cm}
+  | p{1cm} | p{1cm} | p{1cm} | p{1cm} |}
+  \hline
+  & & & & & & & & & \\
+  \hline
+\end{tabular}
+<<echo=FALSE, eval=FALSE>>=
+x * y
+@
+\end{compactenum}
+
+\vspace{0.3cm}
+\hrule
+\vspace{0.3cm}
+
+\begin{compactenum}[10.]
+\item Considere os dois vetores abaixo:
+<<>>=
+x <- 1:4
+y <- 2:4
+@
+Qual o resultado da expressão
+<<eval=FALSE>>=
+x + y
+@
+\begin{tabular}{| p{1cm} | p{1cm} | p{1cm} | p{1cm} | p{1cm} | p{1cm}
+  | p{1cm} | p{1cm} | p{1cm} | p{1cm} |}
+  \hline
+  & & & & & & & & & \\
+  \hline
+\end{tabular}
+<<echo=FALSE, eval=FALSE>>=
+x + y
+@
+\end{compactenum}
+
+\vspace{0.3cm}
+\hrule
+\vspace{0.3cm}
+
+\begin{compactenum}[11.]
+\item Considere o objeto abaixo:
+<<echo=FALSE, include=FALSE>>=
+da <- structure(list(Ozone = c(41L, 36L, 12L, 18L, NA, 28L, 23L, 19L,
+                         8L, NA, 7L, 16L), Solar.R = c(190L, 118L, 149L,
+                                                  313L, NA, NA, 299L,
+                                                  99L, 19L, 194L, NA, 256L),
+               Wind = c(7.4, 8, 12.6, 11.5, 14.3, 14.9,
+                        8.6, 13.8, 20.1, 8.6, 6.9, 9.7), Temp = c(67L, 72L,
+                                                             74L, 62L,
+                                                             56L,
+                                                             66L, 65L,
+                                                             59L, 61L,
+                                                             69L, 74L, 69L),
+               Month = c(5L, 5L, 5L, 5L, 5L, 5L, 5L, 5L, 5L, 5L, 5L, 5L),
+               Day = 1:12), .Names = c("Ozone", "Solar.R", "Wind",
+                                       "Temp", "Month", "Day"), class =
+                                                                    "data.frame",
+          row.names = c(NA, -12L))
+da <- da[, -6]
+names(da) <- c("Ozonio", "Rad.Solar", "Vento", "Temp", "Mes")
+da$Mes <- 1:12
+da$Estacao <- "Verao"
+da$Estacao[da$Mes %in% c(4,5,6)] <- "Outono"
+da$Estacao[da$Mes %in% c(7,8,9)] <- "Inverno"
+da$Estacao[da$Mes %in% c(10,11,12)] <- "Primavera"
+dados <- da
+@
+<<prompt=TRUE>>=
+dados
+@
+\begin{compactenum}
+  \item Qual a classe do objeto \texttt{dados}? \newline
+  \item Qual a classe da coluna \texttt{Ozonio}? \newline
+  \item Qual a classe da coluna \texttt{Mes}? \newline
+  \item Qual a classe da coluna \texttt{Estacao}? \newline
+\end{compactenum}
+\end{compactenum}
+
+\vspace{0.3cm}
+\hrule
+\vspace{0.3cm}
+
+\begin{compactenum}[12.]
+\item Na questão anterior, a coluna \texttt{Ozonio} é composta pelos
+  seguintes valores
+<<echo=FALSE>>=
+dados$Ozonio
+@
+O que signifca o termo \texttt{NA}, e o que ele está representando neste
+contexto? \newline \newline \newline
+\end{compactenum}
+
+\vspace{0.3cm}
+\hrule
+\vspace{0.3cm}
+
+\newpage
+
+\vspace{0.3cm}
+\hrule
+\vspace{0.3cm}
+
+
+\begin{compactenum}[13.]
+\item Na questão anterior, considerando o objeto \texttt{dados}, se
+  utilizarmos a expressão condicional abaixo na coluna com o nome
+  \texttt{Rad.Solar}:
+<<eval=FALSE, prompt = TRUE>>=
+Rad.Solar >= 180
+@
+Qual seria o resultado?
+\begin{compactenum}
+  \item \texttt{FALSE TRUE FALSE  TRUE    NA    NA  TRUE FALSE FALSE
+      TRUE    NA  FALSE}
+  \item \texttt{TRUE FALSE FALSE  TRUE    TRUE    TRUE  TRUE FALSE FALSE
+      TRUE    TRUE  TRUE}
+  \item \texttt{TRUE FALSE FALSE  TRUE    FALSE    FALSE  TRUE FALSE
+      FALSE  TRUE    FALSE  TRUE}
+  \item \texttt{TRUE FALSE FALSE  TRUE    NA    NA  TRUE FALSE FALSE
+      TRUE    NA  TRUE}
+\end{compactenum}
+<<echo = FALSE, eval=FALSE>>=
+Rad.Solar <- dados$Rad.Solar
+Rad.Solar >= 180
+@
+\end{compactenum}
+
+\vspace{0.3cm}
+\hrule
+\vspace{0.3cm}
+
+\begin{compactenum}[14.]
+\item O resultado da função \texttt{str()} aplicada a um objeto chamado
+  \texttt{dados2} gerou o seguinte resultado:
+<<echo=FALSE>>=
+dados2 <- structure(list(Racao = structure(c(1L, 1L, 1L, 1L, 1L, 2L, 2L,
+2L, 2L, 2L, 3L, 3L, 3L, 3L, 3L, 4L, 4L, 4L, 4L, 4L), .Label = c("A",
+"B", "C", "D"), class = "factor"), Ganho.Peso = c(35L, 19L, 31L,
+15L, 30L, 40L, 35L, 46L, 41L, 33L, 39L, 27L, 20L, 29L, 45L, 27L,
+12L, 13L, 28L, 30L)), .Names = c("Racao", "Ganho.Peso"), class = "data.frame", row.names = c(NA,
+-20L))
+@
+<<prompt=TRUE>>=
+str(dados2)
+@
+Com isso, responda:
+\begin{compactenum}
+  \item Qual a classe do objeto \texttt{dados2}? \newline
+  \item Quantas linhas e colunas possui esse objeto? \newline
+  \item Qual o nome das colunas desse objeto? \newline
+  \item Qual a classe de cada uma das colunas? \newline
+\end{compactenum}
+\end{compactenum}
+
+\vspace{0.3cm}
+\hrule
+\vspace{0.3cm}
+
+\begin{compactenum}[15.]
+\item Para gerar 10 números aleatórios de uma distribuição uniforme,
+  $\text{U}[5,15]$, usamos a função \texttt{runif()} que possui os
+  argumentos: \texttt{n}, \texttt{min}, e \texttt{max} (nessa
+  ordem). Indique qual das alternativas está \underline{errada}:
+  \begin{compactenum}
+      \item \texttt{runif(5, n = 10, max = 15)}
+      \item \texttt{runif(10, 5, 15)}
+      \item \texttt{runif(min = 5, n = 10, max = 15)}
+      \item \texttt{runif(n = 10, 15, 5)}
+  \end{compactenum}
+\end{compactenum}
+
+\vspace{0.3cm}
+\hrule
+\vspace{0.3cm}
+
+\begin{compactenum}[16.]
+\item Qual o resultado do comando abaixo?
+<<prompt=TRUE, eval=FALSE>>=
+seq(from = 1, to = 20, by = 4)
+@
+\begin{tabular}{| p{1cm} | p{1cm} | p{1cm} | p{1cm} | p{1cm} | p{1cm}
+  | p{1cm} | p{1cm} | p{1cm} | p{1cm} |}
+  \hline
+  & & & & & & & & & \\
+  \hline
+\end{tabular}
+\end{compactenum}
+
+\vspace{0.3cm}
+\hrule
+\vspace{0.3cm}
+
+\begin{compactenum}[17.]
+\item Considere o objeto abaixo:
+<<prompt=TRUE, eval=FALSE>>=
+epoca <- factor(c("Verao", NA, "Verao", NA, "Outono", "Outono",
+                  "Inverno", "Inverno", NA, NA, "Primavera", NA))
+@
+Qual é a ordem padrão dos níveis deste fator?
+\begin{compactenum}
+\item \texttt{Levels: Inverno Primavera Outono Verao}
+\item \texttt{Levels: Verao Outono Inverno Primavera NA}
+\item \texttt{Levels: Inverno Outono Primavera Verao NA}
+\item \texttt{Levels: Inverno Outono Primavera Verao}
+\end{compactenum}
+\end{compactenum}
+
+\vspace{0.3cm}
+\hrule
+\vspace{0.3cm}
+
+\newpage
+
+\vspace{0.3cm}
+\hrule
+\vspace{0.3cm}
+
+\begin{compactenum}[18.]
+\item Para criar a matriz abaixo:
+    \[ \left[ \begin{array}{cc}
+        4 & 1 \\
+        9 & 5 \\
+        10 & 7
+      \end{array} \right] \]
+Qual seria o comando correto?
+    \begin{compactenum}
+    \item \texttt{matrix(c(4, 1, 9, 5, 10, 7), nrow = 3)}
+    \item \texttt{matrix(c(4, 9, 10, 1, 5, 7), ncol = 2, byrow = TRUE)}
+    \item \texttt{matrix(c(4, 9, 10, 1, 5, 7), nrow = 2)}
+    \item \texttt{matrix(c(4, 1, 9, 5, 10, 7), ncol = 2, byrow = TRUE)}
+    \end{compactenum}
+\end{compactenum}
+
+\vspace{0.3cm}
+\hrule
+\vspace{0.3cm}
+
+
+\end{document}

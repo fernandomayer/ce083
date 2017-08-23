@@ -1,0 +1,707 @@
+\documentclass[a4paper,11pt,fleqn]{article}\usepackage[]{graphicx}\usepackage[]{color}
+%% maxwidth is the original width if it is less than linewidth
+%% otherwise use linewidth (to make sure the graphics do not exceed the margin)
+\makeatletter
+\def\maxwidth{ %
+  \ifdim\Gin@nat@width>\linewidth
+    \linewidth
+  \else
+    \Gin@nat@width
+  \fi
+}
+\makeatother
+
+\definecolor{fgcolor}{rgb}{0, 0, 0}
+\newcommand{\hlnum}[1]{\textcolor[rgb]{0,0,0}{#1}}%
+\newcommand{\hlstr}[1]{\textcolor[rgb]{0,0,0}{#1}}%
+\newcommand{\hlcom}[1]{\textcolor[rgb]{0.4,0.4,0.4}{\textit{#1}}}%
+\newcommand{\hlopt}[1]{\textcolor[rgb]{0,0,0}{\textbf{#1}}}%
+\newcommand{\hlstd}[1]{\textcolor[rgb]{0,0,0}{#1}}%
+\newcommand{\hlkwa}[1]{\textcolor[rgb]{0,0,0}{\textbf{#1}}}%
+\newcommand{\hlkwb}[1]{\textcolor[rgb]{0,0,0}{\textbf{#1}}}%
+\newcommand{\hlkwc}[1]{\textcolor[rgb]{0,0,0}{\textbf{#1}}}%
+\newcommand{\hlkwd}[1]{\textcolor[rgb]{0,0,0}{\textbf{#1}}}%
+\let\hlipl\hlkwb
+
+\usepackage{framed}
+\makeatletter
+\newenvironment{kframe}{%
+ \def\at@end@of@kframe{}%
+ \ifinner\ifhmode%
+  \def\at@end@of@kframe{\end{minipage}}%
+  \begin{minipage}{\columnwidth}%
+ \fi\fi%
+ \def\FrameCommand##1{\hskip\@totalleftmargin \hskip-\fboxsep
+ \colorbox{shadecolor}{##1}\hskip-\fboxsep
+     % There is no \\@totalrightmargin, so:
+     \hskip-\linewidth \hskip-\@totalleftmargin \hskip\columnwidth}%
+ \MakeFramed {\advance\hsize-\width
+   \@totalleftmargin\z@ \linewidth\hsize
+   \@setminipage}}%
+ {\par\unskip\endMakeFramed%
+ \at@end@of@kframe}
+\makeatother
+
+\definecolor{shadecolor}{rgb}{.97, .97, .97}
+\definecolor{messagecolor}{rgb}{0, 0, 0}
+\definecolor{warningcolor}{rgb}{1, 0, 1}
+\definecolor{errorcolor}{rgb}{1, 0, 0}
+\newenvironment{knitrout}{}{} % an empty environment to be redefined in TeX
+
+\usepackage{alltt}
+
+%%----------------------------------------------------------------------
+%% opções comuns
+\usepackage[brazilian]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{textcomp}
+%\usepackage[margin=2cm]{geometry}
+\usepackage{indentfirst}
+\usepackage{fancybox}
+%\usepackage[usenames,dvipsnames]{color}
+\usepackage{amsmath,amsfonts,amssymb,amsthm}
+\usepackage{lscape}
+\usepackage{natbib}
+\setlength{\bibsep}{0.0pt}
+\usepackage{url}
+\usepackage{multicol}
+\usepackage{multirow}
+\usepackage[final]{pdfpages}
+\usepackage{setspace}
+\usepackage{paralist} % enumitem, compactitem
+%%----------------------------------------------------------------------
+
+%%----------------------------------------------------------------------
+%% FLOATS: graficos e tabelas
+\usepackage{graphicx}
+\usepackage{float} % fornece a opção [H] para floats
+\usepackage{longtable}
+\usepackage{supertabular}
+%% captions e headings em sans-serif
+\usepackage[font={sf},labelfont={sf,bf}]{caption}
+\usepackage{subcaption}
+\renewcommand{\thesubfigure}{\Alph{subfigure}}
+\usepackage{titlesec}
+\titleformat*{\section}{\normalsize\bfseries\sffamily}
+\titleformat*{\subsection}{\normalsize\bfseries\sffamily}
+\titleformat*{\subsubsection}{\normalsize\bfseries\sffamily}
+\titleformat*{\paragraph}{\normalsize\bfseries\sffamily}
+\titleformat*{\subparagraph}{\normalsize\bfseries\sffamily}
+\theoremstyle{definition}
+\newtheorem*{mydef}{Definição}
+%%----------------------------------------------------------------------
+
+%%----------------------------------------------------------------------
+%% definiçoes de hyperref e xcolor
+\usepackage{hyperref}
+\usepackage{xcolor}
+%%----------------------------------------------------------------------
+
+%%----------------------------------------------------------------------
+%% FONTES
+
+%% micro-tipografia
+\usepackage[protrusion=true,expansion=true]{microtype}
+%% Bitstream Charter with mathdesign
+%% \usepackage{lmodern} % sans-serif: Latin Modern
+%% \usepackage[charter]{mathdesign} % serif: Bitstream Charter
+\usepackage[scaled]{beramono} % truetype: Bistream Vera Sans Mono
+%% \usepackage[scaled]{helvet}
+%\usepackage{inconsolata}
+\usepackage{mathpazo}
+\linespread{1.05}
+
+%\usepackage[sf]{titlesec}
+%%----------------------------------------------------------------------
+
+%%----------------------------------------------------------------------
+%% hifenização
+\usepackage[htt]{hyphenat} % permite hifenizar texttt. Ao inves disso
+% pode usar \allowbreak no ponto qu quiser quebrar dentro do texttt
+\hyphenation{con-si-de-ra-ção pes-que-i-ros pes-que-i-ra se-gui-do-ras
+  di-fe-ren-tes pla-ni-lha pla-ni-lhão re-fe-ren-te con-ta-gem
+  em-bar-ques qua-li-da-de a-le-a-to-ri-za-dos}
+%%----------------------------------------------------------------------
+
+%%----------------------------------------------------------------------
+%% comandos customizados
+\usepackage{xspace} % lida com os espaços depois dos comandos
+\providecommand{\eg}{\textit{e.g.}\xspace}
+\providecommand{\ie}{\textit{i.e.}\xspace}
+\providecommand{\R}{\textsf{R}\xspace}
+\newcommand{\mb}[1]{\mathbf{#1}}
+\newcommand{\bs}[1]{\boldsymbol{#1}}
+\providecommand{\E}{\text{E}}
+\providecommand{\Var}{\text{Var}}
+\providecommand{\logit}{\text{logit}}
+%% Para alterar o titulo do thebibliography
+\addto\captionsbrazilian{%
+  \renewcommand{\refname}{Bibliografia}
+}
+%%----------------------------------------------------------------------
+
+%%----------------------------------------------------------------------
+%% Comandos para deixar o texto mais compacto
+\usepackage{marginnote}
+\usepackage[top=1cm, bottom=1cm, inner=1cm, outer=1cm,nohead, nofoot, heightrounded, marginparsep=.05cm]{geometry}
+\setlength{\parindent}{0pt}
+%%----------------------------------------------------------------------
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\begin{document}
+
+\reversemarginpar % para colocar a marginnote a esquerda
+
+
+
+
+
+\hrule
+\vspace{0.3cm}
+%%----------------------------------------------------------------------
+%% Cabeçalho e título
+% \begin{minipage}[c]{.15\textwidth}
+% \flushleft
+% \includegraphics[width=1.4cm]{../../../logos/furgPM.png}
+% \end{minipage}
+% \begin{minipage}[c]{.70\textwidth}
+%   \begin{center}
+%     \textsc{Universidade Federal do Rio Grande --- FURG} \\
+%     \textsc{Instituto de Matemática, Estatística e Física --- IMEF} \\
+%     %Prof. Fernando de Pol Mayer
+%   \end{center}
+% \end{minipage}\hfill
+% \begin{minipage}[c]{.15\textwidth}
+% \flushright
+% \includegraphics[width=1.4cm]{../../../logos/logo_IMEF2.png}
+% \end{minipage}
+
+% \vspace{0.3cm}
+% \hrule
+% \vspace{0.3cm}
+
+
+\begin{minipage}[c]{.85\textwidth}
+  Estatística Computacional I --- CE083 \\
+  Prof. Fernando de Pol Mayer --- Departamento de Estatística --- DEST \\
+  Exercícios: comandos básicos e classes de objetos \\
+  Nome:  \hfill GRR: \hspace{2cm}
+\end{minipage}\hfill
+\begin{minipage}[c]{.15\textwidth}
+\flushright
+\includegraphics[width=2.2cm]{../img/ufpr-logo2.jpg}
+\end{minipage}
+
+\vspace{0.3cm}
+\hrule
+\vspace{0.3cm}
+
+%% Instruções:
+%% \begin{compactitem}[---]
+%% \item Responda todas as questões na folha em anexo. Apenas a resposta
+%%   final deve ser à caneta.
+%% %% \item Use pelo menos 3 casas decimais nas questões que envolvem
+%% %%   cálculo.
+%% \item As questões não precisam ser respondidas em ordem, mas não esqueça
+%%   de identificá-las.
+%% \end{compactitem}
+
+%% \vspace{0.3cm}
+%% \hrule
+%% \vspace{0.3cm}
+
+% \begin{compactenum}[1.]
+% \item A linguagem R é um dialeto de qual das seguintes linguagens de
+%   programação?
+%   \begin{compactenum}
+%   \item[] (a) C++ \qquad (b) Python \qquad (c) S \qquad (d) Fortran
+%   \end{compactenum}
+%   %% \begin{compactenum}
+%   %% \item C++
+%   %% \item Python
+%   %% \item S
+%   %% \item Fortran
+%   %% \end{compactenum}
+% \end{compactenum}
+
+% \vspace{0.3cm}
+% \hrule
+% \vspace{0.3cm}
+
+% \begin{compactenum}[2.]
+% \item A definição de \textit{software livre} consiste de quatro
+%   liberdades. Qual das frases abaixo \underline{não} é uma destas
+%   liberdades que fazem parte dessa definição?
+%   \begin{compactenum}
+%   \item A liberdade de restringir o acesso ao código fonte do programa
+%   \item A liberdade de estudar como o programa funciona, e adaptá-lo
+%     para as suas necessidades
+%   \item A liberdade de aprimorar o programa, e distribuir suas
+%     modificações para que todos se beneficiem
+%   \item A liberdade de redistribuir cópias do programa
+%   \end{compactenum}
+% \end{compactenum}
+
+% \vspace{0.3cm}
+% \hrule
+% \vspace{0.3cm}
+
+\begin{compactenum}[1.]
+\item Ao executar a expressão
+\begin{knitrout}\small
+\definecolor{shadecolor}{rgb}{1, 1, 1}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{x} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlnum{4}\hlstd{,} \hlnum{7}\hlstd{,} \hlnum{10}\hlstd{,} \hlnum{1}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+qual a classe do objeto \texttt{x}, determinado pela função \texttt{class()}?
+\begin{compactenum}
+  \item[] (a) \texttt{integer} \qquad (b) \texttt{matrix} \qquad (c)
+    \texttt{numeric} \qquad (d) \texttt{complex}
+\end{compactenum}
+
+\end{compactenum}
+
+\vspace{0.3cm}
+\hrule
+\vspace{0.3cm}
+
+\begin{compactenum}[2.]
+\item Qual é a classe do objeto definido pela expressão
+\begin{knitrout}\small
+\definecolor{shadecolor}{rgb}{1, 1, 1}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{x} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlnum{4}\hlstd{,} \hlstr{"a"}\hlstd{,} \hlnum{TRUE}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+\begin{compactenum}
+  \item[] (a) \texttt{logical} \qquad (b) \texttt{character} \qquad (c)
+    \texttt{numeric} \qquad (d) \texttt{factor}
+\end{compactenum}
+
+\end{compactenum}
+
+\vspace{0.3cm}
+\hrule
+\vspace{0.3cm}
+
+\begin{compactenum}[3.]
+\item Qual o resultado do comando abaixo?
+\begin{knitrout}\small
+\definecolor{shadecolor}{rgb}{1, 1, 1}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{> }\hlkwd{rep}\hlstd{(}\hlkwd{c}\hlstd{(}\hlstr{"A"}\hlstd{,} \hlstr{"B"}\hlstd{,} \hlstr{"C"}\hlstd{),} \hlkwc{times} \hlstd{=} \hlkwd{c}\hlstd{(}\hlnum{1}\hlstd{,} \hlnum{3}\hlstd{,} \hlnum{2}\hlstd{))}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+\begin{tabular}{| p{1cm} | p{1cm} | p{1cm} | p{1cm} | p{1cm} | p{1cm}
+  | p{1cm} | p{1cm} | p{1cm} | p{1cm} |}
+  \hline
+  & & & & & & & & & \\
+  \hline
+\end{tabular}
+\end{compactenum}
+
+\vspace{0.3cm}
+\hrule
+\vspace{0.3cm}
+
+\begin{compactenum}[4.]
+\item Qual é a classe do objeto definido pela expressão
+\begin{knitrout}\small
+\definecolor{shadecolor}{rgb}{1, 1, 1}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{x} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlnum{4}\hlstd{,} \hlnum{TRUE}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+\begin{compactenum}
+  \item[] (a) \texttt{numeric} \qquad (b) \texttt{logical} \qquad (c)
+    \texttt{character} \qquad (d) \texttt{vector}
+\end{compactenum}
+
+\end{compactenum}
+
+\vspace{0.3cm}
+\hrule
+\vspace{0.3cm}
+
+\begin{compactenum}[5.]
+\item Considere os dois vetores abaixo
+\begin{knitrout}\small
+\definecolor{shadecolor}{rgb}{1, 1, 1}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{x} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlnum{1}\hlstd{,} \hlnum{3}\hlstd{,} \hlnum{5}\hlstd{)}
+\hlstd{y} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlnum{3}\hlstd{,} \hlnum{2}\hlstd{,} \hlnum{10}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+Qual o resultado da expressão
+\begin{knitrout}\small
+\definecolor{shadecolor}{rgb}{1, 1, 1}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{rbind}\hlstd{(x, y)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+\begin{compactenum}
+  \item Uma matriz 2x2
+  \item Uma matriz 2x3
+  \item Um vetor de comprimento 6
+  \item Um \texttt{data.frame} com 2 linhas e 3 colunas
+\end{compactenum}
+
+\end{compactenum}
+
+\vspace{0.3cm}
+\hrule
+\vspace{0.3cm}
+
+\begin{compactenum}[6.]
+\item Considere os dois vetores abaixo
+\begin{knitrout}\small
+\definecolor{shadecolor}{rgb}{1, 1, 1}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{x} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlnum{5}\hlstd{,} \hlnum{10}\hlstd{)}
+\hlstd{y} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlnum{2}\hlstd{,} \hlnum{8}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+Qual o resultado da expressão
+\begin{knitrout}\small
+\definecolor{shadecolor}{rgb}{1, 1, 1}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{cbind}\hlstd{(x, y)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+\begin{compactenum}
+  \item Uma matriz 2x1
+  \item Uma matriz 2x2
+  \item Um vetor de comprimento 4
+  \item Um \texttt{data.frame} com 2 linhas e 2 colunas
+\end{compactenum}
+
+\end{compactenum}
+
+\vspace{0.3cm}
+\hrule
+\vspace{0.3cm}
+
+\begin{compactenum}[7.]
+\item Uma propriedade fundamental de vetores no R é que
+\begin{compactenum}
+  \item elementos de um vetor podem ser de classes diferentes
+  \item um vetor não possui atributos como \texttt{dim()} e
+    \texttt{length()}
+  \item um vetor não pode ser convertido para outras classes
+  \item elementos de um vetor devem ser todos da mesma classe
+\end{compactenum}
+\end{compactenum}
+
+\vspace{0.3cm}
+\hrule
+\vspace{0.3cm}
+
+\newpage
+
+\vspace{0.3cm}
+\hrule
+\vspace{0.3cm}
+
+\begin{compactenum}[8.]
+\item Considere o objeto abaixo:
+\begin{knitrout}\small
+\definecolor{shadecolor}{rgb}{1, 1, 1}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{x} \hlkwb{<-} \hlkwd{list}\hlstd{(}\hlnum{2}\hlstd{,} \hlstr{"a"}\hlstd{,} \hlstr{"b"}\hlstd{,} \hlnum{TRUE}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+Qual o comprimento e a classe do objeto \texttt{x}, respectivamente?
+\begin{compactenum}
+  \item 2, \quad \texttt{logical}
+  \item 4, \quad \texttt{character}
+  \item 4, \quad \texttt{list}
+  \item 2, \quad \texttt{numeric}
+\end{compactenum}
+
+\end{compactenum}
+
+\vspace{0.3cm}
+\hrule
+\vspace{0.3cm}
+
+\begin{compactenum}[9.]
+\item Considere os dois vetores abaixo:
+\begin{knitrout}\small
+\definecolor{shadecolor}{rgb}{1, 1, 1}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{x} \hlkwb{<-} \hlnum{1}\hlopt{:}\hlnum{4}
+\hlstd{y} \hlkwb{<-} \hlnum{2}\hlopt{:}\hlnum{3}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+Qual o resultado da expressão
+\begin{knitrout}\small
+\definecolor{shadecolor}{rgb}{1, 1, 1}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{x} \hlopt{*} \hlstd{y}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+\begin{tabular}{| p{1cm} | p{1cm} | p{1cm} | p{1cm} | p{1cm} | p{1cm}
+  | p{1cm} | p{1cm} | p{1cm} | p{1cm} |}
+  \hline
+  & & & & & & & & & \\
+  \hline
+\end{tabular}
+
+\end{compactenum}
+
+\vspace{0.3cm}
+\hrule
+\vspace{0.3cm}
+
+\begin{compactenum}[10.]
+\item Considere os dois vetores abaixo:
+\begin{knitrout}\small
+\definecolor{shadecolor}{rgb}{1, 1, 1}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{x} \hlkwb{<-} \hlnum{1}\hlopt{:}\hlnum{4}
+\hlstd{y} \hlkwb{<-} \hlnum{2}\hlopt{:}\hlnum{4}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+Qual o resultado da expressão
+\begin{knitrout}\small
+\definecolor{shadecolor}{rgb}{1, 1, 1}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{x} \hlopt{+} \hlstd{y}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+\begin{tabular}{| p{1cm} | p{1cm} | p{1cm} | p{1cm} | p{1cm} | p{1cm}
+  | p{1cm} | p{1cm} | p{1cm} | p{1cm} |}
+  \hline
+  & & & & & & & & & \\
+  \hline
+\end{tabular}
+
+\end{compactenum}
+
+\vspace{0.3cm}
+\hrule
+\vspace{0.3cm}
+
+\begin{compactenum}[11.]
+\item Considere o objeto abaixo:
+
+\begin{knitrout}\small
+\definecolor{shadecolor}{rgb}{1, 1, 1}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{> }\hlstd{dados}
+\end{alltt}
+\begin{verbatim}
+   Ozonio Rad.Solar Vento Temp Mes   Estacao
+1      41       190   7.4   67   1     Verao
+2      36       118   8.0   72   2     Verao
+3      12       149  12.6   74   3     Verao
+4      18       313  11.5   62   4    Outono
+5      NA        NA  14.3   56   5    Outono
+6      28        NA  14.9   66   6    Outono
+7      23       299   8.6   65   7   Inverno
+8      19        99  13.8   59   8   Inverno
+9       8        19  20.1   61   9   Inverno
+10     NA       194   8.6   69  10 Primavera
+11      7        NA   6.9   74  11 Primavera
+12     16       256   9.7   69  12 Primavera
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+\begin{compactenum}
+  \item Qual a classe do objeto \texttt{dados}? \newline
+  \item Qual a classe da coluna \texttt{Ozonio}? \newline
+  \item Qual a classe da coluna \texttt{Mes}? \newline
+  \item Qual a classe da coluna \texttt{Estacao}? \newline
+\end{compactenum}
+\end{compactenum}
+
+\vspace{0.3cm}
+\hrule
+\vspace{0.3cm}
+
+\begin{compactenum}[12.]
+\item Na questão anterior, a coluna \texttt{Ozonio} é composta pelos
+  seguintes valores
+\begin{knitrout}\small
+\definecolor{shadecolor}{rgb}{1, 1, 1}\color{fgcolor}\begin{kframe}
+\begin{verbatim}
+ [1] 41 36 12 18 NA 28 23 19  8 NA  7 16
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+O que signifca o termo \texttt{NA}, e o que ele está representando neste
+contexto? \newline \newline \newline
+\end{compactenum}
+
+\vspace{0.3cm}
+\hrule
+\vspace{0.3cm}
+
+\newpage
+
+\vspace{0.3cm}
+\hrule
+\vspace{0.3cm}
+
+
+\begin{compactenum}[13.]
+\item Na questão anterior, considerando o objeto \texttt{dados}, se
+  utilizarmos a expressão condicional abaixo na coluna com o nome
+  \texttt{Rad.Solar}:
+\begin{knitrout}\small
+\definecolor{shadecolor}{rgb}{1, 1, 1}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{> }\hlstd{Rad.Solar} \hlopt{>=} \hlnum{180}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+Qual seria o resultado?
+\begin{compactenum}
+  \item \texttt{FALSE TRUE FALSE  TRUE    NA    NA  TRUE FALSE FALSE
+      TRUE    NA  FALSE}
+  \item \texttt{TRUE FALSE FALSE  TRUE    TRUE    TRUE  TRUE FALSE FALSE
+      TRUE    TRUE  TRUE}
+  \item \texttt{TRUE FALSE FALSE  TRUE    FALSE    FALSE  TRUE FALSE
+      FALSE  TRUE    FALSE  TRUE}
+  \item \texttt{TRUE FALSE FALSE  TRUE    NA    NA  TRUE FALSE FALSE
+      TRUE    NA  TRUE}
+\end{compactenum}
+
+\end{compactenum}
+
+\vspace{0.3cm}
+\hrule
+\vspace{0.3cm}
+
+\begin{compactenum}[14.]
+\item O resultado da função \texttt{str()} aplicada a um objeto chamado
+  \texttt{dados2} gerou o seguinte resultado:
+
+\begin{knitrout}\small
+\definecolor{shadecolor}{rgb}{1, 1, 1}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{> }\hlkwd{str}\hlstd{(dados2)}
+\end{alltt}
+\begin{verbatim}
+'data.frame':	20 obs. of  2 variables:
+ $ Racao     : Factor w/ 4 levels "A","B","C","D": 1 1 1 1 1 2 2 2 2 2 ...
+ $ Ganho.Peso: int  35 19 31 15 30 40 35 46 41 33 ...
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+Com isso, responda:
+\begin{compactenum}
+  \item Qual a classe do objeto \texttt{dados2}? \newline
+  \item Quantas linhas e colunas possui esse objeto? \newline
+  \item Qual o nome das colunas desse objeto? \newline
+  \item Qual a classe de cada uma das colunas? \newline
+\end{compactenum}
+\end{compactenum}
+
+\vspace{0.3cm}
+\hrule
+\vspace{0.3cm}
+
+\begin{compactenum}[15.]
+\item Para gerar 10 números aleatórios de uma distribuição uniforme,
+  $\text{U}[5,15]$, usamos a função \texttt{runif()} que possui os
+  argumentos: \texttt{n}, \texttt{min}, e \texttt{max} (nessa
+  ordem). Indique qual das alternativas está \underline{errada}:
+  \begin{compactenum}
+      \item \texttt{runif(5, n = 10, max = 15)}
+      \item \texttt{runif(10, 5, 15)}
+      \item \texttt{runif(min = 5, n = 10, max = 15)}
+      \item \texttt{runif(n = 10, 15, 5)}
+  \end{compactenum}
+\end{compactenum}
+
+\vspace{0.3cm}
+\hrule
+\vspace{0.3cm}
+
+\begin{compactenum}[16.]
+\item Qual o resultado do comando abaixo?
+\begin{knitrout}\small
+\definecolor{shadecolor}{rgb}{1, 1, 1}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{> }\hlkwd{seq}\hlstd{(}\hlkwc{from} \hlstd{=} \hlnum{1}\hlstd{,} \hlkwc{to} \hlstd{=} \hlnum{20}\hlstd{,} \hlkwc{by} \hlstd{=} \hlnum{4}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+\begin{tabular}{| p{1cm} | p{1cm} | p{1cm} | p{1cm} | p{1cm} | p{1cm}
+  | p{1cm} | p{1cm} | p{1cm} | p{1cm} |}
+  \hline
+  & & & & & & & & & \\
+  \hline
+\end{tabular}
+\end{compactenum}
+
+\vspace{0.3cm}
+\hrule
+\vspace{0.3cm}
+
+\begin{compactenum}[17.]
+\item Considere o objeto abaixo:
+\begin{knitrout}\small
+\definecolor{shadecolor}{rgb}{1, 1, 1}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{> }\hlstd{epoca} \hlkwb{<-} \hlkwd{factor}\hlstd{(}\hlkwd{c}\hlstd{(}\hlstr{"Verao"}\hlstd{,} \hlnum{NA}\hlstd{,} \hlstr{"Verao"}\hlstd{,} \hlnum{NA}\hlstd{,} \hlstr{"Outono"}\hlstd{,} \hlstr{"Outono"}\hlstd{,}
+\hlstd{  }                  \hlstr{"Inverno"}\hlstd{,} \hlstr{"Inverno"}\hlstd{,} \hlnum{NA}\hlstd{,} \hlnum{NA}\hlstd{,} \hlstr{"Primavera"}\hlstd{,} \hlnum{NA}\hlstd{))}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+Qual é a ordem padrão dos níveis deste fator?
+\begin{compactenum}
+\item \texttt{Levels: Inverno Primavera Outono Verao}
+\item \texttt{Levels: Verao Outono Inverno Primavera NA}
+\item \texttt{Levels: Inverno Outono Primavera Verao NA}
+\item \texttt{Levels: Inverno Outono Primavera Verao}
+\end{compactenum}
+\end{compactenum}
+
+\vspace{0.3cm}
+\hrule
+\vspace{0.3cm}
+
+\newpage
+
+\vspace{0.3cm}
+\hrule
+\vspace{0.3cm}
+
+\begin{compactenum}[18.]
+\item Para criar a matriz abaixo:
+    \[ \left[ \begin{array}{cc}
+        4 & 1 \\
+        9 & 5 \\
+        10 & 7
+      \end{array} \right] \]
+Qual seria o comando correto?
+    \begin{compactenum}
+    \item \texttt{matrix(c(4, 1, 9, 5, 10, 7), nrow = 3)}
+    \item \texttt{matrix(c(4, 9, 10, 1, 5, 7), ncol = 2, byrow = TRUE)}
+    \item \texttt{matrix(c(4, 9, 10, 1, 5, 7), nrow = 2)}
+    \item \texttt{matrix(c(4, 1, 9, 5, 10, 7), ncol = 2, byrow = TRUE)}
+    \end{compactenum}
+\end{compactenum}
+
+\vspace{0.3cm}
+\hrule
+\vspace{0.3cm}
+
+
+\end{document}
