@@ -475,7 +475,7 @@ num + c(2, 4, 1)
 
 ## A Regra da Reciclagem
 
-![Regra da reciclagem](img/reciclagem.png)
+![](img/reciclagem.png)
 
 Agora tente:
 
@@ -581,6 +581,23 @@ fator
 4. Crie um objeto com 100 valores aleatórios de uma distribuição uniforme
    $U(0,1)$. Conte quantas vezes aparecem valores maiores ou iguais a 0,5.
 
+```{r, include=FALSE}
+## 1.
+ex1 <- rep(c("A", "B", "C"), times = c(15, 12, 8))
+ex1
+table(ex1)
+## 2.
+ex1 == "B"
+## 3.
+sum(ex1 == "B")
+## 4.
+set.seed(11)
+ex4 <- runif(100)
+ex4
+ex4 >= 0.5
+sum(ex4 >= 0.5)
+```
+
 # Misturando classes de objetos
 
 Algumas vezes isso acontece por acidente, mas também pode acontecer de
@@ -677,6 +694,10 @@ A função `is.infinite()` testa se há valores infinitos
 ```{r }
 is.infinite(perd)
 ```
+
+
+
+
 
 # Matriz
 
