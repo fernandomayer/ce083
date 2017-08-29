@@ -950,9 +950,9 @@ matrizes e data frames.
             9 & 7 & 5
 			\end{array} \right]$$
 1. Atribua nomes para as linhas e colunas dessa matriz.
-1. Crie uma lista com dois componentes: (1) um vetor com as letras `A`,
-   `B`, e `C`, repetidas 2, 5, e 4 vezes respectivamente; (2) a matriz
-   do exemplo anterior.
+1. Crie uma lista (**não nomeada**) com dois componentes: (1) um vetor
+   com as letras `A`, `B`, e `C`, repetidas 2, 5, e 4 vezes
+   respectivamente; e (2) a matriz do exemplo anterior.
 1. Atribua nomes para estes dois componentes da lista.
 1. Inclua mais um componente nesta lista, com o nome de `fator`, e que
    seja um vetor da classe fator, idêntico ao objeto `caracter` criado
@@ -960,3 +960,34 @@ matrizes e data frames.
 1. Você contou 42 caranguejos na Joaquina, 34 no Campeche, 59 na
    Armação, e 18 na Praia Mole. Crie um data frame para armazenar estas
    informações (número de caranguejos observados e local).
+
+```{r, include=FALSE}
+## 1.
+mm <- matrix(c(2, 8, 4,
+               0, 4, 1,
+               9, 7, 5),
+             ncol = 3, byrow = TRUE)
+mm
+## 2.
+colnames(mm) <- c("A", "B", "C")
+rownames(mm) <- c("x", "y", "z")
+mm
+## 3.
+ml <- list(rep(c("A", "B", "C"), times = c(2, 5, 4)),
+           mm)
+ml
+## 4.
+names(ml)
+names(ml) <- c("vetor", "matriz")
+ml
+## 5.
+praias <- as.factor(caracter)
+praias
+ml$praias <- praias
+ml
+## 6.
+dados <- data.frame(caranguejos = c(42, 34, 59, 18),
+                    praias = c("Joaquina", "Campeche", "Armação",
+                               "Praia Mole"))
+dados
+```
