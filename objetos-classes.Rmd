@@ -695,9 +695,56 @@ A função `is.infinite()` testa se há valores infinitos
 is.infinite(perd)
 ```
 
+# Exercícios
 
+1. Calcule as 50 primeiras potências de 2, ou seja, $2, 2^2, 2^3,
+   \ldots, 2^{50}$.
+    a. Calcule o quadrados dos números inteiros de 1 a 50, ou seja, $1^2,
+    2^2, 3^2, \ldots, 50^2$.
+    b. Quais pares são iguais, ou seja, quais números inteiros dos dois
+    exercícios anteriores satisfazem a condição $2^n = n^2$?
+    c. Quantos pares existem?
+2. Calcule o seno, coseno e a tangente para os números variando de $0$ a
+   $2\pi$, com distância de $0.1$ entre eles. (Use as funções `sin()`,
+   `cos()`, `tan()`).
+    a. Calcule a tangente usando a relação $\tan(x) = \sin(x)/\cos(x)$.
+    b. Calcule a diferença das tangentes calculadas pela função do R e
+   pela razão acima.
+    c. Quais valores são exatamente iguais?
+    d. Qual a diferença máxima (em módulo) entre eles? Qual é a causa
+   dessa diferença?
 
-
+```{r, include=FALSE}
+## 1.
+int <- 1:50
+x <- 2^int
+x
+# a.
+y <- int^2
+y
+# b.
+x == y
+x[x == y] # avançado
+# c.
+sum(x == y)
+## 2.
+x <- seq(0, 2*pi, by = 0.1)
+a <- sin(x)
+b <- cos(x)
+c <- tan(x)
+# a.
+c2 <- a/b
+# b.
+difer <- c - c2
+difer
+# c.
+difer == 0
+all.equal(c, c2)
+identical(c, c2)
+# d.
+max(difer)
+max(abs(difer))
+```
 
 # Matriz
 
@@ -826,7 +873,7 @@ dim(da)
 str(da)
 ```
 
-> A função `str()` é uma das que você precisa decorar!
+> A função `str()` é uma das que você precisa saber!
 
 Para converter um data frame para uma matriz
 
@@ -839,6 +886,11 @@ Geralmente é o resultado de `data.matrix()` o que você está procurando.
 
 > Note que os níveis de um fator são armazenados internamente como
 > números: $1^\circ$ nível = 1, $2^\circ$ nível = 2, $\ldots$
+> ```{r}
+> fator
+> str(fator)
+> as.numeric(fator)
+> ```
 
 # Nomes (atributo)
 
