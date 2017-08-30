@@ -11,9 +11,9 @@ source("setup_knitr.R")
 
 [![Build Status](https://travis-ci.org/fernandomayer/ce083.svg?branch=master)](https://travis-ci.org/fernandomayer/ce083)
 
-<div class="alert alert-danger" role="alert">
-**ATENÇÃO!** Não haverá aula nesta quinta-feira (24/08).
-</div>
+<!-- <div class="alert alert-danger" role="alert"> -->
+<!-- **ATENÇÃO!** Não haverá aula nesta quinta-feira (24/08). -->
+<!-- </div> -->
 
 # Detalhes da oferta da disciplina
 
