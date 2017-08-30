@@ -40,7 +40,9 @@ cat(paste0("- **", datas.ter, "**:\n", "- **", datas.qui, "**:\n"))
   Vetores e sequências de números. Ver [material](objetos-classes.html).
 - **24/08**: **Não haverá aula**. Fazer os exercícios de [comandos
   básicos e classes de objetos](exercicios/ex_objetos.pdf).
-- **29/08**:
+- **29/08**: Regra da reciclagem. Atributos de vetores. Outras classes:
+  caracter, lógico, fator. Valores perdidos e especiais. Ver
+  [material](objetos-classes.html).
 - **31/08**:
 - **05/09**:
 - **07/09**: Feriado.
