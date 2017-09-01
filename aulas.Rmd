@@ -43,7 +43,8 @@ cat(paste0("- **", datas.ter, "**:\n", "- **", datas.qui, "**:\n"))
 - **29/08**: Regra da reciclagem. Atributos de vetores. Outras classes:
   caracter, lógico, fator. Valores perdidos e especiais. Ver
   [material](objetos-classes.html).
-- **31/08**:
+- **31/08**: Matrizes, listas e data frames. Nomes como atributos. Ver
+  [material](objetos-classes.html).
 - **05/09**:
 - **07/09**: Feriado.
 - **12/09**:
