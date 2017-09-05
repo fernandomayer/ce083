@@ -85,6 +85,20 @@ cont[seq(1, 8, by = 2)]
 1. Insira o valor 168 **entre** os valores 12 e 13, criando um novo
    objeto
 
+```{r, include=FALSE}
+x <- c(88, 5, 12, 13)
+x
+x[3]
+x[1]
+x[c(2, 4)]
+x[c(4, 2)] # certo
+x[-c(1, 4)]
+y <- c(x[1:3], 168, x[4])
+y
+## Ou
+append(x, 168, after = 3)
+```
+
 Para selecionar todos os elementos que sejam `NA`, ou todos menos os
 `NA`s, precisamos usar a função `is.na()`
 
@@ -143,7 +157,7 @@ mat
 Acesse o valor que está na linha 2 da coluna 3:
 
 ```{r}
-mat[2,3]
+mat[2, 3]
 ```
 
 > A indexação de matrizes sempre segue a ordem `[linha, coluna]`
@@ -164,7 +178,7 @@ Note que o resultado destas extrações trazem os valores internos das
 matrizes, mas com a dimensão reduzida (nestes casos para uma
 dimensão). Se o objetivo for, por exemplo, extrair uma parte da matriz,
 mas mantendo as duas dimensões, então precisamos usar o argumento `drop`
-da "função" `[` (sim, também é uma função; veja `"["`).
+da "função" `[` (sim, também é uma função; veja `"?["`).
 Veja as diferenças:
 
 ```{r}
@@ -192,7 +206,7 @@ pode ser feita com os nomes.
 ##----------------------------------------------------------------------
 ## Nomes das colunas
 colnames(mat) <- LETTERS[1:3]
-## Toas as linhas da coluna B
+## Todas as linhas da coluna B
 mat[, "B"]
 ## Elemento da linha 1 e coluna C
 mat[1, "C"]
@@ -330,9 +344,13 @@ Para lidar com `NA`s em data frames, podemos também usar a função
 
 ```{r}
 da[is.na(da), ] # nao retorna o resultado esperado
-## É necessário especificar as colunas
+## Deve ser feito por coluna
 da[is.na(da$A), ]
 da[is.na(da$B), ]
+## De maneira geral
+is.na(da)
+is.na(da$A)
+is.na(da$B)
 ```
 
 Para remover as linhas que possuem `NA`, note que será necessário
@@ -374,7 +392,13 @@ with(da, B[3])
 
 ## Exercícios
 
-1. Crie uma matriz (qualquer) com dimensão 4x3
+1. Crie a seguinte matriz
+    $$\left[ \begin{array}{ccc}
+            4 & 16 & 2 \\
+            10 & 5 & 11 \\
+            9 & 9 & 5 \\
+            2 & 0 & NA
+			\end{array} \right]$$
 1. Acesse o elemento na quarta linha e na segunda coluna
 1. Acesse todos os elementos, com exceção da segunda coluna e da
    terceira linha
@@ -385,7 +409,7 @@ with(da, B[3])
    lista
 1. Acesse os caracteres de todas as posições, menos na 2 e 6
 1. Acesse todas as linhas da coluna 3 da matriz dentro desta lista
-1. "Crie", um novo componente nessa lista (usando `$`), contendo 30
+1. "Crie" um novo componente nessa lista (usando `$`), contendo 30
    valores aleatórios de uma distribuição normal $\text{N}(12, 4)$
    (veja `?rnorm`)
 1. Crie um data frame que contenha duas colunas: a primeira com as
@@ -395,8 +419,8 @@ with(da, B[3])
 1. Extraia as duas últimas linhas desse data frame
 1. Qual é o valor que está na linha 6 e coluna 1?
 1. Qual é o valor que está na linha 4 da coluna 2?
-1. (Supondo que você não soubesse) Como você faria para contar quantos
-   valores perdidos (`NA`s) existem nesse data frame?
+1. Como você faria para contar quantos valores perdidos (`NA`s) existem
+   nesse data frame?
 1. Elimine os `NA`s deste data frame.
 1. Crie uma nova coluna neste data frame, com valores numéricos
    (quaisquer)
@@ -407,20 +431,27 @@ with(da, B[3])
 1. Acesse a letra "c" de `B`
 
 ```{r, echo=FALSE, eval=FALSE, include=FALSE}
-mm <- matrix(runif(12), nrow = 4)
+mm <- matrix(c(4, 10, 9, 2, 16, 5, 9, 0, 2, 11, 5, NA), nrow = 4)
 mm[4, 2]
-ll <- list(v1 = runif(10), v2 = letters[1:7], mm = mm)
+ll <- list(v1 = 1:10, v2 = letters[1:7], mm = mm)
 ll
 ll[[1]][5:3]
 ll[[2]][-c(2,6)]
 ll[[3]][, 3]
 ll$v3 <- rnorm(30, 12, 2)
-ll$l1 <- list(A = 1:5, B = letters[1:6])
-ll$l1$A[4]
-ll$l1$B[3]
 dd <- data.frame(Letras = LETTERS[1:10],
                  Numeros = c(runif(7, 1, 5), rep(NA, 3)))
 dd
+dd[1:2, ]
+dd[9:10, ]
+dd[6, 1]
+dd[4, 2]
+sum(is.na(dd))
+dd <- dd[complete.cases(dd), ]
+dd$Outra <- 1:7
+ll$l1 <- list(A = 1:5, B = letters[1:6])
+ll$l1$A[4]
+ll$l1$B[3]
 ```
 
 # Seleção condicional
