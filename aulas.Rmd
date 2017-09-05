@@ -74,7 +74,9 @@ cat(paste0("- **", datas.ter, "**:\n", "- **", datas.qui, "**:\n"))
 
 ## Exercícios
 
-- [Exercícios de comandos básicos e classes de objetos](exercicios/ex_objetos.pdf).
+- [Exercícios de comandos básicos e classes de
+  objetos](exercicios/ex_objetos.pdf).
+  [Gabarito](exercicios/ex_objetos_GABARITO.R) (script).
 
 ## Notas
 
