@@ -45,7 +45,7 @@ navbar:
       - text: "Funções, objetos e classes [HTML]"
         href: objetos-classes.html
       - text: "Indexação e seleção condicional [HTML]"
-        href: 03_indexacao_e_selecao.html
+        href: indexacao_e_selecao.html
       - text: "Entrada de dados [HTML]"
         href: 04_Entrada_de_dados.html
       - text: "Estatística"

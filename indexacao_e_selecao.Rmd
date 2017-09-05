@@ -1,0 +1,640 @@
+---
+title: "Indexação e seleção condicional"
+output:
+  html_document:
+    code_folding: show
+    toc_depth: 2
+---
+
+```{r setup, include=FALSE}
+source("setup_knitr.R")
+```
+
+# Indexação
+
+Existem três tipos de operadores que podem ser usados para indexar (e
+selecionar) **sub-conjuntos** (*subsets*) de objetos no R:
+
+- O operador `[ ]` sempre retorna um objeto da mesma classe que o
+  original. Pode ser usado para selecionar múltiplos elementos de um
+  objeto
+- O operador`[[ ]]` é usado para extrair elementos de uma **lista** ou
+  **data frame**. Pode ser usado para extrair um único elemento, e a
+  classe do objeto retornado não precisa necessariamente ser uma lista
+  ou data frame.
+- O operador `$` é usado para extrair elementos **nomeados** de uma
+  lista ou data frame. É similar ao operador `[[ ]]`.
+
+## Indexação de vetores
+
+Observe o seguinte vetor de contagens
+
+```{r}
+cont <- c(8, 4, NA, 9, 6, 1, 7, 9)
+cont
+```
+
+Para acessar o valor que está na posição 4, faça:
+
+```{r}
+cont[4]
+```
+
+> Os colchetes `[ ]` são utilizados para **extração** (seleção de um
+> intervalo de dados) ou **substituição** de elementos. O valor dentro
+> dos colchetes é chamado de **índice**.
+
+Para acessar os valores nas posições 1, 4 e 8 é necessário o uso da
+função `c()`:
+
+```{r}
+cont[c(1, 4, 8)]
+```
+
+Ou:
+
+```{r}
+ind <- c(1, 4, 8)
+cont[ind]
+```
+
+Para selecionar todos os valores, **excluindo** aqueles das posições
+1, 4 e 8:
+
+```{r}
+cont[-c(1, 4, 8)]
+```
+
+Também é possível selecionar uma sequência de elementos (com qualquer
+uma das funções de gerar sequências que já vimos antes):
+
+```{r}
+## Seleciona os elementos de 1 a 5
+cont[1:5]
+## Seleciona os elementos nas posições ímpar
+cont[seq(1, 8, by = 2)]
+```
+
+### Exercícios
+
+1. Crie um vetor com os valores: `88, 5, 12, 13`
+1. Selecione o elemento na posição 3
+1. Selecione o valor 88
+1. Selecione os valores 13 e 5
+1. Selecione todos os valores, menos o 88 e o 13
+1. Insira o valor 168 **entre** os valores 12 e 13, criando um novo
+   objeto
+
+Para selecionar todos os elementos que sejam `NA`, ou todos menos os
+`NA`s, precisamos usar a função `is.na()`
+
+```{r}
+## Para selecionar os NAs
+cont[is.na(cont)]
+## Para selecionar todos menos os NAs
+cont[!is.na(cont)]
+```
+
+Para substituir os `NA`s por algum valor (*e.g.* 0):
+
+```{r}
+cont[is.na(cont)] <- 0
+cont
+```
+
+E para especificar `NA` para algum valor
+
+```{r}
+is.na(cont) <- 3
+cont
+## Mais seguro do que
+# cont[3] <- NA
+```
+
+> Note que se utilizarmos o operador de atribuição `<-` em conjunto com
+> uma indexação, estaremos **substituindo** os valores selecionados
+> pelos valores do lado direito do operador de atribuição.
+
+### Vetores nomeados
+
+Quando vetores possuem seus componentes **nomeados**, a indexação pode
+ser realizada pelos nomes destes componentes.
+
+```{r}
+## Atribui as letras "a", "b", ..., "h" para os componentes de cont
+names(cont) <- letters[1:length(cont)]
+## Acessando o quarto elemento
+cont["d"]
+## Acessando o sexto e o primeiro elemento
+cont[c("f", "a")]
+```
+
+> Dica: veja `?letters`
+
+## Indexação de matrizes
+
+Considere a seguinte matriz
+
+```{r}
+mat <- matrix(1:9, nrow = 3)
+mat
+```
+
+Acesse o valor que está na linha 2 da coluna 3:
+
+```{r}
+mat[2,3]
+```
+
+> A indexação de matrizes sempre segue a ordem `[linha, coluna]`
+
+Para acessar todas as linhas da coluna 1:
+
+```{r}
+mat[, 1]
+```
+
+Para acessar todas as colunas da linha 1:
+
+```{r}
+mat[1, ]
+```
+
+Note que o resultado destas extrações trazem os valores internos das
+matrizes, mas com a dimensão reduzida (nestes casos para uma
+dimensão). Se o objetivo for, por exemplo, extrair uma parte da matriz,
+mas mantendo as duas dimensões, então precisamos usar o argumento `drop`
+da "função" `[` (sim, também é uma função; veja `"["`).
+Veja as diferenças:
+
+```{r}
+mat[3, 2]
+mat[3, 2, drop = FALSE]
+mat[1, ]
+mat[1, , drop = FALSE]
+```
+
+Para acessar as linhas 1 e 3 das colunas 2 e 3:
+
+```{r}
+mat[c(1, 3), c(2, 3)]
+```
+
+E note que aqui a dimensão já é 2 pois naturalmente o resultado preisa
+ser representado em duas dimensões.
+
+### Matrizes nomeadas
+
+Se as matrizes tiverem linhas e/ou colunas nomeados, a indexação também
+pode ser feita com os nomes.
+
+```{r}
+##----------------------------------------------------------------------
+## Nomes das colunas
+colnames(mat) <- LETTERS[1:3]
+## Toas as linhas da coluna B
+mat[, "B"]
+## Elemento da linha 1 e coluna C
+mat[1, "C"]
+##----------------------------------------------------------------------
+## Nomes das linhas
+rownames(mat) <- LETTERS[24:26]
+## Todas as colunas da linha X
+mat["X", ]
+## Elemento da linha Y e coluna A
+mat["Y", "A"]
+```
+
+## Indexação de listas
+
+Considere a seguinte lista:
+
+```{r}
+lis <- list(c(3, 8, 7, 4), mat, 5:0)
+lis
+```
+
+Para acessar o segundo **componente** da lista:
+
+```{r}
+lis[[2]]
+```
+
+Para acessar o terceiro valor do primeiro componente:
+
+```{r}
+lis[[1]][3]
+```
+
+Note que o segundo elemento da lista é uma matriz, portanto a indexação
+da matriz *dentro da lista* também segue o mesmo padrão
+
+```{r}
+lis[[2]][2, 3]
+```
+
+Se a lista tiver  componentes **nomeados**, eles podem ser acessados com
+o operador `$`:
+
+```{r}
+lis <- list(vetor1 = c(3, 8, 7, 4), mat = mat, vetor2 = 5:0)
+## Ou
+## names(lis) <- c("vetor1", "mat", "vetor2")
+lis
+```
+
+```{r}
+## Acesando o segundo componente
+lis$mat
+## Linha 2 e coluna 3
+lis$mat[2, 3]
+## Terceiro elemento do primeiro componente
+lis$vetor1[3]
+```
+
+Ou então
+
+```{r}
+lis[["mat"]]
+lis[["vetor1"]][3]
+```
+
+> O símbolo `$` é utilizado para acessar componentes **nomeados** de
+> listas ou data frames.
+
+## Indexação de data frames
+
+Considere o seguinte data frame
+
+```{r}
+da <- data.frame(A = 4:1, B = c(2, NA, 5, 8))
+da
+```
+
+Para acessar o segundo elemento da primeira coluna (segue a mesma lógica
+da indexação de matrizes pois também possui duas dimensões):
+
+```{r}
+da[2, 1]
+```
+
+Acesse todas as linhas da coluna B:
+
+```{r}
+da[, 2]
+```
+
+Ou usando o nome da coluna:
+
+```{r}
+da[,"B"]
+```
+
+Todas as colunas da linha 1:
+
+```{r}
+da[1, ]
+```
+
+Ou usando o "nome" da linha:
+
+```{r}
+da["1", ]
+```
+
+Como o data frame é um caso particular de uma lista (onde todos os
+componentes tem o mesmo comprimento), as colunas de um data frame também
+podem ser acessadas com `$`:
+
+```{r}
+da$A
+```
+
+Para acessar o terceiro elemento da coluna B:
+
+```{r}
+da$B[3]
+```
+
+Para acessar os elementos nas posições 2 e 4 da coluna B:
+
+```{r}
+da$B[c(2, 4)]
+```
+
+> Tamém é possível indexar data frames com ``[[ ]]`` assim como em
+> listas, mas não é muito funcional.
+
+Para lidar com `NA`s em data frames, podemos também usar a função
+`is.na()`
+
+```{r}
+da[is.na(da), ] # nao retorna o resultado esperado
+## É necessário especificar as colunas
+da[is.na(da$A), ]
+da[is.na(da$B), ]
+```
+
+Para remover as linhas que possuem `NA`, note que será necessário
+remover todas as colunas daquela linha, pois data frames não podem ter
+colunas de comprimentos diferentes
+
+```{r}
+da[!is.na(da$B), ]
+```
+
+A função `complete.cases()` facilita esse processo. Veja o resultado
+
+```{r}
+complete.cases(da)
+da[complete.cases(da), ]
+```
+
+### A função `with()`
+
+Para evitar fazer muitas indexações de um mesmo data frame, por exemplo,
+podemos utilizar a função `with()`
+
+```{r}
+with(da, A)
+```
+
+é o mesmo que
+
+```{r}
+da$A
+```
+
+Também é útil para acessar elementos específicos dentro de data
+frames. Por exemplo, o terceiro elemento da coluna B
+
+```{r}
+with(da, B[3])
+```
+
+## Exercícios
+
+1. Crie uma matriz (qualquer) com dimensão 4x3
+1. Acesse o elemento na quarta linha e na segunda coluna
+1. Acesse todos os elementos, com exceção da segunda coluna e da
+   terceira linha
+1. Crie uma lista (nomeada) com 3 componentes: um vetor numérico de
+   comprimento 10, um vetor de caracteres de comprimento 7, e a matriz
+   do exercício anterior
+1. Acesse os elementos nas posições de 5 a 3 do primeiro componente da
+   lista
+1. Acesse os caracteres de todas as posições, menos na 2 e 6
+1. Acesse todas as linhas da coluna 3 da matriz dentro desta lista
+1. "Crie", um novo componente nessa lista (usando `$`), contendo 30
+   valores aleatórios de uma distribuição normal $\text{N}(12, 4)$
+   (veja `?rnorm`)
+1. Crie um data frame que contenha duas colunas: a primeira com as
+   letras de "A" até "J", e outra com o resultado de uma chamada da
+   função `runif(7, 1, 5)`
+1. Extraia as duas primeiras linhas desse data frame
+1. Extraia as duas últimas linhas desse data frame
+1. Qual é o valor que está na linha 6 e coluna 1?
+1. Qual é o valor que está na linha 4 da coluna 2?
+1. (Supondo que você não soubesse) Como você faria para contar quantos
+   valores perdidos (`NA`s) existem nesse data frame?
+1. Elimine os `NA`s deste data frame.
+1. Crie uma nova coluna neste data frame, com valores numéricos
+   (quaisquer)
+1. Crie mais um componente na lista anterior, que será também uma lista
+   com dois componentes: `A` com os valores `1:5`, e `B` com as letras
+   de "a" a "f"
+1. Acesse o número 4 de `A`
+1. Acesse a letra "c" de `B`
+
+```{r, echo=FALSE, eval=FALSE, include=FALSE}
+mm <- matrix(runif(12), nrow = 4)
+mm[4, 2]
+ll <- list(v1 = runif(10), v2 = letters[1:7], mm = mm)
+ll
+ll[[1]][5:3]
+ll[[2]][-c(2,6)]
+ll[[3]][, 3]
+ll$v3 <- rnorm(30, 12, 2)
+ll$l1 <- list(A = 1:5, B = letters[1:6])
+ll$l1$A[4]
+ll$l1$B[3]
+dd <- data.frame(Letras = LETTERS[1:10],
+                 Numeros = c(runif(7, 1, 5), rep(NA, 3)))
+dd
+```
+
+# Seleção condicional
+
+## Seleção condicional em vetores
+
+> A **seleção condicional** serve para extrair dados que satisfaçam
+> algum critério, usando **expressões condicionais** e **operadores
+> lógicos**.
+
+Considere o seguinte vetor
+
+```{r}
+dados <- c(5, 15, 42, 28, 79, 4, 7, 14)
+```
+
+Selecione apenas os valores maiores do que 15:
+
+```{r}
+dados[dados > 15]
+```
+
+Selecione os valores maiores que 15 E menores ou iguais a 35:
+
+```{r}
+dados[dados > 15 & dados <= 35]
+```
+
+Para entender como funciona a seleção condicional, observe apenas o
+resultado da condição dentro do colchetes:
+
+```{r}
+## Usando & (e)
+dados > 15 & dados <= 35
+## Usando | (ou)
+dados > 15 | dados <= 35
+```
+
+Os valores selecionados serão aqueles em que a condição for
+`TRUE`, nesse caso apenas o quarto elemento do vetor `dados`.
+
+A seleção condicional também é muito útil para selecionar elementos de
+um vetor, baseado em uma condição de outro vetor.
+
+Considere o seguinte vetor de caracteres
+
+```{r}
+cara <- letters[1:length(dados)]
+```
+
+Considere que de alguma forma, os objetos `dados` e `cara` possuem
+alguma relação. Sendo assim, podemos selecionar elementos de `dados`,
+baseados em alguma condição de `cara`
+
+```{r}
+## Elemento de dados onde cara é igual a "c"
+dados[cara == "c"]
+```
+
+Se quisermos selecionar mais de um elemento de `dados`, baseado em uma
+condição de `cara`?
+
+```{r}
+## Elementos de dados onde cara é igual a "a" e "c"
+cara == "a" & cara == "c" # porque não funciona?
+cara == "a" | cara == "c"
+dados[cara == "a" | cara == "c"]
+```
+
+Uma solução melhor seria se pudessemos usar
+
+```{r}
+dados[cara == c("a", "c")]
+```
+
+mas nesse caso só temos o primeiro elemento. Um operador muito útil
+nestes casos é o `%in%`
+
+```{r}
+dados[cara %in% c("a", "c")]
+cara %in% c("a", "c")
+```
+
+Veja a diferença
+
+```{r}
+cara == c("a", "c")
+cara %in% c("a", "c")
+```
+
+Também é possível fazer a seleção de `cara`, baseado em uma condição em
+`dados`
+
+```{r}
+## Elemento de cara onde dados é igual a 15
+cara[dados == 15]
+## Elemento de cara onde dados for maior do que 30
+cara[dados > 30]
+## Elemento de cara onde dados for igual a 4 ou 14
+cara[dados %in% c(4, 14)]
+```
+
+## A função `which()`
+
+Até agora vimos seleções condicionais que nos retornavam o resultado de
+uma expressão condicional em vetores. No entanto, muitas vezes estamos
+interessados em saber a **posição** do resultado de uma expressão
+condicional, ao invés do resultado em si.
+
+A fução `which()` retorna as posições dos elementos que retornarem
+`TRUE` em uma expressão condicional.
+
+```{r}
+## Elementos maiores de 15
+dados[dados > 15]
+which(dados > 15)
+## Elementos maiores de 15 e menores ou iguais a 35
+dados[dados > 15 & dados <= 35]
+which(dados > 15 & dados <= 35)
+## Elementos de dadaos onde cara igual a "c"
+dados[cara == "c"]
+which(cara == "c")
+## Elementos de dadaos onde cara igual a "a" ou "c"
+dados[cara %in% c("a", "c")]
+which(cara %in% c("a", "c"))
+```
+
+## Exercícios
+
+1. Crie um vetor (`x`) com os valores 3, 8, 10, 4, 9, 7, 1, 9, 2, 4.
+1. Selecione os elemntos maiores ou iguais a 5
+1. Selecione todos os elementos menos o 4
+1. Selecione os elementos maiores que 4 e menores que 8
+1. Crie um vetor (`a`) com as letras de A até J
+1. Selecione os elementos de x onde a for igual a "F"
+1. Selecione os elementos de x onde a for igual a "B", "D", e "H"
+1. Qual a posição do número 10 em x?
+1. Quais as posições dos valores maiores ou iguais a 8 e menores ou
+   iguais a 10 em x?
+1. Quais as posições das letras "A", "B", "D" em a?
+
+
+## Seleção condicional em data frames
+
+Considere o seguinte data frame
+
+```{r}
+dados <- data.frame(ano = c(2001, 2002, 2003, 2004, 2005),
+                    captura = c(26, 18, 25, 32, NA),
+                    porto = c("SP", "RS", "SC", "SC", "RN"))
+```
+
+Extraia deste objeto apenas a linha correspondente ao ano 2004:
+
+```{r}
+dados[dados$ano == 2004, ]
+```
+
+Mostre as linhas apenas do porto "SC":
+
+```{r}
+dados[dados$porto == "SC", ]
+```
+
+Observe as linhas onde a captura seja maior que 20, selecionando apenas
+a coluna `captura`:
+
+```{r}
+dados[dados$captura > 20, "captura"]
+```
+
+Também exclua as linhas com `NA`s (agora com todas as colunas):
+
+```{r}
+dados[dados$captura > 20 & !is.na(dados$captura), ]
+dados[dados$captura > 20 & complete.cases(dados), ]
+```
+
+A condição pode ser feita com diferentes colunas:
+
+```{r}
+dados[dados$captura > 25 & dados$porto == "SP", ]
+```
+
+A função `subset()` serve para os mesmos propósitos, e facilita todo o
+processo de seleção condicional:
+
+```{r}
+dados[dados$porto == "SC", ]
+subset(dados, porto == "SC")
+dados[dados$captura > 20, ]
+subset(dados, captura > 20)
+dados[dados$captura > 20 & !is.na(dados$captura), ]
+dados[dados$captura > 20, "captura"]
+subset(dados, captura > 20, select = captura)
+```
+
+A grande vantagem é que a função `subset()` já lida com os `NA`s (se
+isso for o que você precisa).
+
+## Exercícios
+
+1. Você contou 42 caranguejos na Joaquina, 34 no Campeche, 59 na
+   Armação, e 18 na Praia Mole. Crie um data frame para armazenar estas
+   informações (número de caranguejos observados e local).
+1. Com o data frame criado no exercício anterior,
+   mostre qual a praia onde foram coletadas menos de 30 caranguejos
+   (usando seleção condicional!).
+1. Crie uma nova coluna (região) neste data frame indicando que
+   Joaquina e Praia Mole estão localizadas no leste da ilha (leste), e
+   Campeche e Armação estão no sul (sul).
+1. Selecione as praias de região leste que possuem menos de 15
+   caranguejos contados.
+1. Você está interessado em saber em qual das duas praias do sul, o
+   número de caranguejos contados foi maior do que 40. Usando a seleção
+   condicional, mostre essa informação na tela.
+1. Qual região possui praias com mais de 40 caranguejos contados?
