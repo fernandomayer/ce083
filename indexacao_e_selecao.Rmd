@@ -675,9 +675,24 @@ isso for o que você precisa).
 1. Crie uma nova coluna (região) neste data frame indicando que
    Joaquina e Praia Mole estão localizadas no leste da ilha (leste), e
    Campeche e Armação estão no sul (sul).
-1. Selecione as praias de região leste que possuem menos de 15
+1. Selecione as praias de região leste que possuem menos de 20
    caranguejos contados.
 1. Você está interessado em saber em qual das duas praias do sul, o
    número de caranguejos contados foi maior do que 40. Usando a seleção
    condicional, mostre essa informação na tela.
-1. Qual região possui praias com mais de 40 caranguejos contados?
+1. Qual região possui praias com mais de 50 caranguejos contados?
+
+```{r, include=FALSE}
+dados <- data.frame(caranguejos = c(42, 34, 59, 18),
+                    praias = c("Joaquina", "Campeche", "Armação",
+                               "Praia Mole"))
+dados
+dados$praias[dados$caranguejos < 30]
+dados$regiao <- NA
+dados$regiao[dados$praias %in% c("Joaquina", "Praia Mole")] <- "leste"
+dados$regiao[dados$praias %in% c("Campeche", "Armação")] <- "sul"
+dados
+dados$praias[dados$regiao == "leste" & dados$caranguejos < 20]
+dados$praias[dados$regiao == "sul" & dados$caranguejos > 40]
+dados$regiao[dados$caranguejos > 50]
+```
