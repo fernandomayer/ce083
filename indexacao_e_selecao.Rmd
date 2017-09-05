@@ -491,7 +491,7 @@ dados > 15 | dados <= 35
 ```
 
 Os valores selecionados serão aqueles em que a condição for
-`TRUE`, nesse caso apenas o quarto elemento do vetor `dados`.
+`TRUE`, no primeiro caso apenas o quarto elemento do vetor `dados`.
 
 A seleção condicional também é muito útil para selecionar elementos de
 um vetor, baseado em uma condição de outro vetor.
@@ -571,7 +571,7 @@ which(dados > 15)
 ## Elementos maiores de 15 e menores ou iguais a 35
 dados[dados > 15 & dados <= 35]
 which(dados > 15 & dados <= 35)
-## Elementos de dadaos onde cara igual a "c"
+## Elementos de dados onde cara igual a "c"
 dados[cara == "c"]
 which(cara == "c")
 ## Elementos de dadaos onde cara igual a "a" ou "c"
@@ -582,7 +582,7 @@ which(cara %in% c("a", "c"))
 ## Exercícios
 
 1. Crie um vetor (`x`) com os valores 3, 8, 10, 4, 9, 7, 1, 9, 2, 4.
-1. Selecione os elemntos maiores ou iguais a 5
+1. Selecione os elementos maiores ou iguais a 5
 1. Selecione todos os elementos menos o 4
 1. Selecione os elementos maiores que 4 e menores que 8
 1. Crie um vetor (`a`) com as letras de A até J
@@ -593,6 +593,18 @@ which(cara %in% c("a", "c"))
    iguais a 10 em x?
 1. Quais as posições das letras "A", "B", "D" em a?
 
+```{r, include=FALSE}
+x <- c(3, 8, 10, 4, 9, 7, 1, 9, 2, 4)
+x[x >= 5]
+x[x != 4]
+x[x > 4 & x < 8]
+a <- LETTERS[1:10]
+x[a == "F"]
+x[a %in% c("B", "D", "H")]
+which(x == 10)
+which(x >= 8 & x <= 10)
+which(a %in% c("A", "B", "D"))
+```
 
 ## Seleção condicional em data frames
 
