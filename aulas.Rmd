@@ -48,7 +48,8 @@ cat(paste0("- **", datas.ter, "**:\n", "- **", datas.qui, "**:\n"))
 - **05/09**: Indexação e substituição em vetores. Ver
   [material](indexacao_e_selecao.html).
 - **07/09**: Feriado.
-- **12/09**:
+- **12/09**: Indexação de matrizes, listas e data frames. Seleção
+  condicional em vetores. Ver [material](indexacao_e_selecao.html).
 - **14/09**:
 - **19/09**: **Prova 1**.
 - **21/09**:
