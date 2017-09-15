@@ -646,3 +646,6 @@ isso for o que você precisa).
 
 ```{r ex4, eval=FALSE, include=FALSE}
 ```
+
+A resolução de todos os exercícios desta página está disponível neste
+[script](scripts/indexacao_e_selecao-exercicios.R).

@@ -933,3 +933,6 @@ matrizes e data frames.
 
 ```{r ex6, eval=FALSE, include=FALSE}
 ```
+
+A resolução de todos os exercícios desta página está disponível neste
+[script](scripts/objetos-classes-exercicios.R).
