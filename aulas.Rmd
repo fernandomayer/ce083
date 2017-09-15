@@ -80,6 +80,10 @@ cat(paste0("- **", datas.ter, "**:\n", "- **", datas.qui, "**:\n"))
 - [Exercícios de comandos básicos e classes de
   objetos](exercicios/ex_objetos.pdf).
   [Gabarito](exercicios/ex_objetos_GABARITO.R) (script).
+- [Resolução](scripts/objetos-classes-exercicios.R) dos exercícios da
+  página [Funções, objetos e classes](objetos-classes.html).
+- [Resolução](scripts/indexacao_e_selecao-exercicios.R) dos exercícios
+  da página [Indexação e seleção condicional](indexacao_e_selecao.html).
 
 ## Notas
 
