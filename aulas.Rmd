@@ -50,7 +50,8 @@ cat(paste0("- **", datas.ter, "**:\n", "- **", datas.qui, "**:\n"))
 - **07/09**: Feriado.
 - **12/09**: Indexação de matrizes, listas e data frames. Seleção
   condicional em vetores. Ver [material](indexacao_e_selecao.html).
-- **14/09**:
+- **14/09**: A função `which()`. Seleção condicional em data frames. Ver
+  [material](indexacao_e_selecao.html).
 - **19/09**: **Prova 1**.
 - **21/09**:
 - **26/09**:
