@@ -158,7 +158,7 @@ Um possível uso é dentro que funções que solicitem que o usuário
 responda e/ou entre com informações na medida que são
 solicitadas. Experimente definir e rodar o função a seguir.
 
-```{r, eval=FALSE}
+```{r}
 fn.ex <- function() {
     cat("Digite o nome do time de futebol de sua preferência (em letras minúsculas)\n")
     time <- readLines(n = 1)
@@ -345,7 +345,7 @@ dados <- read.csv2("http://www.leg.ufpr.br/~fernandomayer/dados/crabs.csv")
 ```
 
 Para maiores informações consulte a documentação desta função com
-`read.table()`.  Embora `read.table()` seja provavelmente a função mais
+`?read.table()`.  Embora `read.table()` seja provavelmente a função mais
 utilizada existem outras que podem ser úteis e determinadas situações:
 
 - `read.fwf()` é conveniente para ler *fixed width formats*
@@ -356,14 +356,10 @@ utilizada existem outras que podem ser úteis e determinadas situações:
   opções padrão. Em geral (mas não sempre) dados em formato `csv` usado
   no Brasil são lidos diretamente com `read.csv2()`.
 
-## Exercícios
+### Exercícios 3
 
-1. Leia os seguintes conjuntos de dados disponíves *on-line*:
-   - <http://www.leg.ufpr.br/~walmes/data/banana.txt>
-   - <http://www.leg.ufpr.br/~walmes/data/triathlon.txt>
-
-usando a função `read.table()`, e confira a estrutura dos dados com
-`str()`.
+1. Faça a leitura dos dados do Exercício 2, mas agora utilize o endereço
+   *web* dos arquivos.
 
 ## Entrada de dados através da área de transferência
 
@@ -409,7 +405,8 @@ para funcionar corretamente.
 
 Um destes pacotes, é o **gdata**, que funciona em diversos sistemas
 operacionais mas depende da linguagem Perl estar instalada. Por exemplo,
-para ler o conjuto de dados `crabs` armazenado em uma planilha do Excel,
+para ler o conjuto de dados `crabs` armazenado em uma planilha do Excel
+(disponível [aqui](http://leg.ufpr.br/~fernandomayer/data/crabs.xls)),
 podemos usar
 
 ```{r}
@@ -467,6 +464,13 @@ Para carregar conjuntos de dados que são disponibilizados com o R, use
 o comando `data()`. Por exemplo, abaixo mostramos como carregar o conjunto
 `mtcars` que está no pacote **datasets**.
 
+```{r, include=FALSE}
+## Remove tudo e mantem apenas os objetos criados nessa página
+rm(list =
+       ls()[!ls() %in% c("x", "y", "texto", "fn.ex", "dados", "dados2",
+                         "dados.clip", "dados.xls")])
+```
+
 ```{r}
 ## Objetos criados até o momento nesta seção
 ls()
@@ -491,7 +495,8 @@ por outros pacotes, que precisam ser carregados para que os dados possam
 ser disponibilizados. Por exemplo, os dados do objeto `topo` são do
 pacote **MASS**. Se tentarmos fazer
 
-```{r, warning=TRUE}
+```{r, warning=TRUE, echo=2}
+detach("package:MASS")
 data(topo)
 ```
 
@@ -505,7 +510,9 @@ e agora podemos carregar o objeto `topo` com
 
 ```{r}
 data(topo)
+## O objeto fica disponível na sua área de trabalho
 ls()
+## Confere a estrutura
 str(topo)
 ```
 
