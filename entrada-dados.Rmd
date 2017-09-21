@@ -322,11 +322,18 @@ tail(dados)
 (de preferência no mesmo diretório de trabalho que voce definiu no
 início da sessão), faça a importação usando a função `read.table()`, e
 confira a estrutura dos dados com `str()`.
-    a. [gam01.txt](http://www.leg.ufpr.br/~fernandomayer/dados/gam01.txt)
-    b. [exemplo02.txt](http://www.leg.ufpr.br/~fernandomayer/dados/exemplo02.txt)
-    c. [dadosfic.csv](http://www.leg.ufpr.br/~fernandomayer/dados/dadosfic.csv)
-    d. [compingest.txt](http://www.leg.ufpr.br/~walmes/data/compingest.txt)
-    e. [biomassa.txt](http://www.leg.ufpr.br/~walmes/data/biomassa.txt)
+    a. [prb0519.dat](http://leg.ufpr.br/~fernandomayer/data/BHH2/prb0519.dat)
+    b. [tab0303.dat](http://leg.ufpr.br/~fernandomayer/data/BHH2/tab0303.dat)
+    c. [tab1208.dat](http://leg.ufpr.br/~fernandomayer/data/BHH2/tab1208.dat)
+    d. [ReadMe.txt](http://leg.ufpr.br/~fernandomayer/data/BHH2/ReadMe.txt)
+    e. [montgomery_6-26.csv](http://leg.ufpr.br/~fernandomayer/data/montgomery_6-26.csv)
+    f. [montgomery_14-12.txt](http://leg.ufpr.br/~fernandomayer/data/montgomery_14-12.txt)
+    g. [montgomery_ex6-2.csv](http://leg.ufpr.br/~fernandomayer/data/montgomery_ex6-2.csv)
+    h. [ipea_habitacao.csv](http://www.leg.ufpr.br/~fernandomayer/data/ipea_habitacao.csv)
+    i. [stratford.csv](http://www.leg.ufpr.br/~fernandomayer/data/stratford.csv)
+
+```{r ex2, eval=FALSE, include=FALSE}
+```
 
 As funções permitem ainda ler dados diretamente disponíveis na
 *web*. Por exemplo, os dados do exemplo poderiam ser lidos diretamente
