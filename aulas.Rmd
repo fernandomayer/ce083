@@ -53,7 +53,11 @@ cat(paste0("- **", datas.ter, "**:\n", "- **", datas.qui, "**:\n"))
 - **14/09**: A função `which()`. Seleção condicional em data frames. Ver
   [material](indexacao_e_selecao.html).
 - **19/09**: **Prova 1**.
-- **21/09**:
+- **21/09**: Entrada de dados. Entrada via teclado. Criando arquivos de
+  texto (`.csv`) a partir de planilhas eletrônicas. Importação de dados
+  em arquivos de texto com `read.table()`. Importação de arquivos do
+  Excel (binários) com `read.xls()` do pacote `gdata`. Ver
+  [material](entrada-dados.html).
 - **26/09**:
 - **28/09**:
 - **03/10**:
