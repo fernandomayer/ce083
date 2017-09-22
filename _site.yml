@@ -46,8 +46,8 @@ navbar:
         href: objetos-classes.html
       - text: "Indexação e seleção condicional [HTML]"
         href: indexacao_e_selecao.html
-      - text: "Entrada de dados [HTML]"
-        href: 04_Entrada_de_dados.html
+      - text: "Entrada e saída de dados [HTML]"
+        href: entrada-dados.html
       - text: "Estatística"
       - text: "Análise exploratória de dados [HTML]"
         href: 05_Analise_exploratoria.html
