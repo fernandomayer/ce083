@@ -134,6 +134,9 @@ valores:
     b. `joaquina`, `armação`, `praia brava`, `praia mole`, `morro das pedras`
     c. `TRUE`, `TRUE`, `FALSE`, `FALSE`, `TRUE`
 
+```{r ex1, eval=FALSE, include=FALSE}
+```
+
 #### Usando da função `readLines()`
 
 Esta função é particularmente útil para ler entradas na forma de texto
