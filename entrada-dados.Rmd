@@ -835,7 +835,7 @@ atributos como foram armazenados.
 Armazenar dados em formato binário é vantajoso quando não há uma forma
 "fácil" de armazenar os dados em formato de texto puro ou textual. Além
 disso, algumas vezes o formato binário possui maior eficiência em termos
-de velocodade de leitura/escrita, dependendo dos dados. Outra vantagem é
+de velocidade de leitura/escrita, dependendo dos dados. Outra vantagem é
 que valores numéricos geralmente perdem precisão quando armazenados em
 texto ou textual, enquanto que o formato binário preserva toda a
 precisão (embora essa perda de precisão seja desprezível na maioria dos
@@ -880,7 +880,7 @@ load("dados.rda")
 load("workspace.RData")
 ```
 
-Dessa forma, os objetos já estarão disponpiveis na sua área de
+Dessa forma, os objetos já estarão disponíveis na sua área de
 trabalho.
 
 # Informações sobre diretórios e arquivos
