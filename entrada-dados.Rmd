@@ -736,6 +736,9 @@ avaliou o número de fumates e não fumantes por sexo.
 1. Tente criar esse mesmo conjunto de dados usando comandos do R (ex.:
    `c()`, `rep()`, `data.frame()`, etc.)
 
+```{r ex4, eval=FALSE, include=FALSE}
+```
+
 # Usando os formatos textual e binário para ler/escrever dados
 
 As formas mais comuns de entrada de dados no R são através da entrada
@@ -751,7 +754,7 @@ arquivo de texto, por exemplo, que podemos abrir e editar em qualquer
 prorama que edite texto puro. O formato textual é o intermediário entre
 o texto puro e o binário. Os dados em formato textual são apresentados
 como texto puro, mas contém informações adicionais, chamados de
-*metadados*, que preservam toda a estrutura dos dados, como as classes
+**metadados**, que preservam toda a estrutura dos dados, como as classes
 de cada coluna de um data frame.
 
 ## Formato textual

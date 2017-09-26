@@ -76,3 +76,27 @@ str(dh)
 url <- "http://www.leg.ufpr.br/~fernandomayer/data/stratford.csv"
 di <- read.table(url, header = TRUE, sep = "\t")
 str(di)
+
+##----------------------------------------------------------------------
+## ---- ex4
+## 2.
+## Os dados estão disponíveis em
+## http://www.leg.ufpr.br/~fernandomayer/data/dados_ex4.csv
+## 3.
+ex4 <- read.table("dados/dados_ex4.csv", header = TRUE,
+                  sep = ",", dec = ".")
+str(ex4)
+## 4.
+ex4$Numero2 <- ex4$Numero * 2
+str(ex4)
+## 5.
+write.table(ex4, "dados/dados_ex4_v2.csv", row.names = FALSE,
+            sep = ",", dec = ".")
+## 6.
+Condicao <- rep(c("Fumante", "Nao fumante"), each = 5, times = 2)
+Sexo <- rep(c("Masculino", "Feminino"), each = 10)
+Numero <- c(49, 64, 37, 52, 68, 27, 58, 52, 41, 30,
+            54, 61, 79, 64, 29, 40, 39, 44, 34, 44)
+ex4.manual <- data.frame(Condicao, Sexo, Numero)
+str(ex4.manual)
+all.equal(ex4[, -4], ex4.manual)
