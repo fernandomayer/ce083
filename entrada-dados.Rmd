@@ -480,7 +480,7 @@ rm(list =
 ```{r}
 ## Objetos criados até o momento nesta seção
 ls()
-## Carregaga a base de dados mtcars
+## Carrega a base de dados mtcars
 data(mtcars)
 ## Note como agora o objeto mtcars fica disponível na sua área de
 ## trabalho
@@ -571,6 +571,8 @@ Para mais detalhes consulte a documentação de cada função e/ou o manual
 
 # Saída de dados do R
 
+## Usando a função `write.table()`
+
 Para exportar objetos do R, usamos a função `write.table()`, que possui
 argumentos parecidos com aqueles da função `read.table()`.
 
@@ -607,14 +609,14 @@ Os argumentos são
   arquivo  `iris.csv` será criado dentro do diretório `dados`).
 - `row.names = FALSE`: para eliminar o nome das linhas do objeto
   (geralmente desnecessário), como retornado por `row.names()`
-- `sep = ";"`: o separador de colunas (também pode ser `"\t"` para
-  tabulação e `""` para espaços)
-- `dec = ","`: o separador de decimais
+- `sep = ";"`: o separador de colunas (também pode ser `","`, `"\t"`
+  para tabulação e `""` para espaços)
+- `dec = ","`: o separador de decimais (também pode ser `"."`)
 
 Note que o objeto a ser exportado (nesse caso `iris`) deve ser em
 formato tabular, ou seja, uma matriz ou data frame. Outras classes de
 objetos podem ser exportadas, mas haverá uma coerção para data frame, o
-que pode fazer com que o resultado final ão seja o esperado.
+que pode fazer com que o resultado final não seja o esperado.
 
 Assim como `read.table()` possui as funções `read.csv()` e
 `read.csv2()`, a função `write.table()` possui as funções
@@ -634,7 +636,7 @@ variedade de formatos. Veja a documentação em `help(package =
 Excel mencionados acima também possuem funções para exportar diretamente
 para esse formato.
 
-## Exercícios
+## Exercícios 4
 
 1. Considere a tabela abaixo com o resultado de uma pesquisa que
 avaliou o número de fumates e não fumantes por sexo.
