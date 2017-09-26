@@ -1,0 +1,11 @@
+## Montgomery, Estatistica aplicada e probabilidade para engenheiros, ex. 14-12
+Tratamento	RepI	RepII
+(1)	221	311
+a	325	435
+b	354	348
+ab	552	472
+c	440	453
+ac	406	377
+bc	605	500
+abc	392	419
+
