@@ -11,6 +11,36 @@ c <- scan(what = "logical")
 ##----------------------------------------------------------------------
 ## ---- ex2
 ## a.
+da <- read.table("dados/prb0519.dat", header = TRUE)
+str(da)
+## b.
+db <- read.table("dados/tab0303.dat", header = TRUE)
+str(db)
+## c.
+dc <- read.table("dados/tab1208.dat", header = TRUE)
+str(dc)
+## d.
+dd <- read.table("dados/ReadMe.txt", header = TRUE, skip = 2, dec = ",")
+str(dd)
+## e.
+de <- read.table("dados/montgomery_6-26.csv", header = TRUE, sep = ",")
+str(de)
+## f.
+df <- read.table("dados/montgomery_14-12.txt", header = TRUE)
+str(df)
+## g.
+dg <- read.table("dados/montgomery_ex6-2.csv", header = TRUE, sep = ",")
+str(dg)
+## h.
+dh <- read.table("dados/ipea_habitacao.csv", header = TRUE, sep = ",")
+str(dh)
+## i.
+di <- read.table("dados/stratford.csv", header = TRUE, sep = "\t")
+str(di)
+
+##----------------------------------------------------------------------
+## ---- ex3
+## a.
 url <- "http://leg.ufpr.br/~fernandomayer/data/BHH2/prb0519.dat"
 da <- read.table(url, header = TRUE)
 str(da)

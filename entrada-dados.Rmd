@@ -247,7 +247,7 @@ knitr::include_graphics("img/excelcsvgrey.png")
 
 No R usa-se `scan()` mencionada anteriormente, ou então a função mais
 flexível `read.table()` para ler os dados de um arquivo texto e
-armazenar no formato de uma data frame.
+armazenar no formato de um data frame.
 
 Antes de importar para o R:
 
@@ -279,10 +279,10 @@ Argumentos:
 - `"crabs.csv"`: nome do arquivo. (Considerando  que o arquivo
   `crabs.csv` está dentro do diretório `dados`).
 - `header = TRUE`: significa que a primeira linha do arquivo deve ser
-    inrpretada como os nomes das colunas
-- `sep = ";"`: o separador de colunas (também pode ser `"\t"` para
-  tabulação e `""` para espaços)
-- `dec = ","`: o separador de decimais
+    interpretada como os nomes das colunas
+- `sep = ";"`: o separador de colunas (também pode ser `","`, `"\t"`
+  para tabulação e `""` para espaços)
+- `dec = ","`: o separador de decimais (também pode ser `"."`)
 
 As funções `read.csv()` e `read.csv2()` são chamadas de *wrappers*
 (envelopes) que tornam o usa da função `read.table()` um pouco mais
@@ -363,6 +363,9 @@ utilizada existem outras que podem ser úteis e determinadas situações:
 
 1. Faça a leitura dos dados do Exercício 2, mas agora utilize o endereço
    *web* dos arquivos.
+
+```{r ex3, eval=FALSE, include=FALSE}
+```
 
 ## Entrada de dados através da área de transferência
 
