@@ -88,6 +88,8 @@ cat(paste0("- **", datas.ter, "**:\n", "- **", datas.qui, "**:\n"))
   página [Funções, objetos e classes](objetos-classes.html).
 - [Resolução](scripts/indexacao_e_selecao-exercicios.R) dos exercícios
   da página [Indexação e seleção condicional](indexacao_e_selecao.html).
+- [Resolução](scripts/entrada-dados-exercicios.R) dos exercícios
+  da página [Entrada e saída de dados](entrada-dados.html).
 
 ## Notas
 
