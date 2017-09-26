@@ -501,7 +501,8 @@ por outros pacotes, que precisam ser carregados para que os dados possam
 ser disponibilizados. Por exemplo, os dados do objeto `topo` são do
 pacote **MASS**. Se tentarmos fazer
 
-```{r, warning=TRUE, echo=2}
+```{r, warning=TRUE, echo=3}
+library(MASS)
 detach("package:MASS")
 data(topo)
 ```
