@@ -344,7 +344,7 @@ com o comando a seguir, sem a necessidade de copiar primeiro os dados para
 algum local no computador do usuário:
 
 ```{r, eval=FALSE}
-dados <- read.csv2("http://www.leg.ufpr.br/~fernandomayer/dados/crabs.csv")
+dados <- read.csv2("http://www.leg.ufpr.br/~fernandomayer/data/crabs.csv")
 ```
 
 Para maiores informações consulte a documentação desta função com
