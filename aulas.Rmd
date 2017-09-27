@@ -58,7 +58,9 @@ cat(paste0("- **", datas.ter, "**:\n", "- **", datas.qui, "**:\n"))
   em arquivos de texto com `read.table()`. Importação de arquivos do
   Excel (binários) com `read.xls()` do pacote `gdata`. Ver
   [material](entrada-dados.html).
-- **26/09**:
+- **26/09**: Saída de dados. Exportando para arquivos de texto com
+  `write.table()`. Exportando para formatos textual e binário. Ver
+  [material](entrada-dados.html).
 - **28/09**:
 - **03/10**:
 - **05/10**:
