@@ -1,0 +1,942 @@
+---
+title: "Análise exploratória de dados"
+output:
+  html_document:
+    code_folding: show
+    toc_depth: 2
+---
+
+```{r setup, include=FALSE}
+source("setup_knitr.R")
+```
+
+# Introdução
+
+Nesta sessão vamos ver alguns (mas não todos!) comandos do R para fazer
+uma análise exploratória descritiva de um conjunto de dados.
+
+Uma boa forma de iniciar uma análise descritiva adequada é verificar os
+tipos de de variáveis disponíveis. Variáveis podem ser classificadas da
+seguinte forma:
+
+- Qualitativas
+	- Nominais
+	- Ordinais
+- Quantitativas
+	- Discretas
+	- Contínuas
+
+e podem ser resumidas por tabelas, gráficos e/ou medidas.
+
+## O conjunto de dados `milsa`
+
+O livro "Estatística Básica" de W. O. Bussab e P. A. Morettin traz no
+segundo capítulo um conjunto de dados hipotético de atributos de 36
+funcionários da companhia "Milsa". Os dados estão reproduzidos na tabela
+abaixo. Consulte o livro para mais detalhes sobre este dados.
+
+```{r, echo=FALSE, results='asis'}
+url <- "http://www.leg.ufpr.br/~fernandomayer/data/milsa.csv"
+milsa <- read.csv("dados/milsa.csv")
+knitr::kable(milsa)
+```
+
+Estes dados estão disponíveis em um arquivo `csv` no endereço
+<http://www.leg.ufpr.br/~fernandomayer/data/milsa.csv>.
+
+O nosso objetivo é, através do R,
+
+- Entrar com os dados
+- Fazer uma análise descritiva
+
+Estes são dados no "estilo planilha", com variáveis de diferentes tipos:
+categóricas e numéricas (qualitativas e quantitativas). Portanto o
+formato ideal de armazenamento destes dados no R é o `data.frame`.
+
+Para importar os dados do endereço acima diretamente para o R, usamos
+
+```{r, eval=FALSE}
+url <- "http://www.leg.ufpr.br/~fernandomayer/data/milsa.csv"
+milsa <- read.csv(url)
+```
+
+```{r, include=FALSE}
+milsa <- read.csv("dados/milsa.csv")
+```
+
+E para conferir a estrutura dos dados podemos usar algumas funções como:
+
+```{r}
+str(milsa)
+head(milsa)
+tail(milsa)
+```
+
+Podemos classificar todas a svariáveis desse conjunto de dados como:
+
+| Variável    | Classificação         |
+|-------------|-----------------------|
+|`Funcionario`| Quantitativa discreta
+|`Est.civil`  | Qualitativa nominal
+|`Inst`       | Qualitativa ordinal
+|`Filhos`     | Quantitativa discreta
+|`Salario`    | Quantitativa contínua
+|`Anos`       | Quantitativa contínua
+|`Meses`      | Quantitativa contínua
+|`Regiao`     | Qualitativa nominal
+
+Como a variável `Inst` é qualitativa ordinal, podemos indicar para o R
+que ela deve ser tratada como ordinal. Se observarmos os níveis desse
+fator:
+
+```{r}
+levels(milsa$Inst)
+```
+
+já notamos que a ordenação está correta (da esquerda para a direita),
+pois sabemos que a classificação interna dos níveis é por ordem
+alfabética, e nesse caso, por coincidência, a ordem já está na sequência
+correta. Mesmo assim, podemos indicar que este fator é ordinal, usando o
+argumento `ordered` da função `factor()`
+
+```{r}
+milsa$Inst <- factor(milsa$Inst, ordered = TRUE)
+```
+
+Note agora a modificação na classe dessa coluna, e a representação dos
+níveis:
+
+```{r}
+class(milsa$Inst)
+milsa$Inst
+```
+
+A coluna continua sendo um `factor`, mas agora também é `ordered` (sim,
+um objeto pode ter mais de uma classe, se elas foram compatíveis e/ou
+complementares). Os níveis agora são representados por
+
+```
+1o Grau < 2o Grau < Superior
+```
+
+para indicar explicitamente que existe uma ordem nos níveis desse fator.
+
+Podemos ainda definir uma nova variável, chamada `Idade`, a partir das
+variáveis `Anos` e `Meses`:
+
+```{r}
+milsa$Idade <- milsa$Anos + milsa$Meses/12
+```
+
+Os dois comandos acima (de modificação da classe de uma variável, e a
+criação de uma nova variável) poderiam ser facilmente executadas de uma
+única vez através do comando `transform()`
+
+```{r}
+milsa <- transform(milsa,
+                   Inst = factor(Inst, ordered = TRUE),
+                   Idade = Anos + Meses/12)
+```
+
+Agora que os dados estão prontos podemos começar a análise descritiva.
+A seguir mostramos como fazer análises descritivas uni e bi-variadas.
+Inspecione os comandos mostrados a seguir e os resultados por elas
+produzidos.  Sugerimos ainda que o leitor use o R para reproduzir os
+resultados mostrados no texto dos capítulos 1 a 3 do livro de Bussab &
+Morettin, relacionados com este exemplo.
+
+# Análise univariada
+
+A análise univariada consiste basicamente em, para cada uma das
+variáveis individualmente:
+
+- Classificar a variável quanto a seu tipo: qualitativa (nominal ou
+  ordinal) ou quantitativa (discreta ou contínua)
+- Obter tabelas, gráficos e/ou medidas que resumam a variável
+
+A partir destes resultados pode-se montar um resumo geral dos dados.
+
+A seguir vamos mostrar como obter tabelas, gráficos e medidas com o R.
+Para isto vamos selecionar uma variável de cada tipo para que o leitor
+possa, por analogia, obter resultados para as demais.
+
+## Variável Qualitativa Nominal
+
+A variável `Est.civil` é uma qualitativa nominal. Desta forma podemos
+obter: (i) uma tabela de frequências (absolutas e/ou relativas), (ii) um
+gráfico de setores, (iii) a "moda", *i.e.* o valor que ocorre com maior
+frequência.
+
+Já vimos, através do resultado da função `str()` acima, que esta
+variável é um fator. A seguir obtemos frequências absolutas e relativas
+(note duas formas diferentes de obter as frequências relativas).
+
+```{r}
+## Frequência absoluta
+civil.tb <- table(milsa$Est.civil)
+civil.tb
+## Frequência relativa, calculando manualmente
+civil.tb/length(milsa$Est.civil)
+## Frequência relativa, com a função prop.table()
+prop.table(civil.tb)
+```
+
+Os gráficos de barras e de setores são adequados para representar esta
+variável. Os comandos `barplot()` e `pie()` usam o resultado da função
+`table()` para gerar os gráficos:
+
+```{r, echo=2:3}
+par(mfrow = c(1,2))
+barplot(civil.tb)
+pie(civil.tb)
+par(mfrow = c(1,1))
+```
+
+A *moda* de qualquer variável aleatória é definida como o valor mais
+frequente encontrado na amostra. No R não há uma função pronta para
+"calcular" a moda, pois ela pode ser obtida facilmente através do uso de
+funções básicas. Uma opção seria usar os comandos abaixo:
+
+```{r}
+names(civil.tb)[which.max(civil.tb)]
+```
+
+Deixamos a cargo do leitor entender e interpretar esse comando.
+
+## Variável Qualitativa Ordinal
+
+Para exemplificar como obter análises para uma variável qualitativa
+ordinal vamos selecionar a variável `Inst`.
+
+As tabelas de frequências são obtidas de forma semelhante à mostrada
+anteriormente.
+```{r}
+## Frequência absoluta
+inst.tb <- table(milsa$Inst)
+inst.tb
+## Frequência relativa
+prop.table(inst.tb)
+```
+
+O gráfico de setores não é adequado para este tipo de variável por não
+expressar a ordem dos possíveis valores. Usamos então apenas um gráfico
+de barras conforme mostrado abaixo
+
+```{r}
+barplot(inst.tb)
+```
+
+Em alguns casos podemos querer mostrar o gráfico de barras com as barras
+classificadas da menos para a maior, ou vice-versa, independente da
+ordem dos níveis. Para isso podemos usar a função `sort()` para ordenar
+os valores da tabela e fazer o gráfico
+
+```{r, echo=2:5}
+par(mfrow = c(1,2))
+## Menor para maior
+barplot(sort(inst.tb))
+## Maior para menor
+barplot(sort(inst.tb, decreasing = TRUE))
+par(mfrow = c(1,1))
+```
+
+Para uma variável ordinal, além da moda podemos também calcular outras
+medidas, tais como a mediana conforme exemplificado a seguir. Note que
+o comando `median()` não funciona com variáveis não numéricas, e por
+isso usamos o comando seguinte.
+
+```{r, error=TRUE}
+## Moda
+names(inst.tb)[which.max(inst.tb)]
+## Mediana
+median(milsa$Inst) # só funciona para variáveis numéricas
+median(as.numeric(milsa$Inst)) # traz a mediana da codificação do nível
+levels(milsa$Inst)[median(as.numeric(milsa$Inst))] # valor correto
+```
+
+## Variável quantitativa discreta
+
+Vamos agora usar a variável `Filhos` (número de filhos) para
+ilustrar algumas análises que podem ser feitas com uma quantitativa
+discreta.
+
+Frequências absolutas e relativas são obtidas como anteriormente. Também
+vamos calcular a frequência acumulada, onde a frequência em uma classe é
+a soma das frequências das classes anteriores. Para isso usamos a função
+`cumsum()`, que já faz a soma acumulada.
+
+```{r}
+## Frequência absoluta
+filhos.tb <- table(milsa$Filhos)
+filhos.tb
+## Frequência relativa
+filhos.tbr <- prop.table(filhos.tb)
+filhos.tbr
+## Frequência acumulada
+filhos.tba <- cumsum(filhos.tbr)
+filhos.tba
+```
+
+O gráfico adequado para frequências absolutas de uma variável discreta é
+parecido com um gráfico de barras, mas nesse caso, as frequências são
+indicadas por linhas. Usando a função `plot()` em um objeto resultado da
+função `table()`, o gráfico adequado já é selecionado:
+
+```{r}
+plot(filhos.tb)
+```
+
+Outra possibilidade seria fazer gráficos de frequências relativas e de
+frequências acumuladas conforme mostrado na
+
+```{r, echo=2:5}
+par(mfrow = c(1,2))
+## Frequência relativa
+plot(filhos.tbr)
+## Frequência relativa acumulada
+plot(filhos.tba, type = "S") # tipo step (escada)
+par(mfrow = c(1,1))
+```
+
+Sendo a variável numérica há uma maior diversidade de medidas
+estatísticas que podem ser calculadas.
+
+A seguir mostramos como obter algumas medidas de posição: moda, mediana,
+média e média aparada. Note que o argumento `na.rm = TRUE` é necessário
+porque não há informação sobre número de filhos para alguns indivíduos
+(`NA`). Para calcular a média aparada, usamos o argumento `trim = 0.1`
+que indica que a média deve ser calculada excluindo-se 10% dos menores e
+10% dos maiores valores do vetor de dados. Ao final mostramos como obter
+os quartis, incluido o  mínimo e  o máximo.
+
+```{r}
+## Moda
+names(filhos.tb)[which.max(filhos.tb)]
+## Mediana
+median(milsa$Filhos, na.rm = TRUE)
+## Média
+mean(milsa$Filhos, na.rm = TRUE)
+## Média aparada
+mean(milsa$Filhos, trim = 0.1, na.rm = TRUE)
+## Quartis
+quantile(milsa$Filhos, na.rm = TRUE)
+```
+
+Passando agora para medidas de dispersão, vejamos como obter máximo e
+mínimo, e com isso a amplitude, além da variância, desvio padrão, e
+coeficiente de variação. Também obtemos os quartis para calcular a
+amplitude interquartílica.
+
+```{r}
+## Máximo e mínimo
+max(milsa$Filhos, na.rm = TRUE)
+min(milsa$Filhos, na.rm = TRUE)
+## As duas informações juntas
+range(milsa$Filhos, na.rm = TRUE)
+## Amplitude é a diferença entre máximo e mínimo
+diff(range(milsa$Filhos, na.rm = TRUE))
+## Variância
+var(milsa$Filhos, na.rm = TRUE)
+## Desvio-padrão
+sd(milsa$Filhos, na.rm = TRUE)
+## Coeficiente de variação
+sd(milsa$Filhos, na.rm = TRUE)/mean(milsa$Filhos, na.rm = TRUE)
+## Quartis
+(filhos.qt <- quantile(milsa$Filhos, na.rm = TRUE))
+## Amplitude interquartílica
+filhos.qt[4] - filhos.qt[2]
+```
+
+Finalmente, podemos usar a função **genérica** `summary()` para resumir
+od dados de uma só vez
+
+```{r}
+summary(milsa$Filhos)
+```
+
+## Variável quantitativa contínua
+
+Para concluir os exemplos para análise univariada vamos considerar a
+variável quantitativa contínua `Salario`.
+
+Para se fazer uma tabela de frequências de uma VA contínua, é preciso
+primeiro agrupar os dados em classes. Nos comandos mostrados a seguir
+verificamos inicialmente os valores máximo e mínimo dos dados, depois
+usamos o critério de Sturges para definir o número de classes. Usamos
+a função `cut()` para agrupar os dados em classes e finalmente obtemos
+as frequências absolutas e relativas.
+
+```{r}
+## Máximo e mínimo
+range(milsa$Salario)
+## Número de classes estimado, com base no critério de Sturges. Veja
+## outras opções em ?nclass
+nclass.Sturges(milsa$Salario)
+## Criando as classes com a função cut(), usando os valores mínimos e
+## máximos dados em range()
+cut(milsa$Salario, breaks = seq(4, 23.3, length.out = 8))
+```
+
+Note que uma das classes é `NA`. Isso ocorre pela definição das classes,
+que por padrão é no formato `(a,b]`, ou seja, o intervalo é aberto em
+`a` (não inclui `a`) e fechado em `b` (inclui `b`). Podemos alterar esse
+padrão usando o argumento `include.lowest = TRUE`,
+
+```{r}
+cut(milsa$Salario, breaks = seq(4, 23.3, length.out = 8),
+    include.lowest = TRUE)
+```
+
+E note que agora a primeira classe fica `[a,b]`, ou seja, fechada
+(incluindo) os dois lados. Para que o intervalo seja fechado à esquerda,
+usamos o argumento `right = FALSE`. As combinações possíveis para esses
+dois argumentos, e as classes resultantes são apresentadas na tabela
+abaixo:
+
+             Argumentos                   Resultado
+  --------------------------------- ---------------------
+   `include.lowest = T, right = T`   `[a,b], ..., (y,z]`
+   `include.lowest = F, right = T`   `(a,b], ..., (y,z]`
+   `include.lowest = F, right = F`   `[a,b), ..., [y,z)`
+   `include.lowest = T, right = F`   `[a,b), ..., [y,z]`
+
+Outra opção para "acomodar" todos os extremos dentro das classes, seria
+naturalmente atribuir valores um pouco menores que o mínimo, e um pouco
+maiores que o máximo. Abaixo, usamos essa abordagem e fazemos uma tabela
+com as frequências absolutas e relativas.
+
+```{r}
+salario.cut <- cut(milsa$Salario,
+                   breaks = seq(3.5, 23.5, length.out = 8))
+salario.cut
+## Tabela com as frequencias absolutas por classe
+salario.tb <- table(salario.cut)
+salario.tb
+## Tabela com as frequências relativas
+prop.table(salario.tb)
+```
+
+Na sequência vamos mostrar dois possíveis gráficos para variáveis
+contínuas: o histograma e o *box-plot*.
+
+Para fazer um histograma usamos a função `hist()`, por exemplo,
+
+```{r}
+hist(milsa$Salario)
+```
+
+A função `hist()` possui vários argumentos para alterar o comportamento
+da saída do gráfico. Por exemplo, com `labels = TRUE` as frequências são
+mostradas acima de cada barra. Com `freq = FALSE`, o gráfico é feito com
+as frequências relativas.
+
+```{r}
+hist(milsa$Salario, freq = FALSE, labels = TRUE)
+```
+
+Por padrão, a função `hist()` calcula automaticamente o número de
+classes e os valores limites de cada classe. No entanto, isto pode ser
+alterado com o argumento `breaks`, que pode receber um vetor
+definindo os limites das classes, uma função para definir as quebras, um
+nome de critério (por exemplo, `"Sturges"`), ou um único escalar
+definido o  número de classes. As últimas três opções são apenas
+sugestões utilizadas pela função. O argumento `nclass` também funciona
+dessa forma, recebendo apenas um valor com o número de classes (como
+sugestão).
+
+```{r}
+hist(milsa$Salario, nclass = 15)
+```
+
+Assim como na função `cut()`, os argumentos `include.lowest` e `right`
+são utilizados para controlar a borda das classes.
+
+Uma característica importante da função `hist()` é que ela retorna não
+apenas o gráfico, mas também uma lista com as informações utilizadas
+para construir o gráfico. Associando um histograma a um objeto, podemos
+ver o seu conteúdo:
+
+```{r}
+salario.hist <- hist(milsa$Salario)
+salario.hist
+```
+
+Estas informações podem então ser utilizadas para outros propósitos
+dentro do R.
+
+Os **boxplots** são úteis para revelar o centro, a dispersão e a
+distribuição dos dados, além de **outliers**. São construídos da
+seguinte forma:
+
+- A linha central mais escura representa a mediana. Os extremos da
+caixa são o $1^{o}$ ($q1$) e o $3^{o}$ ($q3$) quartis.
+- As linhas que se extendem das caixas são definidas como:
+$$q1-1,5\cdot IQR\ \qquad \mathrm{e}\ \qquad q3+1,5\cdot IQR$$
+onde $IQR$ é o intervalo inter-quartil. As linhas vão até os valores
+máximo e mínimo que ainda se encontram dentro deste intervalo.
+
+```{r}
+boxplot(milsa$Salario)
+```
+
+Existem também vários argumentos que permitem variações do *boxplot*,
+tais como caixas com tamanho proporcional aos tamanhos
+dos grupos (`varwidth = TRUE`), e caixas "acinturadas" (*notched
+boxplot*) (`notch = TRUE`).
+
+```{r}
+boxplot(milsa$Salario, varwidth = TRUE, notch = TRUE)
+```
+
+Ambas opções são úteis quando há mais de um grupo e a comparação entre
+os boxplots é facilitada.
+
+Finalmente, podemos obter as medidas de posição e dispersão da mesma
+forma que para variáveis discretas. Veja alguns exemplos a seguir. Note
+que aqui não é necessário o uso do argumento `na.rm = TRUE`, pois não
+existem `NA`s nesta variável.
+
+```{r}
+## Mediana
+median(milsa$Salario)
+## Média
+mean(milsa$Salario)
+## Média aparada
+mean(milsa$Salario, trim = 0.1)
+## Quartis
+quantile(milsa$Salario)
+## Máximo e mínimo
+max(milsa$Salario)
+min(milsa$Salario)
+## As duas informações juntas
+range(milsa$Salario)
+## Amplitude é a diferença entre máximo e mínimo
+diff(range(milsa$Salario))
+## Variância
+var(milsa$Salario)
+## Desvio-padrão
+sd(milsa$Salario)
+## Coeficiente de variação
+sd(milsa$Salario)/mean(milsa$Salario)
+## Quartis
+salario.qt <- quantile(milsa$Salario)
+## Amplitude interquartílica
+salario.qt[4] - salario.qt[2]
+```
+
+# Análise Bivariada
+
+Na análise bivariada procuramos identificar relações entre duas variáveis.
+Assim como na análise univariada, estas relações podem ser resumidas por
+gráficos, tabelas e/ou medidas estatísticas.
+O tipo de resumo vai depender dos tipos das variáveis envolvidas.
+Vamos considerar três possibilidades:
+
+- Qualitativa *vs* qualitativa
+- Qualitativa *vs* quantitativa
+- Quantitativa *vs* quantitativa
+
+Salienta-se ainda que:
+
+- As análise mostradas a seguir não esgotam as possibilidades de
+análises envolvendo duas variáveis e devem ser vistas apenas como uma
+sugestão inicial
+- Relações entre duas variáveis devem ser examinadas com cautela pois
+podem ser mascaradas por uma ou mais variáveis adicionais não
+considerada na análise. Estas são chamadas **variáveis de
+confundimento**. Análises com variáveis de confundimento não serão
+discutidas neste ponto.
+
+> **Observação**: de agora em diante, como serão consideradas mais de
+> uma variável, usaremos a função `with()` para chamar a maioria das
+> funções.
+
+## Qualitativa *vs* qualitativa
+
+Vamos considerar as variáveis `Est.civil` (estado civil), e `Inst` (grau
+de instrução). A tabela envolvendo duas variáveis é chamada **tabela de
+cruzamento** ou **tabela de contingência**, e pode ser apresentada de
+várias formas, conforme discutido a seguir.
+
+A forma mais adequada de apresentação vai depender dos objetivos da análise e
+da interpretação desejada para os dados. Iniciamente obtemos a tabela de
+frequências absolutas para o cruzamento das duas variávies, usando a
+função `table()`. A tabela extendida incluindo os totais marginais pode
+ser obtida com a função `addmargins()`.
+
+```{r}
+## Tabela de frequências absolutas
+civ.inst.tb <- with(milsa, table(Est.civil, Inst))
+civ.inst.tb
+addmargins(civ.inst.tb)
+```
+
+<!-- Ver tambem margin.table() -->
+
+Tabelas de frequências relativas são obtidas com `prop.table()`, mas
+aqui existem três possibilidades para as proporções em cada casela:
+
+- Em relação ao total geral
+- Em relação aos totais por linha (`margin = 1`)
+- Em relação aos totais por coluna (`margin = 2`)
+
+```{r}
+## Frequência relativa global
+prop.table(civ.inst.tb)
+## Frequência relativa por linha
+prop.table(civ.inst.tb, margin = 1)
+## Frequência relativa por coluna
+prop.table(civ.inst.tb, margin = 2)
+```
+
+Abaixo são representados quatro tipos de gráficos de barras que podem
+ser usados para representar o cruzamento das variáveis. A transposição
+da tabela com `t()` permite alterar a variável que define os grupos no
+eixo horizontal. O uso de `prop.table()` permite o obtenção de gráficos
+com frequências relativas.
+
+```{r, echo=2:5}
+par(mfrow = c(2,2))
+barplot(civ.inst.tb, legend = TRUE)
+barplot(t(civ.inst.tb), legend = TRUE)
+barplot(civ.inst.tb, beside = TRUE, legend = TRUE)
+barplot(t(prop.table(civ.inst.tb)), beside = TRUE, legend = TRUE)
+par(mfrow = c(1,1))
+```
+
+<!-- Incluir aqui a medida de associacao chi-quadrado -->
+
+<!-- Incluir reagrupamento -->
+
+## Qualitativa *vs* quantitativa
+
+Para exemplificar este caso vamos considerar as variáveis `Inst` e
+`Salario`.
+
+Para se obter uma tabela de frequências é necessário agrupar a variável
+quantitativa em classes. No exemplo a seguir vamos agrupar a variável
+salário em 4 classes definidas pelos quartis usando a função `cut()`.
+Lembre-se que as classes são definidas por intervalos abertos à esquerda,
+então usamos o argumento `include.lowest = TRUE` para garantir que todos
+os dados, incluve o menor (mínimo) seja incluído na primeira classe.
+Após agrupar esta variável, obtemos a(s) tabela(s) de cruzamento como
+mostrado no caso anterior.
+
+```{r}
+## Quartis de salario
+quantile(milsa$Salario)
+## Classificação de acordo com os quartis
+salario.cut <- cut(milsa$Salario, breaks =  quantile(milsa$Salario),
+                   include.lowest = TRUE)
+## Tabela de frequências absolutas
+inst.sal.tb <- table(milsa$Inst, salario.cut)
+inst.sal.tb
+prop.table(inst.sal.tb, margin = 1)
+```
+
+No gráfico vamos considerar que neste exemplo a instrução deve ser a
+variável explicativa e portanto colocada no eixo X, e o salário é a
+variável resposta, e portanto deve ser colocada no eixo Y. Isto é,
+consideramos que a instrução deve explicar, ainda que parcialmente, o
+salário (e não o contrário!).
+
+Vamos então obter um *boxplot* dos salários para cada nível de
+instrução. Note que na função abaixo, usamos a notação de **fórmula** do
+R, com `Salario ~ Inst` indicando que a variável `Salario` é explicada,
+ou descrita, ($\sim$) pela variável `Inst`.
+
+```{r}
+boxplot(Salario ~ Inst, data = milsa)
+```
+
+Poderíamos ainda fazer gráficos com a variável `Salario` agrupada
+em classes, e neste caso os gráficos seriam como no caso anterior com
+duas variáveis qualitativas.
+
+Para as medidas descritivas, o usual é obter um resumo da variável
+quantitativa como mostrado na análise univariada, porém agora informando
+este resumo para cada nível do fator qualitativo de interesse.
+
+A seguir mostramos alguns exemplos de como obter a média, desvio
+padrão e o resumo de cinco números do salário para cada nível de
+instrução.
+
+```{r}
+with(milsa, tapply(Salario, Inst, mean))
+with(milsa, tapply(Salario, Inst, sd))
+with(milsa, tapply(Salario, Inst, quantile))
+```
+
+> NOTE que aqui usamos a função `tapply()`. Para saber mais sobre os
+> recursos dessa função e de outras da família `*apply`, veja o
+> [script_exploratoria.R][].
+
+## Quantitativa *vs* Quantitativa
+
+Para ilustrar este caso vamos considerar as variáveis `Salario` e
+`Idade`.  Para se obter uma tabela é necessário agrupar as
+variáveis em classes conforme fizemos no caso anterior.
+
+Nos comandos abaixo, agrupamos as duas variáveis em classes definidas
+pelos respectivos quartis, gerando portanto uma tabela de cruzamento
+$4~\times~4$.
+
+```{r}
+## Classes de Idade
+idade.cut <- with(milsa, cut(Idade, breaks = quantile(Idade),
+                             include.lowest = TRUE))
+table(idade.cut)
+## Classes de salario
+salario.cut <- with(milsa, cut(Salario, breaks = quantile(Salario),
+                               include.lowest = TRUE))
+table(salario.cut)
+## Tabela cruzada
+table(idade.cut, salario.cut)
+prop.table(table(idade.cut, salario.cut), margin = 1)
+```
+
+Caso queiramos definir um número menor de classes podemos fazer como no
+exemplo a seguir onde cada variável é dividida em 3 classes e gerando um
+tabela de cruzamento $3~\times~3$.
+
+```{r}
+idade.cut2 <- with(milsa, cut(Idade,
+                              breaks = quantile(Idade, seq(0, 1, length = 4)),
+                              include.lowest = TRUE))
+salario.cut2 <- with(milsa, cut(Salario,
+                                breaks = quantile(Salario, seq(0, 1, length = 4)),
+                                include.lowest = TRUE))
+table(idade.cut2, salario.cut2)
+prop.table(table(idade.cut2, salario.cut2), margin = 1)
+```
+
+O gráfico adequado para representar duas variáveis quantitativas é
+um diagrama de dispersão. Note que se as variáveis envolvidas puderem
+ser classificadas como "explicativa" e "resposta" devemos colocar a
+primeira no eixo X e a segunda no eixo Y. Neste exemplo é razoável
+admitir que a idade deve explicar, ao menos parcialmente, o salário e
+portanto fazemos o gráfico com idade no eixo X. Note que na função
+`plot()`, podemos usar tanto os argumentos `x` e `y`, quanto o formato
+de fórmula (como visto anteriormente).
+
+```{r, fig.keep='last'}
+plot(x = milsa$Idade, y = milsa$Salario)
+plot(Salario ~ Idade, data = milsa)
+```
+
+Para quantificar a associação entre variáveis deste tipo, usamos o
+coeficiente de correlação. A função `cor()` possui opção para três
+coeficientes de correlação, tendo como *default* o coeficiente de
+correlação linear de Pearson.
+
+```{r}
+with(milsa, cor(Idade, Salario))
+with(milsa, cor(Idade, Salario, method = "kendall"))
+with(milsa, cor(Idade, Salario, method = "spearman"))
+```
+
+# Exercícios
+
+1. Experimente as funções `mean()`, `var()`, `sd()`, `median()`,
+   `quantile()` nos dados mostrados anteriormente (`milsa`). Veja a
+   documentação das funções e as opções de uso.
+2. Carregue o conjunto de dados `women` com `data(women)`. Veja o que
+   são os dados com `help(women)`, e faça uma análise descritiva
+   adequada.
+3. Carregue o conjunto de dados `USArrests` com
+   `data(USArrests)`. Examine a sua documentação com `help(USArrests)` e
+   responda as perguntas a seguir:
+    1. Qual o número médio e mediano de cada um dos crimes?
+    2. Encontre a mediana e quartis para cada crime.
+    3. Encontre o número máximo e mínimo para cada crime.
+    4. Faça um gráfico adequado para o número de assassinatos (`Murder`).
+    5. Faça um *boxplot* para o número de estupros (`Rape`).
+    6. Verifique se há correlação entre os diferentes tipos de crime.
+    7. Verifique se há correlação entre os crimes e a proporção de
+	   população urbana.
+    8. Encontre os estados com maior e menor ocorrência de cada tipo de
+	   crime.
+    9. Encontre os estados com maior e menor ocorrência per capta de cada
+	   tipo de crime.
+    10. Encontre os estados com maior e menor ocorrência do total de
+		crimes.
+    11. Calcule a média de crimes (entre `Murder`, `Assault` e `Rape`)
+        para cada estado.
+
+As respostas estão no script [script_resposta_exploratoria.R][].
+
+```{r, echo=FALSE, eval=FALSE, include=FALSE}
+##======================================================================
+## Respostas dos exercícios
+##======================================================================
+
+##======================================================================
+## 2. Carregue o conjunto de dados `women` com `data(women)`. Veja o que
+##    são os dados com `help(women)`, e faça uma análise descritiva
+##    adequada.
+
+##----------------------------------------------------------------------
+## Carrega e confere os dados
+
+## Carregando o conjunto de dados
+data(women)
+
+## Verificando a estrutura dos dados
+str(women)
+head(women)
+tail(women)
+
+## Sumário estatístico
+summary(women)
+
+##----------------------------------------------------------------------
+## Distribuição (gráficos)
+
+## Distribuição de cada variável
+par(mfrow = c(2, 2)) # divide a janela gráfica em 2 linhas e 2 colunas
+# Histogramas
+hist(women$height)
+hist(women$weight)
+# Boxplot
+boxplot(women$height, horizontal = TRUE)
+boxplot(women$weight, horizontal = TRUE)
+par(mfrow = c(1, 1)) # volta a janela gráfica par 1 linha e 1 coluna
+
+##----------------------------------------------------------------------
+## Estatísticas descritivas (algumas, não todas as possíveis!)
+
+## Média
+apply(women, 2, mean)
+
+## Mediana
+apply(women, 2, median)
+
+## Variância
+apply(women, 2, var)
+
+## Quartis
+apply(women, 2, quantile)
+
+## Coeficiente de variação
+apply(women, 2, function(x) sd(x)/mean(x))
+
+##----------------------------------------------------------------------
+## Tabelas de frequência
+
+## Classes de height
+h.range <- range(women$height) # miinimo e maximo
+h.class <- nclass.Sturges(women$height) # numero de classes
+h.cut <- cut(women$height,
+             breaks = seq(h.range[1], h.range[2],
+                          length.out = h.class + 1),
+             include.lowest = TRUE)
+# Distribuição de frequência
+table(h.cut)
+
+## Classes de weight
+w.range <- range(women$weight) # miinimo e maximo
+w.class <- nclass.Sturges(women$weight) # numero de classes
+w.cut <- cut(women$weight,
+             breaks = seq(w.range[1], w.range[2],
+                          length.out = w.class + 1),
+             include.lowest = TRUE)
+# Distribuição de frequência
+table(w.cut)
+
+## Tabela de contingência entra as frequências de height e weight, com
+## totais marginais
+addmargins(table(h.cut, w.cut))
+
+## Tabela de frequência relativa
+prop.table(table(h.cut, w.cut))
+
+##----------------------------------------------------------------------
+## Dispersão e correlação
+
+## Gráfico de dispersão entre height e weight
+plot(weight ~ height, data = women)
+
+## Correlação entre height e weight
+cor(women$height, women$weight)
+
+##======================================================================
+## 3. Carregue o conjunto de dados `USArrests` com
+##    `data(USArrests)`. Examine a sua documentação com `help(USArrests)` e
+##    responda as perguntas a seguir:
+data(USArrests)
+str(USArrests)
+
+## 1. Qual o número médio e mediano de cada um dos crimes?
+crimes <- c("Murder", "Assault", "Rape")
+apply(USArrests[, crimes], 2,
+      function(x) c(Media = mean(x), Mediana = median(x)))
+
+## 2. Encontre a mediana e quartis para cada crime.
+apply(USArrests[, crimes], 2, quantile)
+
+## 3. Encontre o número máximo e mínimo para cada crime.
+apply(USArrests[, crimes], 2, range)
+apply(USArrests[, crimes], 2,
+      function(x) c(Min = min(x), Max = max(x))
+
+## 4. Faça um gráfico adequado para o número de assassinatos
+## (`Murder`).
+hist(USArrests$Murder)
+
+## 5. Faça um *boxplot* para o número de estupros (`Rape`).
+boxplot(USArrests$Rape)
+
+## 6. Verifique se há correlação entre os diferentes tipos de crime.
+plot(USArrests[, crimes])
+cor(USArrests[, crimes])
+
+## 7. Verifique se há correlação entre os crimes e a proporção de
+## população urbana.
+plot(USArrests)
+cor(USArrests)
+
+## 8. Encontre os estados com maior e menor ocorrência de cada tipo de
+## crime.
+# Murder
+row.names(USArrests)[which.min(USArrests$Murder)]
+row.names(USArrests)[which.max(USArrests$Murder)]
+# Assault
+row.names(USArrests)[which.min(USArrests$Assault)]
+row.names(USArrests)[which.max(USArrests$Assault)]
+# Rape
+row.names(USArrests)[which.min(USArrests$Rape)]
+row.names(USArrests)[which.max(USArrests$Rape)]
+
+## 9. Encontre os estados com maior e menor ocorrência per capta de cada
+## tipo de crime.
+# Os crimes estao em numeros por 100.000 habitantes. Para calcular o
+# numero de crimes per capta (por habitante), basta dividir cada coluna
+# por 100.000, e multiplicar pela porporcao de populacao urbana
+USArrests <- transform(USArrests, Murder2 = Murder/100000 * UrbanPop,
+                       Assault2 = Assault/100000 * UrbanPop,
+                       Rape2 = Rape/100000 * UrbanPop)
+# Murder per capta
+row.names(USArrests)[which.min(USArrests$Murder2)]
+row.names(USArrests)[which.max(USArrests$Murder2)]
+# Assault per capta
+row.names(USArrests)[which.min(USArrests$Assault2)]
+row.names(USArrests)[which.max(USArrests$Assault2)]
+# Rape per capta
+row.names(USArrests)[which.min(USArrests$Rape2)]
+row.names(USArrests)[which.max(USArrests$Rape2)]
+
+## 10. Encontre os estados com maior e menor ocorrência do total de crimes.
+# Cria uma coluna com o total de crimes
+USArrests <- transform(USArrests, Total = Murder + Assault + Rape)
+row.names(USArrests)[which.min(USArrests$Total)]
+row.names(USArrests)[which.max(USArrests$Total)]
+
+## 11. Calcule a média de crimes (entre `Murder`, `Assault` e `Rape`)
+## para cada estado.
+apply(USArrests[, crimes], 1, mean)
+```
+
+<!-- Referencias -->
+
+[script_exploratoria.R]: scripts/script_exploratoria.R
+[script_resposta_exploratoria.R]: scripts/script_resposta_exploratoria.R
