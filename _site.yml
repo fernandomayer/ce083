@@ -50,7 +50,7 @@ navbar:
         href: entrada-dados.html
       - text: "Estatística"
       - text: "Análise exploratória de dados [HTML]"
-        href: 05_Analise_exploratoria.html
+        href: analise-exploratoria.html
       - text: "Inferência e regressão [Rmd]"
         href: misc/inferencia_regressao.Rmd
       - text: "----------"

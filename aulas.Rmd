@@ -61,8 +61,10 @@ cat(paste0("- **", datas.ter, "**:\n", "- **", datas.qui, "**:\n"))
 - **26/09**: Saída de dados. Exportando para arquivos de texto com
   `write.table()`. Exportando para formatos textual e binário. Ver
   [material](entrada-dados.html).
-- **28/09**:
-- **03/10**:
+- **28/09**: Análise exploratória de dados. Conhecendo um conjunto de
+  dados. Tabelas de frequência e gráficos para variáveis qualitativas.
+  Ver [material](analise-exploratoria.html).
+- **03/10**: Não haverá aula devido ao [SIEPE](http://www.siepe.ufpr.br).
 - **05/10**:
 - **10/10**:
 - **12/10**: Feriado.
