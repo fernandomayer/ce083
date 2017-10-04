@@ -3,18 +3,19 @@ title: "Notas"
 output:
   html_document:
     toc: false
+    df_print: paged
 ---
 
 ```{r setup, include=FALSE}
 source("setup_knitr.R")
 ```
 
-```{r, include=FALSE, eval=FALSE}
+```{r, include=FALSE, eval=TRUE}
 ## Importa
 notas <- read.csv("misc/notas.csv")
 ## Converte matriculas para numero
-notas$Matricula <- as.numeric(gsub("GRR", "", notas$Matricula))
-notas <- notas[order(notas$Matricula), ]
+notas$Matrícula <- as.numeric(gsub("[A-Z]", "", notas$Matrícula))
+notas <- notas[order(notas$Matrícula), ]
 rownames(notas) <- 1:nrow(notas)
 ## Seleciona apenas as colunas com as notas de provas (P*)
 notas.col <- grep("^P", names(notas))
@@ -22,12 +23,12 @@ notas.col <- grep("^P", names(notas))
 
 ## Histograma e box plot geral
 
-```{r, fig.width=8, fig.height=6, eval=FALSE}
+```{r, fig.width=8, fig.height=6, echo=FALSE, eval=TRUE}
 ## Grafico geral das notas
 breaks <- 0:10
 ## table(cut(notas$S1, breaks = breaks,
 ##           right = FALSE, include.lowest = TRUE))
-## Junta notas de todas as sabatinas em um único vetor
+## Junta notas de todas as provas em um único vetor
 notas.all <- do.call(c, notas[, notas.col, drop = FALSE])
 hist(notas.all, breaks = breaks, right = FALSE, include.lowest = TRUE,
      main = "Notas gerais", xlab = "Notas", ylab = "Frequência absoluta")
@@ -38,7 +39,7 @@ hist(notas.all, breaks = breaks, right = FALSE, include.lowest = TRUE,
 Resumo dos cinco números, média, desvio-padrão, e número de provas não
 realizadas (NA):
 
-```{r, eval=FALSE}
+```{r, echo=FALSE, eval=TRUE}
 statm <- function(x){
     res <- c(fivenum(x),
              mean(x, na.rm = TRUE),
@@ -54,7 +55,7 @@ round(statm(notas.all), 2)
 
 Box plot de cada prova
 
-```{r, fig.width=8, fig.height=6, eval=FALSE}
+```{r, fig.width=8, fig.height=6, echo=FALSE, eval=TRUE}
 ## Boxplots comparando as notas entre sabatinas
 boxplot(notas[, notas.col], ylim = c(0, 10), ylab = "Notas")
 ```
@@ -62,14 +63,14 @@ boxplot(notas[, notas.col], ylim = c(0, 10), ylab = "Notas")
 Resumo dos cinco números, média, desvio-padrão, e número de provas não
 realizadas (NA):
 
-```{r, eval=FALSE}
+```{r, echo=FALSE, eval=TRUE}
 round(apply(notas[, notas.col, drop = FALSE], 2, statm), 2)
 ```
 
 ## Notas individuais
 
-```{r, results='asis', eval=FALSE, include=FALSE, eval=FALSE}
-kable(notas[, c(1, notas.col)], align = "c", digits = 2)
+```{r, echo=FALSE, eval=TRUE, rownames.print=FALSE, rows.print=nrow(notas)}
+notas[, c(1, notas.col)]
 ```
 
 ```{r, eval=TRUE, include=FALSE, eval=FALSE}
@@ -195,25 +196,25 @@ notas2$S[notas2$M >= 4 & notas2$M < 7] <- "Ex"
 notas2$S[notas2$M < 4] <- "Re"
 ```
 
-Na tabela abaixo estão as notas das 3 provas realizadas. A frequência
-(`F`) é o percentual de presença.
+<!-- Na tabela abaixo estão as notas das 3 provas realizadas. A frequência -->
+<!-- (`F`) é o percentual de presença. -->
 
-A média (`M`) foi calculada com estas 3 notas, e já **arredondada para
-cima** nos seguintes casos:
+<!-- A média (`M`) foi calculada com estas 3 notas, e já **arredondada para -->
+<!-- cima** nos seguintes casos: -->
 
-- Médias finais maiores ou iguais a 6,5 e menores do que 7,0 foram
-  arredondadas para 7,0, SE a frequência do aluno foi maior ou igual a
-  75%.
-- Médias finais maiores ou iguais a 3,5 e menores do que 4,0 foram
-  arredondadas para 4,0, SE a frequência do aluno foi maior ou igual a
-  75%.
+<!-- - Médias finais maiores ou iguais a 6,5 e menores do que 7,0 foram -->
+<!--   arredondadas para 7,0, SE a frequência do aluno foi maior ou igual a -->
+<!--   75%. -->
+<!-- - Médias finais maiores ou iguais a 3,5 e menores do que 4,0 foram -->
+<!--   arredondadas para 4,0, SE a frequência do aluno foi maior ou igual a -->
+<!--   75%. -->
 
-**Observação**: a frequência só foi utilizada aqui para critério de
-arredondamento de nota. Mesmo que o aluno tenha frequência abaixo de
-75%, é permitido fazer o exame.
+<!-- **Observação**: a frequência só foi utilizada aqui para critério de -->
+<!-- arredondamento de nota. Mesmo que o aluno tenha frequência abaixo de -->
+<!-- 75%, é permitido fazer o exame. -->
 
-A coluna de situação (`S`) indica se o aluno foi aprovado (`Ap`), ficou
-em exame (`Ex`), ou foi reprovado (`Re`).
+<!-- A coluna de situação (`S`) indica se o aluno foi aprovado (`Ap`), ficou -->
+<!-- em exame (`Ex`), ou foi reprovado (`Re`). -->
 
 ```{r, results='asis', include=FALSE, eval=FALSE}
 kable(notas2, align = "c", digits = 2)
@@ -233,13 +234,13 @@ barplot(prop.table(table(notas2$S))*100,
         ylim = c(0, 40))
 ```
 
-**Após o exame**: as notas dos exames estão na coluna `E`. A média final
-(`MF`) é a mesma para quem não fez exame, e é a média entre a média
-final (`M`) e a nota do exame (`E`) para quem fez exame. A média final
-arredondada (`MFA`) é a nota que será lançada no sistema. A coluna `SF`
-mostra a situação final dos alunos após o exame.
+<!-- **Após o exame**: as notas dos exames estão na coluna `E`. A média final -->
+<!-- (`MF`) é a mesma para quem não fez exame, e é a média entre a média -->
+<!-- final (`M`) e a nota do exame (`E`) para quem fez exame. A média final -->
+<!-- arredondada (`MFA`) é a nota que será lançada no sistema. A coluna `SF` -->
+<!-- mostra a situação final dos alunos após o exame. -->
 
-```{r, eval=FALSE}
+```{r, include=FALSE, eval=FALSE}
 ##----------------------------------------------------------------------
 ## Após exame (Ex)
 
@@ -265,20 +266,22 @@ notas2$SF[notas2$MFA < 50] <- "Re"
 kable(notas2, align = "c", digits = 2)
 ```
 
-Número de alunos em cada situação:
+<!-- Número de alunos em cada situação: -->
 
-- Antes do exame
-```{r, eval=FALSE}
+<!-- - Antes do exame -->
+
+```{r, include=FALSE, eval=FALSE}
 addmargins(table(notas2$S))
 ```
-- Após o exame
-```{r, eval=FALSE}
+<!-- - Após o exame -->
+
+```{r, include=FALSE, eval=FALSE}
 addmargins(table(notas2$SF))
 ```
 
-Gráfico de barras com os percentuais por situação:
+<!-- Gráfico de barras com os percentuais por situação: -->
 
-```{r, fig.show='hold', eval=FALSE}
+```{r, fig.show='hold', include=FALSE, eval=FALSE}
 par(mfrow = c(1, 2))
 barplot(prop.table(table(notas2$S))*100,
         xlab = "Situação", ylab = "Frequência (%)",
