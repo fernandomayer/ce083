@@ -65,7 +65,8 @@ cat(paste0("- **", datas.ter, "**:\n", "- **", datas.qui, "**:\n"))
   dados. Tabelas de frequência e gráficos para variáveis qualitativas.
   Ver [material](analise-exploratoria.html).
 - **03/10**: Não haverá aula devido ao [SIEPE](http://www.siepe.ufpr.br).
-- **05/10**:
+- **05/10**: Tabelas de frequência e gráficos para variáveis
+  quantitativas. Ver [material](analise-exploratoria.html).
 - **10/10**:
 - **12/10**: Feriado.
 - **17/10**:
