@@ -143,7 +143,8 @@ A seguir mostramos como fazer análises descritivas uni e bi-variadas.
 Inspecione os comandos mostrados a seguir e os resultados por elas
 produzidos.  Sugerimos ainda que o leitor use o R para reproduzir os
 resultados mostrados no texto dos capítulos 1 a 3 do livro de Bussab &
-Morettin, relacionados com este exemplo.
+Morettin, relacionados com este exemplo. Veja os scripts do livro
+[aqui](https://rpubs.com/EstatBasica/Introd).
 
 # Análise univariada
 
@@ -185,7 +186,7 @@ Os gráficos de barras e de setores são adequados para representar esta
 variável. Os comandos `barplot()` e `pie()` usam o resultado da função
 `table()` para gerar os gráficos:
 
-```{r, echo=2:3}
+```{r, fig.show='hold'}
 par(mfrow = c(1,2))
 barplot(civil.tb)
 pie(civil.tb)
@@ -227,11 +228,11 @@ barplot(inst.tb)
 ```
 
 Em alguns casos podemos querer mostrar o gráfico de barras com as barras
-classificadas da menos para a maior, ou vice-versa, independente da
+classificadas da menor para a maior, ou vice-versa, independente da
 ordem dos níveis. Para isso podemos usar a função `sort()` para ordenar
 os valores da tabela e fazer o gráfico
 
-```{r, echo=2:5}
+```{r, fig.show='hold'}
 par(mfrow = c(1,2))
 ## Menor para maior
 barplot(sort(inst.tb))
@@ -289,7 +290,7 @@ plot(filhos.tb)
 Outra possibilidade seria fazer gráficos de frequências relativas e de
 frequências acumuladas conforme mostrado na
 
-```{r, echo=2:5}
+```{r, fig.show='hold'}
 par(mfrow = c(1,2))
 ## Frequência relativa
 plot(filhos.tbr)
@@ -559,7 +560,7 @@ cruzamento** ou **tabela de contingência**, e pode ser apresentada de
 várias formas, conforme discutido a seguir.
 
 A forma mais adequada de apresentação vai depender dos objetivos da análise e
-da interpretação desejada para os dados. Iniciamente obtemos a tabela de
+da interpretação desejada para os dados. Inicialmente obtemos a tabela de
 frequências absolutas para o cruzamento das duas variávies, usando a
 função `table()`. A tabela extendida incluindo os totais marginais pode
 ser obtida com a função `addmargins()`.
@@ -595,7 +596,7 @@ da tabela com `t()` permite alterar a variável que define os grupos no
 eixo horizontal. O uso de `prop.table()` permite o obtenção de gráficos
 com frequências relativas.
 
-```{r, echo=2:5}
+```{r, fig.show='hold'}
 par(mfrow = c(2,2))
 barplot(civ.inst.tb, legend = TRUE)
 barplot(t(civ.inst.tb), legend = TRUE)
@@ -618,7 +619,7 @@ quantitativa em classes. No exemplo a seguir vamos agrupar a variável
 salário em 4 classes definidas pelos quartis usando a função `cut()`.
 Lembre-se que as classes são definidas por intervalos abertos à esquerda,
 então usamos o argumento `include.lowest = TRUE` para garantir que todos
-os dados, incluve o menor (mínimo) seja incluído na primeira classe.
+os dados, inclusive o menor (mínimo) seja incluído na primeira classe.
 Após agrupar esta variável, obtemos a(s) tabela(s) de cruzamento como
 mostrado no caso anterior.
 
