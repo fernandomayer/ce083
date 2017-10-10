@@ -14,6 +14,7 @@ str(dados)
 ##----------------------------------------------------------------------
 ## Analise exploratoria de dados
 
+##----------------------------------------------------------------------
 ## Identificando variaveis
 
 ## Quais sao os paises?
@@ -138,7 +139,6 @@ boxplot(expVida ~ continente, data = dados)
 # Equador
 ## Veja ?subset
 boxplot(dados$expVida[dados$pais == "Brazil"])
-boxplot(dados$expVida, subset = dados$pais == "Brazil")
 ## Usando o argumento subset
 boxplot(expVida ~ pais, data = dados, subset = pais == "Brazil")
 boxplot(expVida ~ pais, data = dados,
@@ -165,7 +165,7 @@ dim(dados2)
 str(dados2)
 table(dados2$pais)
 boxplot(expVida ~ pais, data = dados2)
-boxplot(expVida ~ pais, data = dados2, las = 3) # ver outros las
+boxplot(expVida ~ pais, data = dados2, las = 3) # ver outros las (0:3)
 
 ## Usando o pacote lattice
 library(lattice)
@@ -174,11 +174,14 @@ bwplot(expVida ~ pais, data = dados2)
 bwplot(expVida ~ pais | ano, data = dados2)
 bwplot(expVida ~ pais | ano, data = dados2,
        scales = list(x = list(rot = 90)))
+bwplot(expVida ~ pais | factor(ano), data = dados2,
+       scales = list(x = list(rot = 90)))
 histogram(~ expVida | pais, data = dados2)
-histogram(~ expVida | pais, data = dados2)
+histogram(~ expVida | pais, data = dados2, as.table = TRUE)
 
 ##----------------------------------------------------------------------
 ## Tabelas resumo (familia *apply)
+str(dados2)
 
 ## FUN por coluna
 apply(dados2[, 5:6], 2, mean)
