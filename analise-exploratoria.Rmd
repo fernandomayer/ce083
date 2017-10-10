@@ -670,7 +670,7 @@ with(milsa, tapply(Salario, Inst, quantile))
 
 > NOTE que aqui usamos a função `tapply()`. Para saber mais sobre os
 > recursos dessa função e de outras da família `*apply`, veja o
-> [script_exploratoria.R][].
+> [script_gapminder.R](scripts/script_gapminder.R).
 
 ## Quantitativa *vs* Quantitativa
 
@@ -938,6 +938,3 @@ apply(USArrests[, crimes], 1, mean)
 ```
 
 <!-- Referencias -->
-
-[script_exploratoria.R]: scripts/script_exploratoria.R
-[script_resposta_exploratoria.R]: scripts/script_resposta_exploratoria.R
