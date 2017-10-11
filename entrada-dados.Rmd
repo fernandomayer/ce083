@@ -10,6 +10,9 @@ output:
 source("setup_knitr.R")
 ```
 
+```{r external-code, cache=FALSE, include=FALSE}
+knitr::read_chunk("scripts/entrada-dados-exercicios.R")
+```
 
 # Introdução
 
