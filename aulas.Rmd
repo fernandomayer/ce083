@@ -67,7 +67,9 @@ cat(paste0("- **", datas.ter, "**:\n", "- **", datas.qui, "**:\n"))
 - **03/10**: Não haverá aula devido ao [SIEPE](http://www.siepe.ufpr.br).
 - **05/10**: Tabelas de frequência e gráficos para variáveis
   quantitativas. Ver [material](analise-exploratoria.html).
-- **10/10**:
+- **10/10**: Quantis, boxplots e subsets dentro de gráficos. Ver
+  [material](analise-exploratoria.html) e
+  [script](scripts/script_gapminder.R).
 - **12/10**: Feriado.
 - **17/10**:
 - **19/10**:
@@ -95,6 +97,8 @@ cat(paste0("- **", datas.ter, "**:\n", "- **", datas.qui, "**:\n"))
   da página [Indexação e seleção condicional](indexacao_e_selecao.html).
 - [Resolução](scripts/entrada-dados-exercicios.R) dos exercícios
   da página [Entrada e saída de dados](entrada-dados.html).
+- [Resolução](scripts/analise-exploratoria-exercicios.R) dos exercícios
+  da página [Análise exploratória de dados](analise-exploratoria.html).
 
 ## Notas
 
