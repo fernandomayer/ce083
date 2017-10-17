@@ -79,6 +79,27 @@ summary(dados$expVida)
 quantile(dados$expVida)
 fivenum(dados$expVida)
 
+## E se houvessem NAs? Vamos criar um objeto separado com a coluna
+## expVida e adicionar alguns NAs
+x <- dados$expVida
+summary(x)
+## Adiciona 100 NAs de forma aleatória
+set.seed(1)
+x[sample(1:length(x), size = 100)] <- NA
+summary(x)
+## Como ficam as funções agora?
+mean(x)
+mean(x[!is.na(x)])
+## Mas várias funções possuem o argumento na.rm para lidar com os NAs
+mean(x, na.rm = TRUE)
+var(x, na.rm = TRUE)
+sd(x, na.rm = TRUE)
+max(x, na.rm = TRUE)
+min(x, na.rm = TRUE)
+range(x, na.rm = TRUE)
+quantile(x, na.rm = TRUE)
+fivenum(x)
+
 ## Construindo tabelas de frequencia para var. quantitativas
 sqrt(length(dados$expVida))
 nclass.Sturges(dados$expVida)
@@ -182,8 +203,9 @@ histogram(~ expVida | pais, data = dados2, as.table = TRUE)
 ##----------------------------------------------------------------------
 ## Tabelas resumo (familia *apply)
 str(dados2)
+names(dados2)
 
-## FUN por coluna
+## FUN por coluna (usando expVida e pibPercap)
 apply(dados2[, 5:6], 2, mean)
 apply(dados2[, 5:6], 2, var)
 apply(dados2[, 5:6], 2, sd)
@@ -229,6 +251,27 @@ with(dados2, aggregate(cbind(expVida, pibPercap), list(pais, ano), mean))
 aggregate(cbind(expVida, pibPercap) ~ pais + ano, data = dados2, mean)
 ## E para fazer com mais de uma função?
 ## Ver a função ddply do pacote plyr
+library(plyr)
+## Usando um divisor
+ddply(dados2, .(pais), summarize,
+      media = mean(expVida))
+ddply(dados2, .(pais), summarize,
+      media = mean(expVida),
+      var = var(expVida))
+ddply(dados2, .(pais), summarize,
+      media = mean(expVida),
+      var = var(expVida),
+      mediana = median(expVida))
+## Usando dois divisores
+ddply(dados2, .(pais, ano), summarize,
+      media = mean(expVida))
+ddply(dados2, .(pais, ano), summarize,
+      media = mean(expVida),
+      var = var(expVida)) # porque NA?
+ddply(dados2, .(pais, ano), summarize,
+      media = mean(expVida),
+      var = var(expVida),
+      mediana = median(expVida)) # porque são iguais?
 
 ##----------------------------------------------------------------------
 ## Algumas opções de gráficos de dispersão
@@ -244,3 +287,30 @@ xyplot(expVida ~ pibPercap | pais, data = dados2)
 xyplot(expVida ~ pibPercap | pais, data = dados2, as.table = TRUE)
 xyplot(expVida ~ pibPercap | pais, data = dados2, as.table = TRUE,
        type = c("p", "smooth"))
+
+##----------------------------------------------------------------------
+## Gráficos de séries temporais
+plot(expVida ~ ano, data = dados2)
+xyplot(expVida ~ ano, groups = pais, data = dados2, auto.key = TRUE)
+xyplot(expVida ~ ano | pais, data = dados2, layout = c(7, 1))
+xyplot(expVida ~ ano | pais, data = dados2, layout = c(7, 1),
+       scales = list(x = list(rot = 90)))
+
+## Usando:
+tab <- with(dados2, tapply(expVida, list(ano, pais), mean))
+tab <- as.data.frame(tab)
+str(tab)
+## Calcule a média de expVida por ano, ou seja, para cada linha desse
+## data frame
+apply(tab, 1, mean)
+## Crie uma nova coluna com essa média geral anual
+tab$Media.geral <- apply(tab, 1, mean)
+tab
+## Faça um gráfico de série temporal com essa média geral
+plot(tab$Media.geral)
+plot(tab$Media.geral, xlab = "Ano", ylab = "Média geral",
+     ylim = c(55, 75), type = "b",
+     axes = FALSE) # modifica os eixos manualmente
+axis(2)
+axis(1, at = 1:nrow(tab), labels = row.names(tab), las = 3)
+box()
