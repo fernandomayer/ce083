@@ -104,6 +104,11 @@ cat(paste0("- **", datas.ter, "**:\n", "- **", datas.qui, "**:\n"))
   da página [Entrada e saída de dados](entrada-dados.html).
 - [Resolução](scripts/analise-exploratoria-exercicios.R) dos exercícios
   da página [Análise exploratória de dados](analise-exploratoria.html).
+- Exercício de análise exploratória 1: avaliação de alguns itens de
+  diversos carros. Resolver seguindo o [script](exercicios/ex_AED1.R), e
+  usando estes
+  [dados](http://leg.ufpr.br/~fernandomayer/data/aval_carros_nota.txt).
+  [Gabarito](exercicios/ex_AED1_GB.R) (script).
 
 ## Notas
 
