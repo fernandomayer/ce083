@@ -1,0 +1,838 @@
+---
+title: "Probabilidade e variáveis aleatórias"
+output:
+  html_document:
+    code_folding: show
+    toc_depth: 2
+---
+
+```{r setup, include=FALSE}
+source("setup_knitr.R")
+```
+
+```{r external-code, cache=FALSE, include=FALSE}
+knitr::read_chunk("scripts/probabilidade-exercicios.R")
+```
+
+# Conceitos básicos sobre distribuições de probabilidade
+
+O objetivo desta sessão é mostrar o uso de funções do R em problemas de
+probabilidade. Exercícios que podem (e devem!) ser resolvidos
+analiticamente, serão utilizados para ilustrar o uso do programa e
+alguns de seus recursos para análises numéricas.
+
+Os problemas desta sessão foram retirados do livro de [Bussab e Morettin
+(2017)](https://www.ime.usp.br/~pam/EstBas.html). Veja também os códigos
+do R dos exemplos do livro para os capítulos 6 e 7, disponíveis
+[aqui](https://rpubs.com/EstatBasica/Introd).
+
+**Exemplo 1**: (Adaptado de Bussab e Morettin, cap. 7 ex. 1)
+
+Dada a função
+
+$$
+\
+  f(x) = \left\{ \begin{array}{ll}
+      2 e^{-2x} & \mbox{ , se $ \; x \geq 0$} \cr
+      0   & \mbox{ , se  $ \; x < 0$}
+    \end{array} \right.
+\
+$$
+
+a. Mostre que está função é uma f.d.p.
+b. Calcule a probabilidade de que $X > 1$
+c. calcule a probabilidade de que $0.2 < X < 0.8$
+
+Para ser f.d.p. a função não deve ter valores negativos e deve integrar
+1 em seu domínio. Vamos começar definindo esta função como uma *função*
+no R para qual daremos o nome de `f1`.
+
+```{r}
+f1 <- function(x){
+    fx <- ifelse(x < 0, 0, 2 * exp(-2 * x))
+    return(fx)
+}
+```
+
+A seguir fazemos o gráfico da função. Como a função tem valores
+positivos para $x$ no intervalo de zero a infinito, temos que definir
+um limite em $x$ até onde vai o gráfico da função. Vamos achar este
+limite tentando vários valores, conforme mostram os comandos abaixo.
+
+```{r, fig.show='hold'}
+par(mfrow = c(2, 2))
+plot(f1)
+plot(f1, from = 0, to = 5)
+plot(f1, from = 0, to = 7)
+plot(f1, from = 0, to = 10)
+par(mfrow = c(1, 1))
+```
+
+Para verificar que a a integral da função é igual a 1 podemos usar a
+função `integrate()`, que efetua integração numérica. A função recebe
+como argumentos o objeto com a função a ser integrada e os limites de
+integração. Neste exemplo o objeto é `f1` definido acima, e o domínio da
+função é $[0, \infty)$. A saída da função mostra o valor da integral
+acima, e o erro máximo da aproximação numérica.
+
+```{r}
+integrate(f1, lower = 0, upper = Inf)
+```
+
+Para fazer cálculos pedidos nos itens (b) e (c) lembramos que a
+probabilidade é dada pela área sob a curva da função no intervalo
+pedido. Desta forma as soluções seriam dadas pelas expressões
+
+$$
+\begin{eqnarray*}
+ p_b & = & P(X > 1) = \int_1^\infty f(x) dx = \int_1^\infty 2\,e^{-2x} dx \\
+ p_c & = & P(0,2 < X < 0,8) = \int_{0,2}^{0,8} f(x) dx = \int_{0.2}^{0.8} 2\,e^{-2x} dx \,
+\end{eqnarray*}
+$$
+
+cuja representação gráfica é mostrada na abaixo.
+
+Os comandos a seguir mostram como fazer o gráfico dessas funções. O
+comando `plot()` desenha o gráfico principal, e para destacar as
+áreas que correspondem às probabilidades pedidas vamos usar a função
+`polygon()`. Esta função adiciona a um gráfico um polígono que é
+definido pelas coordenadas de seus vértices. Para sombrear a área usa-se
+o argumento `density`. Finalmente, para escrever um texto no gráfico
+usamos a função `text()` com as coordenadas de posição do texto.
+
+```{r}
+plot(f1, from = 0, to = 5)
+polygon(x = c(1, seq(1, 5, length.out = 20)),
+        y = c(0, f1(seq(1, 5,length.out = 20))),
+        density = 10)
+polygon(x = c(0.2, seq(0.2, 0.8, length.out = 20), 0.8),
+        y = c(0, f1(seq(0.2, 0.8, length.out = 20)), 0),
+        col = "gray")
+text(x = c(1.2, 0.5), y = c(0.1, 0.2),
+     c(expression(p[b], p[c])))
+```
+
+E para obter as probabilidades pedidas usamos `integrate()`.
+
+```{r}
+integrate(f1, lower = 1, upper = Inf)
+integrate(f1, lower = 0.2, upper = 0.8)
+```
+
+**Exemplo 2**: (Adaptado de Bussab e Morettin, cap. 7 ex. 10)
+
+A demanda diária de arroz em um supermercado, em centenas de quilos, é
+uma VA $X$ com f.d.p. dada por
+
+$$
+\begin{eqnarray}
+  f(x) = \left\{ \begin{array}{ll}
+      \frac{2}{3}x \mbox{ , se $0 \leq x < 1$} \cr
+      -\frac{x}{3} + 1 \mbox{ , se $ 1 \leq x < 3$} \cr
+      0            \mbox{ , se $x < 0$  ou  $x \geq 3$}
+    \end{array} \right.
+\end{eqnarray}
+$$
+
+a. Calcular a probabilidade de que sejam vendidos mais que 150 kg.
+b. Calcular a venda esperada em 30 dias.
+
+Novamente começamos definindo um objeto do R que contém a função dada
+acima.
+
+Neste caso definimos um vetor do mesmo tamanho do argumento `x`
+para armazenar os valores de $f(x)$ e a seguir preenchemos os valores
+deste vetor para cada faixa de valor de $x$:
+
+```{r}
+f2 <- function(x){
+  fx <- numeric(length(x))
+  fx[x < 0] <- 0
+  fx[x >= 0 & x < 1] <- (2/3) * x[x >= 0 & x < 1]
+  fx[x >= 1 & x < 3] <- (-1/3) * x[x >= 1 & x < 3] + 1
+  fx[x >= 3] <- 0
+  return(fx)
+}
+```
+
+A seguir verificamos que a integral da função é 1 e fazemos o seu gráfico
+mostrado abaixo:
+
+```{r}
+integrate(f2, 0, 3) ## verificando que a integral vale 1
+plot(f2, -1, 4)     ## fazendo o gráfico da função
+```
+
+Agora vamos responder às questões levantadas. Na questão (a) pede-se a
+probabilidade de que sejam vendidos mais que 150 kg (1,5 centenas de
+quilos), portanto a probabilidade $P[X > 1,5]$. A probabilidade
+corresponde à área sob a função no intervalo pedido, ou seja,
+$P[X > 1,5] = \int_{1,5}^\infty f(x) dx$, que pode ser vista na figura
+abaixo.
+
+```{r}
+plot(f2, -1, 4)
+polygon(x = c(1.5, 1.5, 3), y = c(0, f2(1.5), 0), dens = 10)
+```
+
+A integral pode então ser resolvida numericamente com o comando:
+
+```{r}
+integrate(f2, 1.5, 3)
+```
+
+A venda esperada em trinta dias é  30 vezes o valor esperado de venda em
+um dia. Para calcular a esperança $E[X] = \int x f(x) dx$ definimos uma
+nova função e resolvemos a integral. A função `integrate()` retorna uma
+lista onde um dos elementos (`value`) é o valor da integral.
+
+```{r}
+ef2 <- function(x) { x * f2(x) }
+integrate(ef2, 0, 3)
+30 * integrate(ef2, 0, 3)$value
+```
+
+Finalmente lembramos que os exemplos discutidos aqui são simples e não
+requerem soluções numéricas, devendo ser resolvidos analiticamente.
+Utilizamos estes exemplos somente para ilustrar a obtenção  de soluções
+numéricas com o uso  do R, que na prática deve ser utilizado em
+problemas mais complexos onde soluções analíticas não são triviais ou
+mesmo impossíveis.
+
+## Exercícios
+
+1. (Adaptado de Bussab e Morettin, cap. 7, ex. 28). Em uma determinada
+localidade a distribuição de renda, em u.m. (unidade monetária) é uma
+variável aleatória $X$ com função de distribuição de probabilidade:
+$$
+f(x) = \left\{ \begin{array}{ll}
+        \frac{1}{10}x + \frac{1}{10} & \mbox{ se $0 \leq x \leq 2$} \cr
+        -\frac{3}{40}x + \frac{9}{20} & \mbox{ se $ 2 < x \leq 6$} \cr
+        0      &      \mbox{ se $x < 0$  ou  $x > 6$}
+      \end{array} \right.
+$$
+    a. Mostre que $f(x)$ é uma f.d.p.
+    b. Qual a renda média nesta localidade?
+    c. Calcule a probabilidade de encontrar uma pessoa com renda acima
+    de 4,5 u.m. e indique o resultado no gráfico da distribuição.
+```{r ex1, eval=FALSE, include=FALSE}
+```
+
+# Distribuições de Probabilidade
+
+O R inclui funcionalidade para operações com distribuições de
+probabilidades. Para cada distribuição há 4 operações básicas indicadas
+pelas letras:
+
+- `d` calcula a densidade de probabilidade $f(x)$ no ponto
+- `p` calcula a função de probabilidade acumulada $F(x)$ no ponto
+- `q` calcula o quantil correspondente a uma dada probabilidade
+- `r` retira uma amostra aleatória da distribuição
+
+Para usar os funções deve-se combinar uma das letras acima com uma
+abreviatura do nome da distribuição. Por exemplo, para calcular
+probabilidades usamos: `pnorm()` para normal, `pexp()` para exponencial,
+`pbinom()` para binomial, `ppois()` para Poisson e assim por diante.
+
+Vamos ver com mais detalhes algumas distribuições de probabilidades.
+
+### Distribuição Normal
+
+A funcionalidade para distribuição normal é implementada por argumentos
+que combinam as letras acima com o termo `norm`. Vamos ver alguns
+exemplos com a distribuição normal padrão. Por `default` as funções
+assumem a distribuição normal padrão $N(\mu=0, \sigma^2=1)$.
+
+```{r}
+dnorm(-1)
+pnorm(-1)
+qnorm(0.975)
+rnorm(10)
+```
+
+O primeiro valor acima, de `dnorm(-1)`, corresponde ao valor da densidade
+da normal
+
+$$
+f(x) = \frac{1}{\sigma\sqrt{2 \pi}}\exp \left[ -\frac{1}{2}
+	\left( \frac{x - \mu}{\sigma} \right)^2 \right]
+$$
+
+com parâmetros $(\mu=0, \sigma^2=1)$ no ponto $x = -1$. Portanto, o mesmo
+valor seria obtido substituindo $x$ por $-1$ na expressão da normal:
+
+```{r}
+mu <- 0
+sigma <- 1
+x <- -1
+(1/(sigma * sqrt(2*pi))) * exp((-1/2) * ((x - mu)/sigma)^2)
+```
+
+A função `pnorm(-1)` calcula a probabilidade $P(X \leq -1)$.  O comando
+`qnorm(0.975)` calcula o valor de $a$ tal que $P(X \leq a) = 0.975$.
+Finalmente, o comando `rnorm(10)` gera uma amostra aleatória de 10
+elementos da normal padrão. Note que os valores que você obtém rodando
+este comando podem ser diferentes dos mostrados acima.
+
+As funções acima possuem argumentos adicionais, para os quais valores
+padrão (*default*) foram assumidos, e que podem ser modificados.  Usamos
+`args()` para ver os argumentos de uma função e `help()` para visualizar
+a documentação detalhada:
+
+```{r}
+args(rnorm)
+```
+
+As funções relacionadas à distribuição normal possuem os argumentos
+`mean` e `sd` para definir média e desvio padrão da distribuição que
+podem ser modificados como nos exemplos a seguir. Note nestes exemplos
+que os argumentos podem ser passados de diferentes formas.
+
+```{r}
+qnorm(0.975, mean = 100, sd = 8)
+qnorm(0.975, m = 100, s = 8)
+qnorm(0.975, 100, 8)
+```
+
+> **Observação**: na segunda linha de comando acima, foi utilizado um
+> recurso do R chamado *partial matching*. Isso significa que nomes de
+> argumentos de funções podem ser especificados pelo seu nome parcial,
+> ou seja, com apenas o início do nome, desde que não haja ambiguação
+> com outros argumentos.
+
+Para informações mais detalhadas pode-se usar `help()`. O comando
+
+```{r, eval=FALSE}
+help(rnorm)
+```
+
+irá exibir em uma janela a documentação da função que pode também ser
+chamada com `?rnorm`. Note que ao final da documentação são apresentados
+exemplos que podem ser rodados pelo usuário e que auxiliam na
+compreensão da funcionalidade. Note também que as 4 funções relacionadas
+à distribuição normal são documentadas conjuntamente, portanto
+`help(rnorm)`, `help(qnorm)`, `help(dnorm)` e `help(pnorm)` irão exibir
+a mesma documentação.
+
+Cálculos de probabilidades usuais, para os quais utilizávamos tabelas
+estatísticas podem ser facilmente obtidos como no exemplo a seguir.
+
+Seja $X$ uma VA com distribuição $N(100, 100)$. Calcular as
+probabilidades:
+
+- $P[X < 95]$
+- $P[90 < X < 110]$
+- $P[X > 95]$
+
+Calcule estas probabilidades de forma usual, usando a tabela da normal.
+Depois compare com os resultados fornecidos pelo R. Os comandos do para
+obter as probabilidades pedidas são:
+
+```{r}
+## P[X < 95]
+pnorm(95, 100, 10)
+## P[90 < X < 110]
+pnorm(110, 100, 10) - pnorm(90, 100, 10)
+## P[X > 95] = 1 - P[X < 95]
+1 - pnorm(95, 100, 10)
+pnorm(95, 100, 10, lower.tail = FALSE) # melhor
+```
+
+Note que a última probabilidade foi calculada de duas formas diferentes,
+a segunda usando o argumento `lower.tail` que implementa um algorítmo de
+cálculo de probabilidades mais estável numericamente, e essa forma é
+preferida no lugar de usar o complementar.
+
+A seguir vamos ver comandos para fazer gráficos de distribuições de
+probabilidade. Vamos fazer gráficos de funções de densidade e de
+probabilidade acumulada. Estude cuidadosamente os comandos abaixo e
+verifique os gráficos por eles produzidos.
+
+A figura abaixo mostra gráficos da densidade (esquerda) e probabilidade
+acumulada (direita) da normal padrão, produzidos com os comandos a
+seguir. Para fazer o gráfico consideramos valores de $X$ entre -3 e 3
+que correspondem a +/- três desvios padrões da média, faixa que
+concentra 99,73% da massa de probabilidade da distribuição normal.
+
+```{r, fig.show='hold'}
+par(mfrow = c(1, 2))
+plot(dnorm, from = -3, to = 3)
+plot(pnorm, from = -3, to = 3)
+par(mfrow = c(1, 1))
+```
+
+> VEJA a página de ajuda da função `plot.function()` para entender os
+> argumentos e demais funcionalidades desta função gráfica para plotar
+> gráficos de funções
+
+A seguinte figura mostra gráficos da densidade (esquerda) e
+probabilidade acumulada (direita) da $N(100, 64)$. Para fazer estes
+gráficos tomamos uma sequência de valores de $X$ entre 70 e 130 e para
+cada um deles calculamos o valor das funções $f(x)$ e $F(x)$. Depois
+unimos os pontos $(x,f(x))$ em um gráfico e $(x,F(x))$ no outro.
+
+```{r, fig.show='hold'}
+par(mfrow = c(1, 2))
+x <- seq(70, 130, length.out = 100)
+fx <- dnorm(x, 100, 8)
+plot(x, fx, type = "l")
+Fx <- pnorm(x, 100, 8)
+plot(x, Fx, type = "l")
+par(mfrow = c(1, 1))
+```
+
+Note que, alternativamente, os mesmos gráficos poderiam ser produzidos
+com os comandos a seguir, onde fazemos usa da função `plot.function()`.
+
+```{r, fig.show='hold'}
+par(mfrow = c(1, 2))
+plot(function(x) dnorm(x, 100, 8), from = 70, to = 130)
+plot(function(x) pnorm(x, 100, 8), from = 70, to = 130)
+par(mfrow = c(1, 1))
+```
+
+Comandos usuais do R podem ser usados para modificar a aparência dos
+gráficos. Por exemplo, podemos incluir títulos e mudar texto dos eixos
+conforme mostrado abaixo.
+
+```{r}
+plot(dnorm, from = -3, to = 3,
+     xlab = "Valores de X",
+     ylab = "Densidade de probabilidade")
+title("Distribuicão Normal\nX ~ N(100, 64)")
+```
+
+Os demais comandos abaixo mostram como colocar diferentes densidades em um
+mesmo gráfico, usando o argumento `add = TRUE`.
+
+```{r, fig.show='hold'}
+plot(function(x) dnorm(x, 100, 8), 60, 140, ylab = 'f(x)')
+plot(function(x) dnorm(x, 90, 8), 60, 140, add = TRUE, col = 2)
+plot(function(x) dnorm(x, 100, 15), 60, 140, add = TRUE, col = 3)
+legend(120, 0.05, fill = 1:3,
+       legend = c("N(100,64)", "N(90,64)", "N(100,225)"))
+```
+
+### Distribuição Binomial
+
+Cálculos para a distribuição binomial são implementados combinando as
+letras básicas vistas acima com o termo `binom`. Vamos primeiro
+investigar argumentos e documentação com `args()` e `help()`.
+
+```{r}
+args(dbinom)
+```
+
+```{r, eval=FALSE}
+help(dbinom)
+```
+
+Seja $X$ uma VA com distribuição Binomial, com $n=10$ e $p=0.35$. Vamos
+ver os comandos do R para:
+
+- Fazer o gráfico da função de densidade
+- Idem para a função de probabilidade
+- Calcular $P[X = 7]$
+- Calcular $P[X \leq 7]$
+- Calcular $P[X > 7]$
+- Calcular $P[3 < X \leq 6]$
+
+Note que sendo uma distribuição discreta de probabilidades os gráficos
+são diferentes dos obtidos para distribuição normal e os cálculos de
+probabilidades devem considerar as probabilidades nos pontos. Os
+gráficos das funções de densidade e probabilidade são mostrados abaixo.
+
+```{r, fig.show='hold'}
+par(mfrow = c(1, 2))
+x <- 0:10
+fx <- dbinom(x, size = 10, prob = 0.35)
+plot(x, fx, type = "h")
+Fx <- pbinom(x, size = 10, prob = 0.35)
+plot(x, Fx, type = "s")
+par(mfrow = c(1, 1))
+```
+
+As probabilidades pedidas são obtidas com os comandos a seguir.
+
+```{r}
+## P[X = 7]
+dbinom(7, size = 10, prob = 0.35)
+## P[X <= 7]
+pbinom(7, size = 10, prob = 0.35)
+# OU
+sum(dbinom(0:7, size = 10, prob = 0.35))
+## P[X > 7]
+1 - pbinom(7, size = 10, prob = 0.35)
+pbinom(7, size = 10, prob = 0.35, lower.tail = FALSE) # melhor
+## P[3 < X <= 6]
+pbinom(6, 10, 0.35) - pbinom(3, 10, 0.35)
+# OU
+sum(dbinom(4:6, 10, 0.35))
+```
+
+
+### Distribuição de Poisson
+
+**Definição:** Seja um experimento realizado nas seguintes
+condições:
+	i. As ocorrências são independentes
+	ii. As ocorrências são aleatórias
+	iii. A variável aleatória $X$ é o número de ocorrências de um
+		evento **ao longo de algum intervalo**} (de tempo ou espaço)
+
+Denominamos esse experimento de **processo de Poisson**. Vamos associar
+a V.A. $X$ o número de ocorrências em um intervalo. Portanto $X$ poderá
+assumir os valores $0, 1, \ldots,$ (sem limite superior).
+
+A distribuição de Poisson é utilizada para descrever
+a probabilidade do **número de ocorrências** em um **intervalo
+contínuo** (de tempo ou espaço). No caso da distribuição binomial, a
+variável de interesse era o número de sucessos em um **intervalo
+discreto** ($n$ ensaios de Bernoulli). A unidade de medida (tempo ou
+espaço) é uma variável contínua, mas a *variável aleatória*, o
+**número de ocorrências**}, é discreta.
+
+Uma V.A. $X$ segue o modelo de Poisson se surge a partir de um
+processo de Poisson, e sua **função de probabilidade**} for dada por
+
+$$
+    P[X = x] = \frac{e^{-\mu} \mu^x}{x!}, \quad \quad x = 0, 1, \ldots
+$$
+
+onde
+
+$$
+    \mu = \lambda \cdot t
+$$
+
+O parâmetro $\mu$ indica a taxa de ocorrência ($\lambda$) por unidade
+  de medida ($t$), ou seja,
+
+$$
+    \lambda = \text{taxa de ocorrência} \quad \text{e} \quad t =
+    \text{intervalo de tempo ou espaço}
+$$
+
+- Notação: $X \sim \text{Pois}(\mu)$
+- Esperança e variância: $\text{E}(X) = \mu = \text{Var}(X)$
+
+Alguns exemplos de gráficos da distribuição de Poisson com diferentes
+valores do parâmetro $\mu$.
+
+```{r}
+par(mfrow=c(2,2))
+plot(0:30, dpois(x = 0:30, lambda = 1), type = "h",
+     xlab = "X", ylab = "P[X = x]", main = expression(mu == 1),
+     ylim = c(0,.4))
+plot(0:30, dpois(x = 0:30, lambda = 5), type = "h",
+     xlab = "X", ylab = "P[X = x]", main = expression(mu == 5),
+     ylim = c(0,.4))
+plot(0:30, dpois(x = 0:30, lambda = 10), type = "h",
+     xlab = "X", ylab = "P[X = x]", main = expression(mu == 10),
+     ylim = c(0,.4))
+plot(0:30, dpois(x = 0:30, lambda = 15), type = "h",
+     xlab = "X", ylab = "P[X = x]", main = expression(mu == 15),
+     ylim = c(0,.4))
+```
+
+- **Exemplo**: As chamadas telefônicas chegam a uma delegacia de
+polícia à uma taxa de 8 chamadas por hora, em dias úteis.
+	 a. Quantas chamadas de emergência são esperadas em um período
+	  de 15 minutos?
+     b. Qual a probabilidade de nenhuma chamada em um período de 15
+      minutos?
+	 c. Qual a probabilidade de ocorrer pelo menos duas chamadas no
+	  período de 15 minutos?
+	 d. Qual a probabilidade de ocorrer exatamente duas chamadas em
+	  20 minutos?
+```{r}
+## a) E(X) = mu = lambda . t
+lambda <- 8/60 # 8 chamadas/60 minutos
+t <- 15 # 15 minutos
+(mu <- lambda * t)
+## b) P[x = 0]
+ppois(0, mu)
+dpois(0, mu)
+## c) P[X >= 2] = 1 - P[X < 2]
+1 - ppois(1, mu)
+ppois(1, mu, lower.tail = FALSE)
+## d) P[X = 2]
+t <- 20
+(mu <- lambda * t)
+dpois(2, mu)
+```
+
+- **Exemplo:** Suponha que 150 erros de impressão são distribuídos
+  aleatoriamente em um livro de 200 páginas. Encontre a probabilidade de
+  que em 2 páginas contenham:
+    a. nenhum erro de impressão
+    b. três erros de impressão
+	c. um ou mais erros de impressão
+```{r}
+## lambda = taxa de ocorrência por página
+lambda <- 150/200
+## intervalo de interesse
+t <- 2
+## Parâmetro mu = lambda . t
+(mu <- lambda * t)
+## a) P[X = 0]
+dpois(0, mu)
+## b) P[X = 3]
+dpois(3, mu)
+## c) P[X >= 1] = 1 - P[X < 1]
+1 - ppois(0, mu)
+ppois(0, mu, lower.tail = FALSE)
+```
+
+### Distribuição Uniforme
+
+#### Uniforme Contínua
+
+Para a distribuição uniforme *contínua* usa-se as funções `*unif()` onde
+`*` deve ser $p$, $q$, $d$ ou $r$ como mencionado anteriormente. Nos
+comandos a seguir inspecionamos os argumentos, sorteamos 5 valores da
+$U(0,1)$ e calculamos a probabilidade acumulada até 0,75.
+
+ ```{r}
+args(runif)
+runif(5)
+punif(0.75)
+```
+
+Portanto, o *default* é uma distribuição uniforme no intervalo $[0,1]$
+e os argumentos opcionais são `min` e `max`. Por exemplo, para simular 5
+valores de $X \sim U(5, 20)$ usamos:
+
+```{r}
+runif(5, min = 5, max = 20)
+```
+
+#### Uniforme Discreta
+
+Não há entre as funções básicas do R uma função específica para a
+distribuição uniforme discreta com opções de prefixos $r,d,p$ e $d$,
+provavelmente devido a sua simplicidade, embora algumas outras funções
+possam ser usadas.  Por exemplo para sortear números pode-se usar
+`sample()`, como no exemplo a seguir onde são sorteados 15 valores de
+uma uniforma discreta com valores (inteiros) entre 1 e 10 ($X \sim
+U_d(1,10)$).
+
+```{r}
+sample(1:10, size = 15, replace = TRUE)
+```
+
+### A função `sample()`
+
+A função `sample()` **não** é restrita à distribuição uniforme discreta,
+podendo ser usada para sorteios, com ou sem reposição (argumento
+`replace`, que por padrão é `FALSE`, ou seja, sem reposição), com a
+possibilidade de associar diferentes probabilidades a cada elemento
+(argumento `prob`, que por padrão associa probabilidades iguais para
+todos os elementos).
+
+```{r}
+args(sample)
+```
+
+Vejamos alguns exemplos:
+
+- Sorteio de 3 números entre os inteiros de 0 a 20
+```{r}
+sample(0:20, size = 3)
+```
+- Sorteio de 5 números entre os elementos de um certo vetor `x`
+```{r}
+x <- c(23, 34, 12, 22, 17, 28, 18, 19, 20, 13, 18)
+sample(x, size = 5)
+```
+- Sorteio de 10 números entre os possíveis resultados do lançamento de
+um dado, com reposição
+```{r}
+sample(1:6, size = 10, replace = TRUE)
+```
+- Idem ao anterior, porém agora com a probabilidade de cada face proporcional
+ao valor da face.
+```{r}
+sample(1:6, size = 10, replace = TRUE,  prob = 1:6)
+```
+
+Este último exemplo ilustra ainda que os valores passados para o
+argumento `prob` não precisam ser probabilidades, são apenas entendidos
+como **pesos**.  A própria função trata isto internamente fazendo a
+ponderação adequada.
+
+## Complementos sobre distribuições de probabilidade
+
+Agora que já nos familiarizamos com o uso das distribuições de
+probabilidade vamos ver alguns detalhes adicionais sobre seu
+funcionamento.
+
+### Probabilidades e integrais
+
+A probabilidade de um evento em uma distribuição contínua é uma área sob
+a curva da distribuição.  Vamos reforçar esta idéia revisitando um
+exemplo visto na distribuição normal.
+
+Seja $X$ uma VA com distribuição $N(100, 100)$. Para calcular a
+probabilidade $P[X < 95]$ usamos o comando:
+```{r}
+pnorm(95, mean = 100, sd = 10)
+```
+
+Vamos agora "esquecer" o comando `pnorm()` e ver uma outra forma de
+resolver usando integração numérica. Lembrando que a normal tem a função
+de densidade dada por
+
+$$
+f(x) = \frac{1}{\sigma\sqrt{2 \pi}}\exp \left[ -\frac{1}{2}
+	\left( \frac{x - \mu}{\sigma} \right)^2 \right]
+$$
+
+Podemos então definir uma função no R para calcular qualquer densidade
+em $x$
+
+```{r}
+fn <- function(x, mu, sigma){
+    (1/(sigma * sqrt(2*pi))) * exp((-1/2) * ((x - mu)/sigma)^2)
+}
+```
+
+Para obter o gráfico desta distribuição, usamos o fato que
+a maior parte da função está no intervalo entre a média +/- três
+desvios padrões, portanto entre 70 e 130. Podemos então fazer como nos
+comandos que se seguem. Para marcar no gráfico a área que corresponde a
+probabilidade pedida criamos um polígono com coordenadas `ax` e `ay`
+definindo o perímetro desta área.
+
+```{r}
+x <- seq(70, 130, length.out = 200)
+fx <- fn(x, mu = 100, sigma = 10)
+plot(x, fx, type = "l")
+ax <- c(70, 70, x[x < 95], 95, 95)
+ay <- c(0, fn(70, 100, 10), fx[x < 95], fn(95, 100, 10),0)
+polygon(ax, ay, density = 10)
+```
+
+Para calcular a área pedida sem usar a função `pnorm()` podemos usar a
+função de integração numérica. Note que esta função, diferentemente da
+`pnorm()` reporta ainda o erro de aproximação numérica.
+
+```{r}
+integrate(fn, mu = 100, sigma = 10, lower = -Inf, upper = 95)
+```
+
+Portanto para os demais ítens do problema, $P[90 < X < 110]$, e
+$P[X > 95]$ fazemos:
+
+```{r}
+integrate(fn, mu = 100, sigma = 10, lower = 90, upper = 110)
+integrate(fn, mu = 100, sigma = 10, lower = 95, upper = +Inf)
+```
+
+e os resultados acima evidentemente coincidem com os obtidos
+anterioriormente usando `pnorm()`,
+
+```{r}
+pnorm(110, 100, 10) - pnorm(90, 100, 10)
+pnorm(95, 100, 10, lower.tail = FALSE)
+```
+
+Note ainda que na prática não precisamos definir e usar a função `fn()`,
+pois ela fornece o mesmo resultado que a  função `dnorm()`.
+
+## Exercícios
+
+Nos exercícios abaixo iremos também usar o R como uma calculadora
+estatística para resolver alguns exemplos/exercícios de probabilidade
+tipicamente apresentados em um curso de estatística básica.
+
+1. Para $X \sim N(90, 100)$, obtenha:
+	a. $P(X \leq 115)$
+	b. $P(X \geq 80)$
+	c. $P(X \leq 75)$
+	d. $P(85 \leq X \leq 110)$
+	<!-- e. $P(|X - 90| \leq 10)$ -->
+	<!-- f. O valor de $a$ tal que $P(90-a \leq X \leq 90+a) = \gamma, \; -->
+	<!-- \gamma=0.95$ -->
+
+1. Sendo $X$ uma variável seguindo o modelo
+Binomial com parâmetros $n = 15$ e $p = 0.4$, pergunta-se:
+ 	a. $P(X \geq 14)$
+	b. $P(8 < X \leq 10)$
+	<!-- c. $P(X < 2 \; \mbox{ ou } \;\; X \geq 11)$ -->
+	<!-- d. $P(X \geq 11 \;  \mbox{ ou } \;\; X > 13)$ -->
+	<!-- e. $P(X > 3 \;  \mbox{ e } \;\; X < 6)$ -->
+	<!-- f. $P(X \leq 13 \; | \; X \geq 11)$ -->
+
+1. Uma empresa informa que 30% de suas contas a receber de outras
+   empresas encontram-se vencidas. Se o contador da empresa seleciona
+   aleatoriamente 5 contas, determine a probabilidade de:
+    a. Nenhuma conta estar vencida
+	b. Exatamente duas contas estarem vencidas
+	c. Três ou mais contas estarem vencidas
+```{r, eval=FALSE, echo=FALSE, include=FALSE}
+## a
+pbinom(0, size = 5, prob = 0.3)
+dbinom(0, size = 5, prob = 0.3)
+## b
+dbinom(2, size = 5, prob = 0.3)
+## c
+pbinom(2, size = 5, prob = 0.3, lower.tail = FALSE)
+```
+
+1. Uma empresa recebe 720 emails em um intervalo de 8 horas. Qual a
+   probabilidade de que:
+    a. Em 6 minutos receba pelo menos 3 emails?
+	b. Em 4 minutos não receba nenhum email?
+```{r, echo=FALSE, eval=FALSE, include=FALSE}
+# multiplica horas por 60 minutos para ter emails/min
+(lambda <- 720/(8*60))
+
+## a
+t <- 6
+(mu <- lambda * t)
+## P[X >= 3] = 1 - P[X < 3]
+1 - (dpois(0, mu) + dpois(1, mu) + dpois(2, mu))
+ppois(2, mu, lower.tail = FALSE)
+
+## b
+t <- 4
+(mu <- lambda * t)
+ppois(0, mu)
+dpois(0, mu)
+```
+
+1. O processo de empacotamento de uma fábrica de cereais foi ajustado
+   de maneira que uma média de $\mu = 13,0$ kg de cereal seja colocado em
+   cada caixa. Sabe-se que existe uma pequena variabilidade no enchimento
+   dos pacotes devido à fatores aleatórios, e que o desvio-padrão do
+   peso de enchimento é de $\sigma = 0,1$ kg. Assume-se que a
+   distribuição dos pesos tem distribuição normal. Com isso, determine as
+   probabilidades de que uma caixa escolhida ao acaso:
+    a. Pese entre 13,0 e 13,2 kg.
+	b. Tenha um peso maior do que 13,25 kg.
+	c. Pese entre 12,8 e 13,1 kg.
+	d. Pese entre 13,1 e 13,2 kg.
+```{r, echo=FALSE, eval=FALSE, include=FALSE}
+## a
+pnorm(13.2, 13, 0.1) - pnorm(13, 13, 0.1)
+## b
+pnorm(13.25, 13, 0.1, lower.tail = FALSE)
+## c
+pnorm(13.1, 13, 0.1) - pnorm(12.8, 13, 0.1)
+## d
+pnorm(13.2, 13, 0.1) - pnorm(13.1, 13, 0.1)
+```
+
+1. Faça os seguintes gráficos:
+	a. da função de densidade de uma variável com distribuição de
+    Poisson com parâmetro $\lambda = 5$
+	b. da densidade de uma variável $X \sim N(90, 100)$
+	c. sobreponha ao gráfico anterior a densidade de uma variável
+	$Y \sim N(90, 80)$ e outra $Z \sim N(85, 100)$
+	d. densidades de distribuições $\chi^2$ com 1, 2 e
+	5 graus de liberdade.
+
+
+
+<!-- Referencias -->
