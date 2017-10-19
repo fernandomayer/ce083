@@ -59,8 +59,10 @@ navbar:
         href: exercicios/ex_objetos.pdf
       - text: "Estatística básica [HTML]"
         href: ex01_intro.html
-      - text: "Análise exploratória de dados [R]"
-        href: exercicios/ex03_exploratoria.R
+      - text: "Análise exploratória de dados 1 [R]"
+        href: exercicios/ex_AED1.R
+      - text: "Análise exploratória de dados 2 [R]"
+        href: exercicios/ex_AED2.R
       - text: "Inferência e regressão [Rmd]"
         href: exercicios/ex04_inferencia.Rmd
   right:
