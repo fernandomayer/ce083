@@ -109,6 +109,12 @@ cat(paste0("- **", datas.ter, "**:\n", "- **", datas.qui, "**:\n"))
   usando estes
   [dados](http://leg.ufpr.br/~fernandomayer/data/aval_carros_nota.txt).
   [Gabarito](exercicios/ex_AED1_GB.R) (script).
+- Exercício de análise exploratória 2: preços de aluguel de apartamentos
+  e casas na cidade de Munique (Alemanha). Resolver seguindo o
+  [script](exercicios/ex_AED2.R), e usando estes
+  [dados](http://leg.ufpr.br/~fernandomayer/data/dados_aluguel.csv).
+  [Gabarito](exercicios/ex_AED2_GB.R) (script).
+
 
 ## Notas
 
