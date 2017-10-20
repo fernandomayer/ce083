@@ -77,12 +77,13 @@ cat(paste0("- **", datas.ter, "**:\n", "- **", datas.qui, "**:\n"))
   função `ddply()` do pacote **plyr**. Ver
   [material](analise-exploratoria.html) e
   [script](scripts/script_gapminder.R).
-- **19/10**:
+- **19/10**: Exercícios de análise exploratória de dados feito em sala.
+  Ver [script](exercicios/ex_AED2.R) e [gabarito](exercicios/ex_AED2_GB.R).
 - **24/10**:
 - **26/10**:
-- **31/10**:
+- **31/10**: Não haverá aula.
 - **02/11**: Feriado.
-- **07/11**:
+- **07/11**: **Prova 2**.
 - **09/11**:
 - **14/11**:
 - **16/11**:
