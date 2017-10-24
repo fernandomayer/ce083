@@ -1,0 +1,552 @@
+---
+title: "Programação no R"
+output:
+  html_document:
+    code_folding: show
+    toc_depth: 2
+---
+
+```{r setup, include=FALSE}
+source("setup_knitr.R")
+```
+
+# Introdução
+
+Por quê programar?
+
+- Evitar repetições desnecessárias de análises ou cálculos que são
+repetidos com frequência.
+- Fica documentado as etapas que você realizou para chegar a um
+resultado.
+- Fácil recuperação e modificação de programas.
+
+Como programar?
+
+- Criando programas! (Scripts, rotinas, **algoritmos**).
+- Crie uma sequência lógica de comandos que devem ser executados
+em ordem.
+- Utilize as ferramentas básicas da programação: **estruturas de
+repetição** (`for()`) e **estruturas de seleção** (`if()`).
+
+# Estrutura de repetição `for()`
+
+Serve para repetir um ou mais comandos diversas vezes. Para ver como
+funciona, considere o seguinte exemplo:
+
+```{r}
+for(i in 1:10){
+    print(i)
+}
+```
+
+O resultado é a chamada do comando `print()` para cada valor que o
+índice `i` recebe (nesse caso `i` recebe os valores de 1 a 10).
+
+A sintaxe será sempre nesse formato:
+
+```{r, eval=FALSE}
+for(<índice> in <valores>){
+    <comandos>
+}
+```
+
+Veja outro exemplo em como podemos aplicar o índice:
+
+```{r}
+x <- 100:200
+for(j in 1:10){
+    print(x[j])
+}
+```
+
+Veja que o índice não precisa ser `i`, na verdade pode ser qualquer
+letra ou palavra. Nesse caso, veja que utilizamos os valores como índice
+para selecionar elementos de `x` naquelas posições específicas.
+
+Um outro exemplo seria se quisessemos imprimir o quadrado de alguns
+números (não necessariamente em sequência):
+
+```{r}
+for(i in c(2, 9, 4, 6)){
+    print(i^2)
+}
+```
+
+Ou mesmo imprimir caracteres a partir de um vetor de caracteres:
+
+```{r}
+for(veiculos in c("carro", "ônibus", "trem", "bicicleta")){
+    print(veiculos)
+}
+```
+
+**Exemplo**: cálculo de notas de uma disciplina.
+
+```{r}
+## Importa os dados
+url <- "http://leg.ufpr.br/~fernandomayer/data/notas.csv"
+notas <- read.table(url, header = TRUE, sep = ";", dec = ",")
+## Analisa a estrutura dos dados
+str(notas)
+head(notas)
+summary(notas)
+```
+
+Antes de seguir adiante, veja o resultado de
+
+```{r eval=FALSE}
+for(i in 1:30){
+    print(notas[i, c("prova1", "prova2", "prova3")])
+}
+```
+
+Para calcular as médias das 3 provas, precisamos inicialmente de um
+vetor para armazenar os resultados. Esse vetor pode ser um novo objeto
+ou uma nova coluna no dataframe
+
+```{r }
+## Aqui vamos criar uma nova coluna no dataframe, contendo apenas o
+## valor 0
+notas$media <- 0 # note que aqui será usada a regra da reciclagem, ou
+                 # seja, o valor zero será repetido até completar todas
+                 # as linhas do dataframe
+## Estrutura de repetição para calcular a média
+for(i in 1:30){
+    ## Aqui, cada linha i da coluna media sera substituida pelo
+    ## respectivo valor da media caculada
+    notas$media[i] <- sum(notas[i, c("prova1", "prova2", "prova3")])/3
+}
+
+## Confere os resultados
+head(notas)
+```
+
+Agora podemos melhorar o código, tornando-o mais **genérico**. Dessa
+forma fica mais fácil fazer alterações e procurar erros. Uma forma de
+melhorar o código acima é generalizando alguns passos.
+
+```{r }
+## Armazenamos o número de linhas no dataframe
+nlinhas <- nrow(notas)
+## Identificamos as colunas de interesse no cálculo da média, e
+## armazenamos em um objeto separado
+provas <- c("prova1", "prova2", "prova3")
+## Sabendo o número de provas, fica mais fácil dividir pelo total no
+## cálculo da média
+nprovas <- length(provas)
+## Cria uma nova coluna apenas para comparar o cálculo com o anterior
+notas$media2 <- 0
+## A estrutura de repetição fica
+for(i in 1:nlinhas){
+    notas$media2[i] <- sum(notas[i, provas])/nprovas
+}
+
+## Confere
+head(notas)
+identical(notas$media, notas$media2)
+```
+
+Ainda podemos melhorar (leia-se: **otimizar**) o código, se utilizarmos
+funções prontas do R. No caso da média isso é possível pois a função
+`mean()` já existe. Em seguida veremos como fazer quando o cálculo que
+estamos utilizando não está implementado em nenhuma função pronta do R.
+
+```{r }
+## Cria uma nova coluna apenas para comparação
+notas$media3 <- 0
+## A estrutura de repetição fica
+for(i in 1:nlinhas){
+    notas$media3[i] <- mean(as.numeric(notas[i, provas]))
+}
+
+## Confere
+head(notas)
+
+## A única diferença é que aqui precisamos transformar cada linha em um
+## vetor de números com as.numeric(), pois
+notas[1, provas]
+## é um data.frame:
+class(notas[1, provas])
+```
+
+No caso acima vimos que não era necessário calcular a média através
+de `soma/total` porque existe uma função pronta no R para fazer esse
+cálculo. Mas, e se quisessemos, por exemplo, calcular a Coeficiente de
+Variação (CV) entre as notas das três provas de cada aluno? Uma busca
+por
+
+```{r eval=FALSE}
+help.search("coefficient of variation")
+```
+
+não retorna nenhuma função (dos pacotes básicos) para fazer esse
+cálculo. O motivo é simples: como é uma conta simples de fazer não há
+necessidade de se criar uma função extra dentro dos pacotes. No entanto,
+nós podemos criar uma função que calcule o CV, e usá-la para o nosso
+propósito
+
+```{r}
+cv <- function(x){
+    desv.pad <- sd(x)
+    med <- mean(x)
+    cv <- desv.pad/med
+    return(cv)
+}
+```
+
+> NOTA: na função criada acima o único argumento que usamos foi `x`, que
+> neste caso deve ser um vetor de números para o cálculo do CV. Os
+> argumentos colocados dentro de `function()` devem ser apropriados para
+> o propósito de cada função.
+
+Antes de aplicar a função dentro de um `for()` devemos testá-la para ver
+se ela está funcioanando de maneira correta. Por exemplo, o CV para as
+notas do primeiro aluno pode ser calculado "manualmente" por
+
+```{r }
+sd(as.numeric(notas[1, provas]))/mean(as.numeric(notas[1, provas]))
+```
+
+E através da função, o resultado é
+
+```{r }
+cv(as.numeric(notas[1, provas]))
+```
+
+o que mostra que a função está funcionando corretamente, e podemos
+aplicá-la em todas as linhas usando a repetição
+
+```{r }
+## Cria uma nova coluna para o CV
+notas$CV <- 0
+## A estrutura de repetição fica
+for(i in 1:nlinhas){
+    notas$CV[i] <- cv(as.numeric(notas[i, provas]))
+}
+
+## Confere
+head(notas)
+```
+
+Podemos agora querer calcular as médias ponderadas para as provas. Por
+exemplo:
+
+- Prova 1: peso 3
+- Prova 2: peso 3
+- Prova 3: peso 4
+
+Usando a fórmula:
+
+$$
+\bar{x} = \frac{1}{N} \sum_{i=1}^{n} x_i \cdot w_i
+$$
+
+onde $w_i$ são os pesos, e $N = \sum_{i=1}^{n} w_i$ é a soma dos pesos.
+Como já vimos que criar uma função é uma forma mais prática (e elegante)
+de executar determinada tarefa, vamos criar uma função que calcule as
+médias ponderadas.
+
+```{r}
+med.pond <- function(notas, pesos){
+    ## Multiplica o valor de cada prova pelo seu peso
+    pond <- notas * pesos
+    ## Calcula o valor total dos pesos
+    peso.total <- sum(pesos)
+    ## Calcula a soma da ponderação
+    sum.pond <- sum(pond)
+    ## Finalmente calcula a média ponderada
+    saida <- sum.pond/peso.total
+    return(saida)
+}
+```
+
+Antes de aplicar a função para o caso geral, sempre é importante testar
+e conferir o resultado em um caso menor. Podemos verificar o resultado
+da média ponderada para o primeiro aluno
+
+```{r }
+sum(notas[1, provas] * c(3, 3, 4))/10
+```
+
+e testar a função para o mesmo caso
+
+```{r }
+med.pond(notas = notas[1, provas], pesos = c(3, 3, 4))
+```
+
+Como o resultado é o mesmo podemos aplicar a função para todas as linhas
+através do `for()`
+
+```{r }
+## Cria uma nova coluna para a média ponderada
+notas$MP <- 0
+## A estrutura de repetição fica
+for(i in 1:nlinhas){
+    notas$MP[i] <- med.pond(notas = notas[i, provas], pesos = c(3, 3, 4))
+}
+
+## Confere
+head(notas)
+```
+
+> NOTA: uma função para calcular a média ponderada já existe
+> implementada no R. Veja `?weighted.mean()` e confira os resultados
+> obtidos aqui
+
+Repare na construção da função acima: agora usamos dois argumentos,
+`notas` e `pesos`, pois precisamos dos doiss vetores para calcular a média
+ponderada. Repare também que ambos argumentos não possuem um valor
+padrão. Poderíamos, por exemplo, assumir valores padrão para os pesos, e
+deixar para que o usuário mude apenas se achar necessário.
+
+```{r }
+## Atribuindo pesos iguais para as provas como padrão
+med.pond <- function(notas, pesos = rep(1, length(notas))){
+    ## Multiplica o valor de cada prova pelo seu peso
+    pond <- notas * pesos
+    ## Calcula o valor total dos pesos
+    peso.total <- sum(pesos)
+    ## Calcula a soma da ponderação
+    sum.pond <- sum(pond)
+    ## Finalmente calcula a média ponderada
+    saida <- sum.pond/peso.total
+    return(saida)
+}
+```
+
+Repare que neste caso, como os pesos são iguais, a chamada da função sem
+alterar o argumento `pesos` gera o mesmo resultado do cálculo da média
+comum.
+
+```{r }
+## Cria uma nova coluna para a média ponderada para comparação
+notas$MP2 <- 0
+## A estrutura de repetição fica
+for(i in 1:nlinhas){
+    notas$MP2[i] <- med.pond(notas = notas[i, provas])
+}
+
+## Confere
+head(notas)
+```
+
+# Estrutura de seleção `if()`
+
+Uma estrutura de seleção serve para executar algum comando apenas se
+alguma condição (em forma de **expressão condicional**) seja satisfeita.
+Geralmente é utilizada dentro de um `for()`.
+
+No exemplo inicial poderíamos querer imprimir um resultado caso
+satisfaça determinada condição. Por exemplo, se o valor de `x` for menor
+ou igual a 105, então imprima um texto informando isso.
+
+```{r}
+x <- 100:200
+for(j in 1:10){
+    if(x[j] <= 105){
+        print("Menor ou igual a 105")
+    }
+}
+```
+
+Mas também podemos considerar o que aconteceria caso contrário. Por
+exemplo, se o valor de `x`for maior do que 105, então imprima outro
+texto.
+
+```{r}
+x <- 100:200
+for(j in 1:10){
+    if(x[j] <= 105){
+        print("Menor ou igual a 105")
+    } else{
+        print("Maior do que 105")
+    }
+}
+```
+
+A sintaxe será sempre no formato:
+
+```{r, eval=FALSE}
+if(<condição>){
+    <comandos que satisfazem a condição>
+} else{
+   <comandos que não satisfazem a condição>
+}
+```
+
+Como vimos acima, a especificação do `else{}` não é obrigatória.
+
+Voltando ao exemplo das notas, podemos adicionar uma coluna com a
+condição do aluno: `aprovado` ou `reprovado` de acordo com a sua nota.
+Para isso precisamos criar uma condição (nesse caso se a nota é maior do
+que 7), e verificar se ela é verdadeira.
+
+```{r}
+## Nova coluna para armazenar a situacao
+notas$situacao <- NA # aqui usamos NA porque o resultado será um
+                     # caracter
+## Estrutura de repetição
+for(i in 1:nlinhas){
+    ## Estrutura de seleção (usando a média ponderada)
+    if(notas$MP[i] >= 7){
+        notas$situacao[i] <- "aprovado"
+    } else{
+        notas$situacao[i] <- "reprovado"
+    }
+}
+
+## Confere
+head(notas)
+```
+
+# O modo do R: vetorização
+
+As funções vetorizadas do R, além de facilitar e resumir a execução de
+tarefas repetitivas, também são computacionalmente mais eficientes,
+*i.e.* o tempo de execução das rotinas é muito mais rápido.
+
+Já vimos que a **regra da reciclagem** é uma forma de vetorizar cálculos
+no R. Os cálculos feitos com funções vetorizadas (ou usando a regra de
+reciclagem) são muito mais eficientes (e preferíveis) no R. Por exemplo,
+podemos criar um vetor muito grande de números e querer calcular o
+quadrado de cada número. Se pensássemos em usar uma estrutura de
+repetição, o cálculo seria o seguinte:
+
+```{r}
+## Vetor com uma sequência de 1 a 1.000.000
+x <- 1:1000000
+## Calcula o quadrado de cada número da sequência em x usando for()
+y1 <- numeric(length(x)) # vetor de mesmo comprimento de x que vai
+                         # receber os resultados
+for(i in 1:length(x)){
+    y1[i] <- x[i]^2
+}
+```
+
+Mas, da forma vetorial e usando a regra da reciclagem, a mesma operação
+pode ser feita apenas com
+
+```{r}
+## Calcula o quadrado de cada número da sequência em x usando a regra da
+## reciclagem
+y2 <- x^2
+## Confere os resultados
+identical(y1, y2)
+```
+
+Note que os resultados são exatamente iguais, mas então porque se
+prefere o formato vetorial? Primeiro porque é muito mais simples de
+escrever, e segundo (e princiapalmente) porque a forma vetorizada é
+muito mais **eficiente computacionalmente**. A eficiência computacional
+pode ser medida de várias formas (alocação de memória, tempo de
+execução, etc), mas apenas para comparação, vamos medir o tempo de
+execução destas mesmas operações usando o `for()` e usando a regra da
+reciclagem.
+
+```{r}
+## Tempo de execução usando for()
+y1 <- numeric(length(x))
+system.time(
+for(i in 1:length(x)){
+    y1[i] <- x[i]^2
+}
+)
+
+## Tempo de execução usando a regra da reciclagem
+system.time(
+y2 <- x^2
+)
+```
+
+Olhando o resultado de `elapsed`, que é o tempo total de execução de uma
+função medido por `system.time()`, notamos que usando a regra da
+reciclagem, o cálculo é aproximadamente 3 vezes mais rápido. Claramente
+esse é só um exemplo de um cálculo muito simples. Mas em situações mais
+complexas, a diferença entro o tempo de execução das duas formas pode
+ser muito maior.
+
+Voltando ao exemplo das notas, por exemplo, o cálculo da média simples
+poderia ser feita diretamente com a função `apply()`
+
+```{r }
+notas$media.apply <- apply(X = notas[, provas], MARGIN = 1, FUN = mean)
+head(notas)
+```
+
+As médias ponderadas poderiam ser calculadas da mesma forma, e usando a
+função que criamos anteriormente
+
+```{r }
+notas$MP.apply <- apply(X = notas[, provas], MARGIN = 1, FUN = med.pond)
+head(notas)
+```
+
+Mas note que como temos o argumento `pesos` especificado com um padrão,
+devemos alterar na própria função `apply()`
+
+```{r }
+notas$MP.apply <- apply(X = notas[, provas], MARGIN = 1,
+                        FUN = med.pond, pesos = c(3, 3, 4))
+head(notas)
+```
+
+> NOTA: veja que isso é possível devido à presença do argumento `...` na
+> função `apply()`, que permite passar argumentos de outras funções
+> dentro dela.
+
+Também poderíamos usar a função `weighted.mean()` implementada no R
+
+```{r}
+notas$MP2.apply <- apply(X = notas[, provas], MARGIN = 1,
+                         FUN = weighted.mean, w = c(3, 3, 4))
+head(notas)
+```
+
+O Coeficiente de Variação poderia ser calculado usando nossa função
+`cv()`
+
+```{r}
+notas$CV.apply <- apply(X = notas[, provas], MARGIN = 1, FUN = cv)
+head(notas)
+```
+
+Finalmente, a estrutura de repetição `if()` também possui uma forma
+vetorizada através da função `ifelse()`. Essa função funciona da
+seguinte forma:
+
+```{r, eval=FALSE}
+ifelse(<condição>, <valor se verdadeiro>, <valor se falso>)
+```
+
+Dessa forma, a atribuição da situação dos alunos poderia ser feita da
+seguinte forma:
+
+```{r}
+notas$situacao2 <- ifelse(notas$MP >= 7, "aprovado", "reprovado")
+head(notas)
+```
+
+```{r, eval=FALSE, include=FALSE}
+##----------------------------------------------------------------------
+## while
+## Calcule a soma em 1,2,3... até que o soma seja maior do que 1000
+n <- 0
+soma <- 0
+while(soma <= 1000){
+    n <- n + 1
+    soma <- soma + n
+}
+soma
+
+##----------------------------------------------------------------------
+## repeat
+## mesmo exemplo
+n <- 0
+soma <- 0
+repeat{
+    n <- n + 1
+    soma <- soma + n
+    if(soma > 1000) break
+}
+soma
+```
