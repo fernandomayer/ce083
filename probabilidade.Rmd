@@ -224,8 +224,8 @@ O R inclui funcionalidade para operações com distribuições de
 probabilidades. Para cada distribuição há 4 operações básicas indicadas
 pelas letras:
 
-- `d` calcula a densidade de probabilidade $f(x)$ no ponto
-- `p` calcula a função de probabilidade acumulada $F(x)$ no ponto
+- `d` calcula a densidade de probabilidade $f(x)$ no ponto $x$
+- `p` calcula a função de probabilidade acumulada $F(x)$ no ponto $x$
 - `q` calcula o quantil correspondente a uma dada probabilidade
 - `r` retira uma amostra aleatória da distribuição
 
@@ -593,7 +593,7 @@ Para a distribuição uniforme *contínua* usa-se as funções `*unif()` onde
 comandos a seguir inspecionamos os argumentos, sorteamos 5 valores da
 $U(0,1)$ e calculamos a probabilidade acumulada até 0,75.
 
- ```{r}
+```{r}
 args(runif)
 runif(5)
 punif(0.75)
