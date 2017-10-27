@@ -48,9 +48,13 @@ navbar:
         href: indexacao_e_selecao.html
       - text: "Entrada e saída de dados [HTML]"
         href: entrada-dados.html
+      - text: "Programando com dados [HTML]"
+        href: programacao.html
       - text: "Estatística"
       - text: "Análise exploratória de dados [HTML]"
         href: analise-exploratoria.html
+      - text: "Distribuições de probabilidade [HTML]"
+        href: probabilidade.html
       - text: "Inferência e regressão [Rmd]"
         href: misc/inferencia_regressao.Rmd
       - text: "----------"
