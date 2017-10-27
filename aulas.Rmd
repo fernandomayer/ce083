@@ -80,8 +80,10 @@ cat(paste0("- **", datas.ter, "**:\n", "- **", datas.qui, "**:\n"))
 - **19/10**: Exercícios de análise exploratória de dados feito em sala.
   Ver [script](exercicios/ex_AED2.R) e [gabarito](exercicios/ex_AED2_GB.R).
 - **24/10**: Programação. Estrutura de repetição `for()`. Estrutura de
-  seleção `if()`. Funções vetorizadas: `apply()` e `ifelse()`.
-- **26/10**:
+  seleção `if()`. Funções vetorizadas: `apply()` e `ifelse()`. Ver
+  [material](programacao.html).
+- **26/10**: Distribuições de probabilidade: Normal e binomial. Ver
+  [material](probabilidade.html) e [script](scripts/probabilidade.R).
 - **31/10**: Não haverá aula.
 - **02/11**: Feriado.
 - **07/11**: **Prova 2**.
