@@ -23,7 +23,7 @@ notas.col <- grep("^P", names(notas))
 
 ## Histograma e box plot geral
 
-```{r, fig.width=8, fig.height=6, echo=FALSE, eval=TRUE}
+```{r hist-geral, fig.width=8, fig.height=6, echo=FALSE, eval=TRUE}
 ## Grafico geral das notas
 breaks <- 0:10
 ## table(cut(notas$S1, breaks = breaks,
@@ -55,7 +55,7 @@ round(statm(notas.all), 2)
 
 Box plot de cada prova
 
-```{r, fig.width=8, fig.height=6, echo=FALSE, eval=TRUE}
+```{r boxplot-provas, fig.width=8, fig.height=6, echo=FALSE, eval=TRUE}
 ## Boxplots comparando as notas entre sabatinas
 boxplot(notas[, notas.col], ylim = c(0, 10), ylab = "Notas")
 ```
