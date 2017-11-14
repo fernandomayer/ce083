@@ -88,7 +88,8 @@ cat(paste0("- **", datas.ter, "**:\n", "- **", datas.qui, "**:\n"))
 - **02/11**: Feriado.
 - **07/11**: **Prova 2**.
 - **09/11**: Resolução da prova 2. [Gabarito](scripts/script_P2_2017-11-07_GB.R).
-- **14/11**:
+- **14/11**: Introdução ao uso do $\LaTeX$. Ver
+  [slides](misc/Introducao_ao_Latex_ESALQ-USP.pdf).
 - **16/11**:
 - **21/11**:
 - **23/11**:
