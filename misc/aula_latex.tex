@@ -1,0 +1,78 @@
+\documentclass[a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[brazil]{babel}
+\usepackage{graphicx}
+
+\title{Aula latex ce083}
+\author{Fernando Mayer}
+\date{14 de novembro, 2017}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+\section{Introdução}
+
+O LaTeX é um conjunto de {\bf macros} para o processador de textos TeX, utilizado amplamente para a produção de \textbf{textos matemáticos} e \textit{científicos} devido à sua alta qualidade tipográfica. Entretanto, também é utilizado para produção
+de cartas pessoais, artigos e {\Large livros} sobre assuntos diversos.
+
+Nova parágrafo.
+
+E outro.
+
+\begin{center}
+Texto centralizado.
+\end{center}
+
+O Word não possui nem $\sim$ 10\% da capacidade de editoração do LaTeX!
+
+\section{Metodologia}
+
+\subsection{Dados}
+
+Os dados foram coletados da seguinte forma:
+
+\begin{itemize}
+\item Forma 1
+\item Forma 2
+\end{itemize}
+
+Os dados foram importados com:
+
+\begin{verbatim}
+dados <- read.table("pib_gapminder.csv", header = TRUE,
+                    sep = ",", dec = ".")
+\end{verbatim}
+
+\subsection{Análise}
+
+As análises foram:
+
+\begin{enumerate}
+\item Análise 1
+\begin{enumerate}
+\item Sub analise 1
+\item Sub analise 2
+\end{enumerate}
+\item Análise 2
+\end{enumerate}
+
+\section{Resultados}
+
+A relação entre expvida e pibpercap pode ser vista na figura \ref{fig:plot}.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{figura1.pdf}
+\caption{Legenda da figura.}
+\label{fig:plot}
+\end{figure}
+
+\section{Discussão}
+
+
+
+
+\end{document}
