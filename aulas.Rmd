@@ -89,7 +89,9 @@ cat(paste0("- **", datas.ter, "**:\n", "- **", datas.qui, "**:\n"))
 - **07/11**: **Prova 2**.
 - **09/11**: Resolução da prova 2. [Gabarito](scripts/script_P2_2017-11-07_GB.R).
 - **14/11**: Introdução ao uso do $\LaTeX$. Ver
-  [slides](misc/Introducao_ao_Latex_ESALQ-USP.pdf).
+  [slides](misc/Introducao_ao_Latex_ESALQ-USP.pdf). Documento `.tex`
+  criado em aula: [aula_latex.tex](misc/aula_latex.tex). Usar ShareLaTeX
+  do C3SL https://sharelatex.c3sl.ufpr.br ou o próprio RStudio.
 - **16/11**:
 - **21/11**:
 - **23/11**:
