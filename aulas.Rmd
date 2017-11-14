@@ -87,7 +87,7 @@ cat(paste0("- **", datas.ter, "**:\n", "- **", datas.qui, "**:\n"))
 - **31/10**: Não haverá aula.
 - **02/11**: Feriado.
 - **07/11**: **Prova 2**.
-- **09/11**:
+- **09/11**: Resolução da prova 2. [Gabarito](scripts/script_P2_2017-11-07_GB.R).
 - **14/11**:
 - **16/11**:
 - **21/11**:
