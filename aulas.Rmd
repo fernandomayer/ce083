@@ -92,7 +92,7 @@ cat(paste0("- **", datas.ter, "**:\n", "- **", datas.qui, "**:\n"))
   [slides](misc/Introducao_ao_Latex_ESALQ-USP.pdf). Documento `.tex`
   criado em aula: [aula_latex.tex](misc/aula_latex.tex). Usar ShareLaTeX
   do C3SL https://sharelatex.c3sl.ufpr.br ou o próprio RStudio.
-- **16/11**:
+- **16/11**: [Arquivo .bib](misc/referencias.bib).
 - **21/11**:
 - **23/11**:
 - **28/11**:
