@@ -26,14 +26,10 @@ notas.col <- grep("^P", names(notas))
 ```{r hist-geral, fig.width=8, fig.height=6, echo=FALSE, eval=TRUE}
 ## Grafico geral das notas
 breaks <- 0:10
-## table(cut(notas$S1, breaks = breaks,
-##           right = FALSE, include.lowest = TRUE))
 ## Junta notas de todas as provas em um único vetor
 notas.all <- do.call(c, notas[, notas.col, drop = FALSE])
 hist(notas.all, breaks = breaks, right = FALSE, include.lowest = TRUE,
      main = "Notas gerais", xlab = "Notas", ylab = "Frequência absoluta")
-## boxplot(notas.all, horizontal = TRUE, ylim = c(0, 10),
-##         col = "lightgray", add = TRUE, at = 1)
 ```
 
 Resumo dos cinco números, média, desvio-padrão, e número de provas não
