@@ -43,10 +43,11 @@ Os dados foram coletados da seguinte forma:
 
 Os dados foram importados com:
 
-\begin{verbatim}
-dados <- read.table("pib_gapminder.csv", header = TRUE,
+<<>>=
+dados <- read.table("dados/pib_gapminder.csv", header = TRUE,
                     sep = ",", dec = ".")
-\end{verbatim}
+str(dados)
+@
 
 \subsection{Análise}
 
@@ -65,33 +66,28 @@ As análises foram:
 
 A relação entre expvida e pibpercap pode ser vista na figura \ref{fig:plot}.
 
-\begin{figure}[h]
-\centering
-\includegraphics[width=0.8\textwidth]{figura1.pdf}
-\caption{Legenda da figura.}
-\label{fig:plot}
-\end{figure}
+<<plot, out.width="0.8\\textwidth",fig.cap="Relação entre expVida e pibPercap",fig.pos="h">>=
+plot(log(expVida) ~ log(pibPercap), data = dados)
+@
 
 \section{Discussão}
 
 Veja a tabela \ref{tab:medias}.
 
-\begin{table}[h]
-\caption{Média de expVida por continente.}
-\label{tab:medias}
-\centering
-\begin{tabular}{cc}
-\hline
-Continente & expVida \\
-\hline
-Africa & 48.87 \\
-Americas & 64.66 \\
-Asia & 60.07 \\
-Europe & 71.90 \\
-Oceania & 74.32 \\
-\hline
-\end{tabular}
-\end{table}
+<<include=FALSE>>=
+tab <- aggregate(expVida ~ continente, data = dados, mean)
+tab
+@
+
+<<results="asis", echo=FALSE>>=
+library(xtable)
+print(xtable(tab, caption = "Média de expVida por continente",
+             label = "tab:medias", align = "ccc"),
+      include.rownames = FALSE,
+      caption.placement = "top")
+@
+
+A média de expVida é \Sexpr{round(mean(dados$expVida),2)}.
 
 Uma equação $a+b-2c$ e outra
 

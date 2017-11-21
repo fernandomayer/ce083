@@ -1,0 +1,33 @@
+---
+title: "Aula Rmarkdown"
+author: "Fernando Mayer"
+date: "21 November 2017"
+output: html_document
+---
+
+# Introdução
+
+Um primeiro parágrafo.
+
+# Metodologia
+
+## Dados
+
+Os dados foram importados com:
+
+```{r}
+dados <- read.table("dados/pib_gapminder.csv", header = TRUE,
+                    sep = ",", dec = ".")
+str(dados)
+```
+
+
+## Análise
+
+
+Veja  gráfico abaixo:
+
+```{r, fig.align="center", out.width="50%"}
+plot(log(expVida) ~ log(pibPercap), data = dados)
+```
+
