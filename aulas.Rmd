@@ -96,7 +96,28 @@ cat(paste0("- **", datas.ter, "**:\n", "- **", datas.qui, "**:\n"))
   Referências cruzadas. Referências bibliográficas (usar arquivo
   [referencias.bib](misc/referencias.bib)). Ver
   [slides](misc/Introducao_ao_Latex_ESALQ-USP.pdf).
-- **21/11**:
+- **21/11**: Documentos dinâmicos com **knitr** (arquivo `.Rnw`) e
+  **rmarkdown** (arquivo `.Rmd`).
+    - Instalar os pacotes do R (`knitr`, `xtable`, `rmarkdown`):
+      - `install.packages(c("knitr", "xtable", "rmarkdown"))`
+    - Arquivos (compilar todos eles no RStudio):
+      - [aula_latex.tex](misc/aula_latex.tex): arquivo LaTeX puro
+      (não dinâmico).
+      - [aula_latex_tex2.Rnw](misc/aula_latex_tex2.Rnw): arquivo
+      LaTeX com *chunks* (blocos de código) do R (documento
+      dinâmico).
+      - [aula_rmarkdown.Rmd](misc/aula_rmarkdown.Rmd): arquivo
+      escrito em Markdown com *chunks* do R (dinâmico).
+    - Material:
+      - [Literate programming](http://cursos.leg.ufpr.br/prr/capLitProg.html)
+      - [Markdown com Pandoc](http://cursos.leg.ufpr.br/prr/capMarkdown.html)
+      - [Documentos dinâmicos no R](http://cursos.leg.ufpr.br/prr/capDocDin.html)
+      - Site do [knitr](https://yihui.name/knitr/) e [opções de
+        *chunks*](https://yihui.name/knitr/options/) para documentos
+        `.Rnw` e `.Rmd`.
+      - Site do [R Markdown](http://rmarkdown.rstudio.com/). Veja todos
+        os [formatos](http://rmarkdown.rstudio.com/formats.html)
+        disponíveis.
 - **23/11**:
 - **28/11**:
 - **30/11**: **Prova 3**.
