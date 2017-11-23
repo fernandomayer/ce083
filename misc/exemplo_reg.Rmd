@@ -1,0 +1,102 @@
+---
+title: "Regressão linear simples: um exemplo"
+author: "Fernando Mayer"
+date: Agosto, 2016
+output: html_document
+---
+
+```{r, echo=FALSE}
+knitr::opts_chunk$set(comment = NA)
+```
+
+# Definfição do modelo
+
+Abaixo tem-se o ajuste do modelo de regressão linear simples
+
+$$
+Y = \beta_0 + \beta_1 x + \epsilon
+$$
+
+para dados de distância para parada completa de um veículo em função da
+velocidade no instante de acionamento dos freios. Esse conjunto de dados
+está objeto `cars`.
+
+```{r, echo=FALSE}
+## Carrega o conjunto de dados
+data(cars)
+```
+
+# Resumo dos dados
+
+Um resumo dos dados pode ser visto na tabela abaixo:
+
+```{r, results="asis", echo=FALSE}
+## Resumo dos dados
+knitr::kable(summary(cars))
+```
+
+# Ajuste do modelo
+
+Os parâmetros do modelo linear podem ser obtidos pela função `lm()`,
+como pode ser visto abaixo
+
+```{r}
+## Ajuste do modelo
+mod <- lm(dist ~ speed, data = cars)
+```
+
+Um resumo do ajuste do modelo pode ser visualizado abaixo
+
+```{r}
+## Resumo do modelo
+summary(mod)
+```
+
+# Análise dos resíduos
+
+Antes de interpretar o modelo e fazer inferência, é importante que sejam
+verificados os pressupostos considerados através da análise dos resíduos.
+
+Por padrão se fizermos um `plot()` no modelo, temos os seguintes
+gráficos para avliar os resíduos:
+
+```{r, eval=FALSE}
+plot(mod)
+```
+
+```{r, echo=FALSE}
+par(mfrow = c(2, 2))
+plot(mod)
+par(mfrow = c(1,1))
+```
+
+# Predição
+
+Assumindo que o ajuste do modelo está adequado, pode-se obter o
+gráfico dos valores preditos sobre o diagrama de dispersão dos
+valores observados.
+
+```{r}
+## Intervalo de valores para predição
+pred <- data.frame(speed = seq(4, 25, by = 0.5))
+## Valores preditos
+ypred <- predict(mod, newdata = pred, interval = "confidence")
+## Inclui valores preditos no data frame
+pred <- cbind(pred, ypred)
+```
+
+Agora podemos visualizar o modelo ajustado aos dados
+
+```{r, fig.width=5, fig.height=5}
+## Gráfico de dispersão
+plot(dist ~ speed, data = cars,
+     xlab = "Velocidade ao acionar os freios",
+     ylab = "Distância para parada completa")
+## Intervalo de predição
+with(pred,
+     matlines(x = speed, y = cbind(fit, lwr, upr),
+              lty = c(1, 2, 2), col = 1))
+```
+
+O parâmetro $\beta_1$ desse modelo de regressão linear simples é
+`r coef(mod)[2]`.
