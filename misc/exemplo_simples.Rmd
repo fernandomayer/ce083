@@ -1,8 +1,11 @@
 ---
 title: "Meu primeiro documento em R Markdown"
 author: "Fernando Mayer"
-date: Agosto, 2016
-output: html_document
+date: "Agosto, 2016"
+output:
+  word_document: default
+  pdf_document: default
+  html_document: default
 ---
 
 ## Sobre o Markdown

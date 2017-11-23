@@ -21,13 +21,15 @@ Com isso:
 
 ```{r}
 ## Importação
-
+url <- "http://www.leg.ufpr.br/~fernandomayer/data/pib_gapminder.csv"
+dados <- read.table(url, header = TRUE, sep = ",", dec = ".")
 ```
 
 - Verifique a estrutura dos dados
 
 ```{r}
 ## Estrutura
+str(dados)
 ```
 
 - Classifique cada variável de acordo com seu tipo (ex.: qualitativa ordinal, etc)
@@ -39,31 +41,44 @@ Com isso:
 
 ```{r}
 ## Sumário
+summary(dados)
 ```
 
 - Faça uma tabela de frequência absoluta e uma tabela de frequência relativa para verificar o número de observações por continente.
 
 ```{r}
+table(dados$continente)
+prop.table(table(dados$continente))
 ```
 
 - Faça um gráfico de barras da tabela de frequência absoluta dos continentes
 
 ```{r}
+barplot(table(dados$continente))
 ```
 
 - Faça um gráfico apropriado para relacionar o PIB per capita (variável `pibPercap`) à expectativa de vida (variável `expVida`). Assume-se que quanto maior for o PIB per capta, maior será a expectativa de vida, ou seja, a expectativa de vida é a variável dependente. 
 
 ```{r}
+plot(expVida ~ pibPercap, data = dados)
 ```
 
 - Em uma mesma janela gráfica, faça um gráfico de caixa (*boxplot*) da expectativa de vida para o Chile, e outro *boxplot* para a expectativa de vida no Uruguai.
 
 ```{r}
+par(mfrow = c(1,2))
+boxplot(dados$expVida[dados$pais == "Chile"], main = "Chile")
+boxplot(dados$expVida[dados$pais == "Uruguay"], main = "Uruguai")
+par(mfrow = c(1,1))
 ```
 
 - Calcule a média e a variância da expectativa de vida para o Chile e para o Uruguai.
 
 ```{r}
+mean(dados$expVida[dados$pais == "Chile"])
+var(dados$expVida[dados$pais == "Chile"])
+mean(dados$expVida[dados$pais == "Uruguay"])
+var(dados$expVida[dados$pais == "Uruguay"])
 ```
 
 ## Inferência sobre a média da expectativa de vida
@@ -86,12 +101,20 @@ Considerando que estamos interessados em obter um intervalo de confiança para a
 
 ```{r}
 ## Tamanho da amostra (n), média e variância de Venda
+n <- length(dados$expVida)
+n
+t.m <- mean(dados$expVida)
+t.m
+t.v <- var(dados$expVida)
+t.v
 ```
 
 - Monte o intervalo de confiança utilizando os quantis da distribuição $t$, para obter um IC de 95\% de confiança.
 
 ```{r}
 ## IC com 95% de confiança
+t.ic <- t.m + qt(c(0.025, 0.975), df = n - 1) * sqrt(t.v/n)
+t.ic
 ```
 
 Além do intervalo de confiança, podemos realizar um teste de hipótese para testar se a média da expectativa de vida é igual a determinado valor. Os procedimentos gerais para este teste de hipótese são:
@@ -121,6 +144,7 @@ $$
 Usando um nível de significância $\alpha = 0,05$, realize este teste de hipótese usando a função `t.test()`. 
 
 ```{r}
+t.test(dados$expVida, mu = 60)
 ```
 
 Qual a sua conclusão a respeito do teste de hipótese?
@@ -133,11 +157,14 @@ Queremos ajustar um modelo linear para a relação entre o **logaritmo** do PIB 
 Por isso, crie duas novas colunas nesta base de dados com o logaritmo de PIB per capta, e o logaritmo da expectativa de vida. Estas colunas devem ter os nomes: `lpibPercap`, e `lexpVida`, respetivamente.
 
 ```{r}
+dados$lpibPercap <- log(dados$pibPercap)
+dados$lexpVida <- log(dados$expVida)
 ```
 
 Faça um gráfico apropriado para relacionar estas duas novas variáveis.
 
 ```{r}
+plot(lexpVida ~ lpibPercap, data = dados)
 ```
 
 Um **modelo linear** entre duas variáveis $X$ e $Y$, é definido
@@ -235,24 +262,33 @@ da amostra
 
 ```{r}
 ## Defina X, Y, e n
+X <- dados$lpibPercap
+Y <- dados$lexpVida
+n <- length(X)
 ```
 
 Agora calculamos $\hat{\beta_1}$ com a solução acima
 
 ```{r}
 ## Crie um objeto chamado beta1
+beta1 <- (sum(X * Y) - (sum(X) * sum(Y))/n)/(sum(X^2) - (sum(X)^2/n))
+beta1
 ```
 
 E $\hat{\beta_0}$ com a solução acima
 
 ```{r}
 ## Crie um objeto chamado beta0
+beta0 <- mean(Y) - beta1 * mean(X)
+beta0
 ```
 
 Para conferir os seus cálculos e prosseguir com a análise, ajuste um modelo linear entre as duas variáveis consideradas, usando a função `lm()`, e verifique se os coeficientes estimados pela função são os mesmos que você calculou à mão.
 
 ```{r}
 ## Crie um objeto chamado mod com o modelo ajustado
+mod <- lm(lexpVida ~ lpibPercap, data = dados)
+mod
 ```
 
 Para avaliar a significância do modelo, podemos realizar uma **Análise
@@ -273,6 +309,7 @@ essa ANOVA, usamos a função `anova()`
 
 ```{r}
 ## Quadro de Análise de Variância
+anova(mod)
 ```
 
 Uma parte importante em uma análise de regressão linear é a verificação
@@ -281,11 +318,15 @@ em relação aos valores **preditos** pelo modelo, $\hat{Y}$. O modelo linear ma
 
 ```{r}
 ## Faça um histograma dos resíduos do modelo
+hist(residuals(mod))
 ```
 
-o objeto `mod` é da classe `lm`, que possui um método específico para a função `plot()`. Por padrão, ao fazer um gráfico de um objeto da classe `lm`, são gerados quatro gráficos de diagnóstico, como pode ser visto abaixo.
+o objeto `mod` é da classe `r class(mod)`, que possui um método específico para a função `plot()`. Por padrão, ao fazer um gráfico de um objeto da classe `r class(mod)`, são gerados quatro gráficos de diagnóstico, como pode ser visto abaixo.
 
 ```{r, fig.show='hold'}
+par(mfrow = c(2,2))
+plot(mod)
+par(mfrow = c(1,1))
 ```
 
 Ainda com o objeto `mod`, podemos ajustar o modelo graficamente
@@ -294,5 +335,7 @@ ao gráfico da relação entre as variáveis. Para isso, usamos uma função `ab
 ```{r}
 ## Faça o gráfico da relação entre entre as variáveis, e insira a
 ## linha do modelo com abline()
+plot(lexpVida ~ lpibPercap, data = dados)
+abline(mod)
 ```
 
