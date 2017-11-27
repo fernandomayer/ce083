@@ -1,7 +1,7 @@
 ---
 title: "CE083 - Estatística Computacional I"
 author: "NOME"
-date: "Dezembro, 2017"
+date: "Novembro, 2017"
 output: html_document
 ---
 
@@ -51,7 +51,7 @@ Com isso:
 ```{r}
 ```
 
-- Faça um gráfico apropriado para relacionar o PIB per capita (variável `pibPercap`) à expectativa de vida (variável `expVida`). Assume-se que quanto maior for o PIB per capta, maior será a expectativa de vida, ou seja, a expectativa de vida é a variável dependente. 
+- Faça um gráfico apropriado para relacionar o PIB per capita (variável `pibPercap`) à expectativa de vida (variável `expVida`). Assume-se que quanto maior for o PIB per capta, maior será a expectativa de vida, ou seja, a expectativa de vida é a variável dependente.
 
 ```{r}
 ```
@@ -77,7 +77,7 @@ $$
   \bar{x} + t_{crit} \sqrt{\frac{s^2}{n}} \right)
 $$
 
-onde $t_{crit}$ é o quantil de ordem $1-\alpha/2$ da distribuição $t$ de 
+onde $t_{crit}$ é o quantil de ordem $1-\alpha/2$ da distribuição $t$ de
 Student, com $n-1$ graus de liberdade.
 
 Considerando que estamos interessados em obter um intervalo de confiança para a média da expectativa de vida (`expVida`), faça o que se pede:
@@ -118,7 +118,7 @@ $$
 \end{align}
 $$
 
-Usando um nível de significância $\alpha = 0,05$, realize este teste de hipótese usando a função `t.test()`. 
+Usando um nível de significância $\alpha = 0,05$, realize este teste de hipótese usando a função `t.test()`.
 
 ```{r}
 ```
@@ -289,10 +289,9 @@ o objeto `mod` é da classe `lm`, que possui um método específico para a funç
 ```
 
 Ainda com o objeto `mod`, podemos ajustar o modelo graficamente
-ao gráfico da relação entre as variáveis. Para isso, usamos uma função `abline()`, utilizada para inserir linhas em gráficos. 
+ao gráfico da relação entre as variáveis. Para isso, usamos uma função `abline()`, utilizada para inserir linhas em gráficos.
 
 ```{r}
 ## Faça o gráfico da relação entre entre as variáveis, e insira a
 ## linha do modelo com abline()
 ```
-
