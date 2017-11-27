@@ -118,7 +118,13 @@ cat(paste0("- **", datas.ter, "**:\n", "- **", datas.qui, "**:\n"))
       - Site do [R Markdown](http://rmarkdown.rstudio.com/). Veja todos
         os [formatos](http://rmarkdown.rstudio.com/formats.html)
         disponíveis.
-- **23/11**:
+- **23/11**: Diferentes documentos com
+  [Rmarkdown](http://rmarkdown.rstudio.com).
+    - Arquivos:
+      - [exemplo_simples.Rmd](misc/exemplo_simples.Rmd)
+      - [exemplo_reg.Rmd](misc/exemplo_reg.Rmd)
+    - Arquivo e material sobre inferência e regressão:
+      - [inferencia_regressao.Rmd](misc/inferencia_regressao.Rmd)
 - **28/11**:
 - **30/11**: **Prova 3**.
 
