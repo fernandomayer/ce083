@@ -56,7 +56,7 @@ navbar:
       - text: "Distribuições de probabilidade [HTML]"
         href: probabilidade.html
       - text: "Inferência e regressão [Rmd]"
-        href: misc/inferencia_regressao.Rmd
+        href: misc/inferencia_regressao_GB.Rmd
       - text: "----------"
       - text: "Exercícios"
       - text: "Comandos básicos e classes de objetos [PDF]"
