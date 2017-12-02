@@ -11,10 +11,14 @@ source("setup_knitr.R")
 
 [![Build Status](https://travis-ci.org/fernandomayer/ce083.svg?branch=master)](https://travis-ci.org/fernandomayer/ce083)
 
-<!-- <div class="alert alert-danger" role="alert"> -->
-<!-- **ATENÇÃO!** Não haverá aula na terça-feira (03/10) devido ao -->
-<!-- [SIEPE](http://www.siepe.ufpr.br). -->
-<!-- </div> -->
+<div class="alert alert-danger" role="alert">
+**AVISO:**
+
+- O exame final está marcado para o dia 14/12 (quinta-feira) às 20:40 no
+  DINF.
+- O exame será em Rmarkdown e compreende toda a matéria.
+
+</div>
 
 # Detalhes da oferta da disciplina
 
