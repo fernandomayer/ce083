@@ -65,20 +65,20 @@ round(apply(notas[, notas.col, drop = FALSE], 2, statm), 2)
 
 ## Notas individuais
 
-```{r, echo=FALSE, eval=TRUE, rownames.print=FALSE, rows.print=nrow(notas)}
+```{r,echo=FALSE,eval=TRUE,rownames.print=FALSE,rows.print=nrow(notas),include=FALSE}
 notas[, c(1, notas.col)]
 ```
 
-```{r, eval=TRUE, include=FALSE, eval=FALSE}
+```{r, eval=TRUE, include=FALSE}
 ##----------------------------------------------------------------------
 ## Numero de aulas e frequencias
 
 ## Numero de aulas geral no semestre
 ## Datas iniciais e finais por dia da semana
-sini1 <- as.Date("2016-08-02")
-sini2 <- as.Date("2016-08-04")
-sfim1 <- as.Date("2016-12-06")
-sfim2 <- as.Date("2016-12-08")
+sini1 <- as.Date("2017-08-01")
+sini2 <- as.Date("2017-08-03")
+sfim1 <- as.Date("2017-11-28")
+sfim2 <- as.Date("2017-11-30")
 
 ## Numero de aulas nos dias 1 e 2
 d1 <- length(seq(sini1, sfim1, by = "week"))
@@ -97,7 +97,7 @@ out <- 3
 aulas.eff <- aulas - desc1 - feri - out
 
 ## Numero de dias em que foi passada a chamada
-dcham <- 16
+dcham <- 23
 
 ## Numero de dias em que nao foi passada a chamada
 dscham <- aulas.eff - dcham
@@ -135,7 +135,7 @@ notas$Freq.rel2[cond.freq] <- notas$Freq.rel2[cond.freq] +
     difer(notas$Freq.rel2[cond.freq], 0.75)
 ```
 
-```{r, include=FALSE, eval=FALSE}
+```{r, include=FALSE, eval=TRUE}
 ##----------------------------------------------------------------------
 ## Tabela com as notas finais
 
@@ -182,7 +182,7 @@ notas2$M[cond.exam1 & cond.nota2] <-
 notas2$F <- ceiling(notas$Freq.rel2*100)
 ```
 
-```{r, include=FALSE, eval=FALSE}
+```{r, include=FALSE, eval=TRUE}
 ##----------------------------------------------------------------------
 ## Antes do exame (Ex)
 
@@ -192,39 +192,39 @@ notas2$S[notas2$M >= 4 & notas2$M < 7] <- "Ex"
 notas2$S[notas2$M < 4] <- "Re"
 ```
 
-<!-- Na tabela abaixo estão as notas das 3 provas realizadas. A frequência -->
-<!-- (`F`) é o percentual de presença. -->
+Na tabela abaixo estão as notas das 3 provas realizadas. A frequência
+(`F`) é o percentual de presença.
 
-<!-- A média (`M`) foi calculada com estas 3 notas, e já **arredondada para -->
-<!-- cima** nos seguintes casos: -->
+A média (`M`) foi calculada com estas 3 notas, e já **arredondada para
+cima** nos seguintes casos:
 
-<!-- - Médias finais maiores ou iguais a 6,5 e menores do que 7,0 foram -->
-<!--   arredondadas para 7,0, SE a frequência do aluno foi maior ou igual a -->
-<!--   75%. -->
-<!-- - Médias finais maiores ou iguais a 3,5 e menores do que 4,0 foram -->
-<!--   arredondadas para 4,0, SE a frequência do aluno foi maior ou igual a -->
-<!--   75%. -->
+- Médias finais maiores ou iguais a 6,5 e menores do que 7,0 foram
+  arredondadas para 7,0, SE a frequência do aluno foi maior ou igual a
+  75%.
+- Médias finais maiores ou iguais a 3,5 e menores do que 4,0 foram
+  arredondadas para 4,0, SE a frequência do aluno foi maior ou igual a
+  75%.
 
-<!-- **Observação**: a frequência só foi utilizada aqui para critério de -->
-<!-- arredondamento de nota. Mesmo que o aluno tenha frequência abaixo de -->
-<!-- 75%, é permitido fazer o exame. -->
+**Observação**: a frequência só foi utilizada aqui para critério de
+arredondamento de nota. Mesmo que o aluno tenha frequência abaixo de
+75%, é permitido fazer o exame.
 
-<!-- A coluna de situação (`S`) indica se o aluno foi aprovado (`Ap`), ficou -->
-<!-- em exame (`Ex`), ou foi reprovado (`Re`). -->
+A coluna de situação (`S`) indica se o aluno foi aprovado (`Ap`), ficou
+em exame (`Ex`), ou foi reprovado (`Re`).
 
-```{r, results='asis', include=FALSE, eval=FALSE}
+```{r, results='asis', include=TRUE, eval=TRUE}
 kable(notas2, align = "c", digits = 2)
 ```
 
-<!-- Número de alunos em cada situação: -->
+Número de alunos em cada situação:
 
-```{r, include=FALSE, eval=FALSE}
+```{r, include=TRUE, eval=TRUE}
 addmargins(table(notas2$S))
 ```
 
-<!-- Gráfico de barras com os percentuais por situação: -->
+Gráfico de barras com os percentuais por situação:
 
-```{r, include=FALSE, eval=FALSE}
+```{r, include=TRUE, eval=TRUE}
 barplot(prop.table(table(notas2$S))*100,
         xlab = "Situação", ylab = "Frequência (%)",
         ylim = c(0, 40))
