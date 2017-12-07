@@ -1,0 +1,378 @@
+---
+title: "CE083 - Estatística Computacional I"
+author: "GABARITO"
+date: "20 de dezembro, 2016"
+output: html_document
+---
+
+# Exame final
+
+## Introdução
+
+A [ICCAT](https://www.iccat.int) (*International Commission for the
+Conservation of Atlantic Tunas*) é uma organização internacional
+responsável pelo gerenciamento da pesca de atuns no Oceano Atlântico.
+
+Como essa pesca é realizada por diversos países, a ICCAT é responsável
+por compilar os dados de captura de atuns de todos os países e propor
+ações de manejo internacional, para o gerenciamento das populações de
+atuns.
+
+## Dados
+
+Os dados se referem às capturas de uma das principais espécies de atum,
+a albacora-branca, entre 1998 e 2004, realizadas por barcos do Brasil
+(`BRA`) e da Espanha arrendados (alugados) pelo Brasil (`BRA-ESP`). As
+colunas são:
+
+- `FROTA`: país ao qual pertencem os barcos: `BRA` (Brasil) e `BRA-ESP`
+  (Espanha, arendados pelo Brasil)
+- `ANO`: ano de captura
+- `MES`: mês de captura
+- `EFF`: esforço de pesca (número de anzóis)
+- `BRANCA`: captura de albacora-branca (quilos)
+
+Com isso:
+
+- Faça a importação dos dados, e verifique sua estrutura.
+
+```{r}
+dados <- read.table("dados_atum.csv", header = TRUE,
+                    sep = ";", dec = ",")
+str(dados)
+```
+
+## Análise exploratória
+
+- Faça um sumário estatístico dos dados.
+
+```{r}
+summary(dados)
+```
+
+- Classifique todas as variáveis quanto ao seu tipo (ex.: qualitativa
+  ordinal, quantitativa contínua, etc.)
+    - `FROTA`:
+    - `ANO`:
+    - `MES`:
+    - `EFF`:
+    - `BRANCA`:
+
+- Verifique quantos anos existem na tabela.
+
+```{r}
+length(unique(dados$ANO))
+```
+
+- Faça uma tabela de frequência absoluta para os anos, e ordene
+  essa tabela em ordem decrescentee. (Dica: veja a função `sort()`).
+
+```{r}
+tab.ano <- sort(table(dados$ANO), decreasing = TRUE)
+tab.ano
+```
+
+- De acordo com essa ordenação, mostre quais são os 3 anos com maior
+  número de informação (em frequência de ocorrência).
+
+```{r, results='hold'}
+head(tab.ano, 3)
+## OU
+# tab.ano[1:3]
+```
+
+- Faça uma tabela de frequências relativas para os meses, incluindo a
+  soma marginal.
+
+```{r}
+addmargins(prop.table(table(dados$MES)))
+```
+
+- Faça uma tabela e um gráfico de barras com as frequências relativas
+  para as frotas.
+
+```{r}
+prop.table(table(dados$FROTA))
+barplot(prop.table(table(dados$FROTA)))
+```
+
+- Identifique o ano em que ocorreu o maior esforço.
+
+```{r}
+dados$ANO[which.max(dados$EFF)]
+```
+
+- Faça uma tabela com as frequências absolutas para o cruzamento das
+  variáveis `ANO` e `FROTA`.
+
+```{r}
+with(dados, table(ANO, FROTA))
+```
+
+- Faça uma tabela com as frequências relativas para o cruzamento das
+  variáveis `ANO` e `FROTA`, incluindo os totais marginais (somas de
+  linhas e colunas).
+
+```{r}
+with(dados, addmargins(prop.table(table(ANO, FROTA))))
+```
+
+- Faça o gráfico de barras da frequência absoluta desse cruzamento, com
+  as barras lado-a-lado.
+
+```{r}
+with(dados, barplot(table(FROTA, ANO), beside = TRUE))
+```
+
+- Faça uma tabela de frequência relativa com as somas marginais para a
+  variável `BRANCA`, criando as classes apropriadamente, seguindo os
+  passos abaixo:
+
+```{r}
+# 0) Amplitude dos dados
+amp <- range(dados$BRANCA, na.rm = TRUE)
+amp
+
+# 1) Número de classes estimado, com base no critério de Sturges
+# Dica: ?nclass.Sturges
+nclass.Sturges(dados$BRANCA)
+
+# 2) Com base no número de classes definido acima, crie as classes com a
+# função cut(), e armazene em um objeto chamado "classes".
+classes <- cut(dados$BRANCA,
+               breaks = seq(amp[1], amp[2], length = 12),
+               include.lowest = TRUE)
+
+# 3) Tabela com as frequências absolutas por classe
+table(classes)
+
+# 4) Tabela com as frequências relativas por classe, adicionando a soma
+# marginal
+addmargins(prop.table(table(classes)))
+```
+
+A CPUE (**Captura Por Unidade de Esforço**) é uma medida proporcional à
+abundância (em biomassa, $B$) de uma população, ou seja,
+
+$$
+CPUE \propto qB
+$$
+
+desde que $q$ (chamado coeficiente de capturabilidade) seja constante.
+Com isso, sabendo a CPUE, podemos ter ideia da flutuação da abundância
+de um recurso pesqueiro.
+
+A CPUE pode ser facilmente calculada dividindo-se a captura pelo esforço
+de pesca. No entanto, sabe-se que ela apresenta um comportamento
+geralmente assimétrico, e por isso, utiliza-se com mais frequência o
+logaritmo da CPUE, que pode então ser calculada por:
+
+$$
+CPUE = \log \left( {\frac{Captura \cdot 1000}{Esforço}} \right)
+$$
+
+Dessa forma, se a captura for em quilos, e o esforço em número de
+anzóis, então a CPUE terá unidade "kg/1000 anzóis".
+
+- Crie uma nova coluna na base de dados, chamada `CPUE`, com o cálculo
+  acima, onde $Captura$ se refere a `BRANCA` e $Esforço$ se refere a
+  `EFF`.
+
+```{r}
+dados$CPUE <- log((dados$BRANCA * 1000)/dados$EFF)
+```
+
+- Calcula e média de `CPUE` para cada mês, ordenando os meses em ordem
+  decrescente, de acordo com as médias.
+
+```{r}
+sort(with(dados, tapply(CPUE, MES, mean, na.rm = TRUE)),
+     decreasing = TRUE)
+```
+
+- Faça um boxplot de `CPUE` para cada `FROTA` (no mesmo gráfico).
+
+```{r}
+boxplot(CPUE ~ FROTA, data = dados)
+```
+
+- Crie um novo objeto (data.frame) com três colunas: `MES`, `FROTA`, e
+ média de `CPUE` para cada mês e frota.
+
+```{r}
+novo <- aggregate(CPUE ~ MES + FROTA, dados, mean)
+```
+
+- Com este novo objeto, faça dois gráficos de dispersão lado-a-lado (na
+  mesma janela) com a relação da média de `CPUE` para cada `MES`,
+  onde cada um dos dois gráficos se refere a uma `FROTA`.
+
+```{r, fig.show='hold'}
+## Faça os gráficos com linha (veja o argumento 'type' de ?plot)
+par(mfrow = c(1,2))
+plot(CPUE ~ MES, novo, subset = FROTA == "BRA",
+     type = "l", main = "BRA")
+plot(CPUE ~ MES, novo, subset = FROTA == "BRA-ESP",
+     type = "l", main = "BRA-ESP")
+par(mfrow = c(1,1))
+```
+
+- Crie uma nova coluna no seu objeto de dados, chamada `LEFF`, com o
+  logaritmo do esforço (`EFF`), e faça um histograma dessa nova
+  variável.
+
+```{r, fig.show='hold'}
+dados$LEFF <- log(dados$EFF)
+hist(dados$LEFF)
+```
+
+- Por definição, quando ocorre um aumento do esforço de pesca, a CPUE
+  deve diminuir, uma vez que a captura é dividida "por unidade de
+  esforço". Se lembrarmos que a CPUE é uma medida proporcional à
+  abundância de uma população, então essa relação também faz sentido,
+  pois ao aumentar a pressão de pesca (esforço), espera-se que a
+  abundância da população diminua. Por isso, podemos afirmar que a CPUE
+  depende do esforço. Faça um gráfico de dispersão entre o logaritmo do
+  esforço de pesca (`LEFF`) e a `CPUE` para verificar essa afirmação.
+
+```{r}
+plot(CPUE ~ LEFF, data = dados)
+```
+
+## Inferência sobre a média de CPUE
+
+Para se fazer alguam afirmação sobre a média de CPUE, inicialmente faça
+um histograma dessa variável.
+
+```{r}
+hist(dados$CPUE)
+```
+
+De acordo com esse histograma, podemos verificar que a média de CPUE
+parece estar próxima de 4. Para testar essa afirmação, realize um teste
+para as hipóteses:
+
+$$
+\begin{align}
+\text{H}_0: \mu = 4 \\
+\text{H}_1: \mu \neq 4 \\
+\end{align}
+$$
+
+Realize este teste de hipótese usando a função `t.test()`, com um nível
+de confiança $\gamma = 0,9$ (veja o argumento `conf.level`).
+
+```{r}
+t.test(dados$CPUE, mu = 4, conf.level = 0.9)
+```
+
+Qual a sua conclusão a respeito do teste de hipótese?
+
+**Resposta**: *como o p-valor do teste de hipótese foi menor do que o
+nível de significância (0,1), então rejeitamos a hipótese nula, ou
+seja, existem evidências que a média de CPUE é diferente de 4.*
+
+## Ajustando um modelo linear
+
+Para avaliar a relação entre a CPUE e o logaritmo do esforço de pesca,
+podemos ajustar um modelo de regressão linear simples, que irá indicar
+se esta relação é significativa.
+
+O **modelo de regressão linear simples** é dado pela equação:
+
+$$
+    Y_i = \beta_0 + \beta_1 X_i + e_i, \quad i = 1, 2, \ldots, n
+$$
+
+Onde $\beta_0$ é o intercepto do modelo (valor de $Y$ quando $X=0$), e
+$\beta_1$ é o coeficiente angular ou inclinação da reta. Comumente se
+assume que os erros possuem uma distribuição normal com média zero e
+variância constante, ou seja, $e_i \sim \text{N}(0, \sigma^2)$.
+
+O parâmetro de maior interesse nesse caso é o $\beta_1$ (coeficiente
+angular ou inclinação da reta), já que se não houver inclinação então
+dizemos que a relação entre as duas variáveis é não significativa, ou
+seja, a variação em $X$ não causa variação significativa em $Y$.
+
+Resumidamente, ao estimar o parâmetro $\beta_1$, podemos olhar o seu
+sinal e chegar a uma destas conclusões:
+
+- $\beta_1 < 0$: relação inversa entre $X$ e $Y$ (aumenta $X$, diminui
+  $Y$)
+- $\beta_1 = 0$: relação nula entre $X$ e $Y$ (aumenta $X$, não altera
+  $Y$)
+- $\beta_1 > 0$: relação positiva entre $X$ e $Y$ (aumenta $X$, aumenta
+  $Y$)
+
+Para estimar os parâmetros $\beta_0$ e $\beta_1$, utilizamos as soluções
+de  **mínimos quadrados**:
+
+$$
+\begin{align}
+    \hat{\beta}_1 &= \frac{\sum_{i=1}^{n}
+    (Y_i - \bar{Y})(X_i - \bar{X})}{
+    \sum_{i=1}^{n} (X_i - \bar{X})^2} \\
+    & \\
+    \hat{\beta_0} &= \bar{Y} - \hat{\beta}_1 \bar{X}
+\end{align}
+$$
+
+onde $\bar{X}$ e $\bar{Y}$ são as médias amostrais de $X$ e $Y$,
+respectivamente.
+
+Como vimos pelas soluções acima, primeiro calculamos $\hat{\beta_1}$, e
+depois $\hat{\beta_0}$. Para facilitar as contas, vamos criar objetos
+`X` e `Y` com as colunas `LEFF` e `CPUE` (saber quem é $X$ e quem é $Y$
+faz parte da interpretação do problema).
+
+```{r}
+X <- dados$LEFF
+Y <- dados$CPUE
+```
+
+Agora calculamos $\hat{\beta_1}$ com
+
+```{r}
+## Crie um objeto chamado beta1
+beta1 <- sum((Y - mean(Y, na.rm = TRUE)) *
+             (X - mean(X, na.rm = TRUE)), na.rm = TRUE) /
+    sum((X - mean(X, na.rm = TRUE))^2, na.rm = TRUE)
+beta1
+```
+
+E $\hat{\beta_0}$ é calculado com
+
+```{r}
+## Crie um objeto chamado beta0
+beta0 <- mean(Y, na.rm = TRUE) - beta1 * mean(X, na.rm = TRUE)
+beta0
+```
+
+Para conferir os seus cálculos e prosseguir com a análise, ajuste um
+modelo linear entre as duas variáveis consideradas, usando a função
+`lm()`, e verifique se os coeficientes estimados pela função são os
+mesmos que você calculou à mão.
+
+```{r}
+## Crie um objeto chamado mod com o modelo ajustado
+mod <- lm(Y ~ X, data = dados)
+mod
+```
+
+Ainda com o objeto `mod`, podemos ajustar o modelo graficamente ao
+gráfico da relação entre `LEFF` e `CPUE`. Para isso, usamos a função
+`abline()`, utilizada para inserir linhas em gráficos.
+
+```{r}
+## Faça o gráfico da relação entre X e Y e insira a linha com abline()
+plot(Y ~ X, data = dados)
+abline(mod)
+```
+
+Com isso, o que você pode dizer a respeito da relação entre estas duas
+variáveis? De acordo com o parâmetro $\beta_1$, a relação é negativa,
+nula, ou positiva?
+
+**Resposta**: *Como o $\beta_1$ é negativo, então podemos concluir que
+existe uma relação negativa (inversa) entre as duas variáveis, ou seja,
+à medida que aumenta o esforço, diminui a CPUE.*

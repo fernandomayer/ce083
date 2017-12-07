@@ -128,8 +128,9 @@ cat(paste0("- **", datas.ter, "**:\n", "- **", datas.qui, "**:\n"))
 - **28/11**: Inferência (intervalo de confiança e teste de hipótese para
   uma amostra) e regressão. Ver
   [inferencia_regressao_GB.Rmd](misc/inferencia_regressao_GB.Rmd).
-- **30/11**: **Prova 3**.
-- **14/12**: **Exame final**.
+- **30/11**: **Prova 3**. [Gabarito](misc/ce083_P3_2017-2_GB.Rmd).
+- **14/12**: **Exame final**. [Exame](misc/ce083_EXAME_GB.Rmd) do ano
+  anterior.
 
 ## Exercícios
 

@@ -1,0 +1,376 @@
+---
+title: "CE083 - Estatística Computacional I"
+author: "GABARITO"
+date: "30 de novembro, 2017"
+output: html_document
+---
+
+# Terceira prova
+
+## Probabilidades
+
+Para $X \sim N(90, 100)$, obtenha:
+
+- $P(X \leq 115)$
+```{r}
+pnorm(115, mean = 90, sd = 10)
+```
+- $P(X \geq 80)$
+```{r}
+pnorm(80, mean = 90, sd = 10, lower.tail = FALSE)
+1 - pnorm(80, mean = 90, sd = 10)
+```
+- $P(85 \leq X \leq 110)$
+```{r}
+pnorm(110, mean = 90, sd = 10) - pnorm(85, mean = 90, sd = 10)
+```
+
+Sendo $X$ uma variável seguindo o modelo Binomial com parâmetros $n =
+ 	15$ e $p = 0.4$, pergunta-se:
+
+- $P(X \geq 14)$
+```{r}
+pbinom(13, size = 15, prob = 0.4, lower.tail = FALSE)
+1 - pbinom(13, size = 15, prob = 0.4)
+dbinom(14, size = 15, prob = 0.4) + dbinom(15, size = 15, prob = 0.4)
+```
+- $P(8 < X \leq 10)$
+```{r}
+dbinom(9, size = 15, prob = 0.4) + dbinom(10, size = 15, prob = 0.4)
+pbinom(10, size = 15, prob = 0.4) - pbinom(8, size = 15, prob = 0.4)
+```
+
+## Análise de dados
+
+A revista [Forbes](http://www.forbes.com) cria anualmente uma lista com
+as maiores empresas do mundo, de acordo com valores de vendas, lucros e
+valor de mercado. Em 2004, esta lista correspondeu a 2000 empresas de
+todo o mundo e de diversas categorias.
+
+### Dados
+
+Os dados da lista das 2000 maiores empresas de 2004 estão no arquivo
+`dados_Forbes2000.csv`. As colunas são:
+
+- `rank`: a posição geral da empresa no ranking
+- `nome`: nome da empresa
+- `pais`: país sede da empresa
+- `categoria`: a área de atuação (ramo) da empresa
+- `vendas`: volume de vendas, em bilhões de dólares
+- `lucros`: lucro da empresa, em bilhões de dólares
+- `valor.mercado`: valor de mercado da empresa, em bilhões de dólares
+
+Com isso:
+
+- Faça a importação dos dados, e verifique sua estrutura.
+
+```{r}
+dados <- read.table("dados_Forbes2000.csv", header = TRUE,
+                    sep = ",", dec = ".")
+str(dados)
+```
+
+### Análise exploratória
+
+- Verifique quantos países e quantas categorias diferentes estão na
+  tabela.
+
+```{r}
+length(unique(dados$pais))
+length(unique(dados$categoria))
+```
+
+- Faça uma tabela de frequência absoluta para as categorias, e ordene
+  essa tabela em ordem decrescente, ou seja, da categoria com o maior
+  número de empresas para a menor. (Dica: veja a função `sort()`).
+
+```{r}
+tab.cat <- sort(table(dados$categoria), decreasing = TRUE)
+tab.cat
+```
+
+- De acordo com essa ordenação, mostre quais são as 5 maiores categorias
+  (em frequência de ocorrência).
+
+```{r, results='hold'}
+head(tab.cat, 5)
+## OU
+# tab.cat[1:5]
+```
+
+- Identifique quais são as empresas brasileiras presentes nessa lista.
+  Considerando apenas as empresas brasileiras, faça uma tabela de
+  frequência absoluta com soma marginal das categorias.
+
+```{r}
+dados$nome[dados$pais == "Brazil"]
+addmargins(table(dados$categoria[dados$pais == "Brazil"]))
+```
+
+- Faça um histograma dos lucros de todas as empresas.
+
+```{r}
+hist(dados$lucros)
+```
+
+- Calcule a mediana dos lucros para cada categoria, e mostre quais são
+  as 5 categorias que apresentaram maiores lucros.
+
+```{r, results='hold'}
+tab.lucro <- with(dados, tapply(lucros, categoria,
+                                median, na.rm = TRUE))
+head(sort(tab.lucro, decreasing = TRUE), 5)
+## OU
+# sort(tab.lucro, decreasing = TRUE)[1:5]
+```
+
+- Faça um histograma do valor de mercado e das vendas (na mesma janela
+  gráfica, lado a lado).
+
+```{r, fig.show='hold'}
+par(mfrow = c(1,2))
+hist(dados$valor.mercado)
+hist(dados$vendas)
+par(mfrow = c(1,1))
+```
+
+- Crie duas novas colunas no seu objeto de dados: `log.valor.mercado` e
+  `log.vendas`, com o logaritmo do valor de mercado e das vendas,
+  respectivamente. Faça novamente os histogramas com estas duas novas
+  variáveis.
+
+```{r, fig.show='hold'}
+dados$log.valor.mercado <- log(dados$valor.mercado)
+dados$log.vendas <- log(dados$vendas)
+par(mfrow = c(1,2))
+hist(dados$log.valor.mercado)
+hist(dados$log.vendas)
+par(mfrow = c(1,1))
+```
+
+- O valor de mercado de uma empresa depende do valor das vendas, ou
+  seja, quanto maiores forem as vendas, maior será o valor de mercado.
+  Faça um gráfico de dispersão entre o logaritmo do valor de mercado e o
+  logaritmo do valor de vendas para analisar esta afirmação.
+
+```{r}
+plot(log.valor.mercado ~ log.vendas, data = dados)
+```
+
+### Inferência sobre a média de lucros
+
+De acordo com o histograma dos lucros (acima), nota-se que existe uma
+grande variação ao redor do zero (ou seja, algumas empresas tiveram lucro
+positivo, enquanto que outras tiveram prejuízo). Para verificar isso,
+será construído um intervalo de confiança e um teste de hipótese.
+
+Sabemos que o intervalo de confiança para média de uma distribuição
+normal com variância desconhecida, para uma amostra de tamanho $n$ é
+dado por:
+
+$$
+\left(\bar{x} - t_{crit} \sqrt{\frac{s^2}{n}} \quad, \quad
+  \bar{x} + t_{crit} \sqrt{\frac{s^2}{n}} \right)
+$$
+
+onde $t_{crit}$ é o quantil de ordem $1-\alpha/2$ da distribuição $t$ de
+Student, com $n-1$ graus de liberdade.
+
+Considerando que estamos interessados em obter um intervalo de confiança
+para a média dos lucros, faça o que se pede:
+
+- Calcule o tamanho da amostra, a média e a variância amostral dos lucros.
+
+```{r}
+n <- length(dados$lucros[!is.na(dados$lucros)])
+n
+t.m <- mean(dados$lucros, na.rm = TRUE)
+t.m
+t.v <- var(dados$lucros, na.rm = TRUE)
+t.v
+```
+
+- Monte o intervalo de confiança utilizando os quantis da distribuição
+  $t$, para obter um IC de 95\% de confiança.
+
+```{r}
+t.ic <- t.m + qt(c(0.025, 0.975), df = n - 1) * sqrt(t.v/n)
+t.ic
+```
+
+Além do intervalo de confiança, podemos realizar um teste de hipótese
+para testar se a média dos lucros é igual a determinado valor. Os
+procedimentos gerais para este teste de hipótese são:
+
+1. Definir a hipótese nula ($H_0$) e a alternativa ($H_1$)
+2. Definir um nível de **significância** $\alpha$ (ex.: $\alpha =
+  0,05$), que irá determinar o nível de **confiança** $100(1-\alpha)\%$
+  do teste
+3. Determinar a **região de rejeição** com base no nível de
+  significância $\rightarrow$ valor crítico
+4. Calcular a **estatística de teste**, sob a hipótese nula
+$$
+	t_{calc} = \frac{\bar{x} - \mu_0}{s/\sqrt{n}}
+$$
+5. Rejeitar a hipótese nula se a estatística de teste calculada
+  estiver dentro da região de rejeição ($|t_{calc}| > |t_{crit}|$)
+
+Portanto, se desejamos testar a hipótese de que o lucro médio das
+empresas é zero, temos as seguintes hipóteses:
+
+$$
+\begin{align}
+\text{H}_0: \mu = 0 \\
+\text{H}_1: \mu \neq 0 \\
+\end{align}
+$$
+
+Usando um nível de significância $\alpha = 0,05$, realize este teste de
+hipótese usando a função `t.test()`.
+
+```{r}
+t.test(dados$lucros)
+```
+
+Qual a sua conclusão a respeito do teste de hipótese?
+
+**Resposta**: *como o p-valor do teste de hipótese foi menor do que o
+nível de significância (0,05), então rejeitamos a hipótese nula, ou
+seja, existem evidências que a média dos lucros destas empresas é
+diferente de zero.*
+
+### Ajustando um modelo linear
+
+Para avaliar a relação entre vendas e valor de mercado, podemos ajustar
+um modelo de regressão linear simples, que irá indicar se esta relação é
+significativa.
+
+Um **modelo linear** entre duas variáveis $X$ e $Y$, é definido
+matematicamente como uma equação com dois parâmetros desconhecidos,
+
+$$
+	Y = \beta_0 + \beta_1 X
+$$
+
+Onde $\beta_0$ é o intercepto do modelo (valor de $Y$ quando $X=0$), e
+$\beta_1$ é o coeficiente angular ou inclinação da reta.
+
+Assim, dados $n$ pares de valores, $(X_1, Y_1), (X_2, Y_2), \ldots,
+(X_n, Y_n)$, se for admitido que $Y$ é função linear de $X$, pode-se
+estabelecer uma regressão linear simples, cujo modelo estatístico é
+
+$$
+    Y_i = \beta_0 + \beta_1 X_i + e_i, \quad i = 1, 2, \ldots, n
+$$
+
+Como através de uma amostra obtemos uma estimativa da verdadeira
+equação de regressão, denominamos
+
+$$
+    \hat{Y}_i = \hat{\beta}_0 + \hat{\beta}_1 X_i
+$$
+
+ou seja, $\hat{Y}_i$ é o valor **estimado** de $Y_i$, através das
+**estimativas** de $\beta_0$ e $\beta_1$, que chamaremos de
+$\hat{\beta}_0$ e $\hat{\beta}_1$. Para cada valor de $Y_i$, temos um
+valor $\hat{Y}_i$ estimado pela equação de regressão,
+
+$$
+	Y_i = \hat{Y}_i + e_i
+$$
+
+Portanto, o erro (ou desvio) de cada observação em relação ao modelo
+adotado será
+
+$$
+\begin{align}
+	e_i &= Y_i - \hat{Y}_i \\
+	e_i &= Y_i - (\beta_0 + \beta_1 X_i)
+\end{align}
+$$
+
+Comumente se assume que os erros possuem uma distribuição normal com
+média zero e variância constante, ou seja, $e_i \sim \text{N}(0,
+\sigma^2)$.
+
+Através da **solução de mínimos quadrados**, obtemos as expressões para
+estimar os parâmetros $\beta_0$ e $\beta_1$:
+
+$$
+\begin{align}
+    \hat{\beta}_1 &= \frac{\sum_{i=1}^{n}
+    (Y_i - \bar{Y})(X_i - \bar{X})}{
+    \sum_{i=1}^{n} (X_i - \bar{X})^2} \\
+    & \\
+    \hat{\beta_0} &= \bar{Y} - \hat{\beta}_1 \bar{X}
+\end{align}
+$$
+
+onde $\bar{X}$ e $\bar{Y}$ são as médias amostrais de $X$ e $Y$,
+respectivamente.
+
+Como vimos pelas soluções acima, primeiro calculamos $\hat{\beta_1}$, e
+depois $\hat{\beta_0}$. Para facilitar as contas, vamos criar objetos
+`X` e `Y` com as colunas `log.vendas` e `log.valor.mercado` (saber quem
+é `X` e quem é `Y` faz parte da interpretação do problema), e `n` que é
+o tamanho da amostra.
+
+```{r}
+X <- dados$log.vendas
+Y <- dados$log.valor.mercado
+n <- length(X)
+```
+
+Agora calculamos $\hat{\beta_1}$ com
+
+```{r}
+## Crie um objeto chamado beta1
+beta1 <- sum((Y - mean(Y))*(X - mean(X)))/sum((X - mean(X))^2)
+beta1
+```
+
+E $\hat{\beta_0}$ é calculado com
+
+```{r}
+## Crie um objeto chamado beta0
+beta0 <- mean(Y) - beta1 * mean(X)
+beta0
+```
+
+Para conferir os seus cálculos e prosseguir com a análise, ajuste um
+modelo linear entre as duas variáveis consideradas, usando a função
+`lm()`, e verifique se os coeficientes estimados pela função são os
+mesmos que você calculou à mão.
+
+```{r}
+## Crie um objeto chamado mod com o modelo ajustado
+mod <- lm(Y ~ X, data = dados)
+mod
+```
+
+Uma parte importante em uma análise de regressão linear é a verificação
+dos resíduos do modelo, ou seja, os desvios de cada valor observado $Y$
+em relação aos valores **preditos** pelo modelo, $\hat{Y}$.
+
+Como vimos que a suposição do modelo é de que os resíduos possuam uma
+distribuição normal com média 0 e variância constante, $e_i \sim
+\text{N}(0, \sigma^2)$, então podemos verificar essa suposição fazendo
+um histograma destes resíduos. Para isso, podemos extrair os resíduos
+diretamente do objeto `mod` com a função `residuals()`, e fazer o
+histograma destes resíduos
+
+```{r}
+## Faça um histograma dos resíduos do modelo
+hist(residuals(mod))
+```
+
+Ainda com o objeto `mod`, podemos ajustar o modelo graficamente ao
+gráfico da relação entre `log.vendas` e `log.valor.mercado`. Para isso,
+usamos a função `abline()`, utilizada para inserir linhas em gráficos.
+
+```{r}
+## Faça o gráfico da relação entre log.vendas e log.valor.mercado, e
+## insira a linha do modelo com abline()
+plot(Y ~ X, data = dados)
+abline(mod)
+```
