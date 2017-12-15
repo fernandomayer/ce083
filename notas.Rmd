@@ -297,23 +297,23 @@ barplot(prop.table(table(notas2$SF))*100,
 par(mfrow = c(1, 1))
 ```
 
-```{r, echo=FALSE, include=FALSE, eval=FALSE}
+```{r, echo=FALSE, include=FALSE, eval=TRUE}
 ##----------------------------------------------------------------------
 ## Monta a tabela final com as informacoes necessarias para digitar as
 ## notas no sistema
 
 ## Importa nomes
-arq <- "~/Dropbox/UFPR/disciplinas/s2016-2/CE083/nomes_ce083_2016-2.csv"
+arq <- "~/Dropbox/UFPR/disciplinas/s2017-2/ce083/nomes.csv"
 nomes <- read.csv(arq)
-nomes$Matricula <- as.numeric(gsub("GRR", "", nomes$Matricula))
+nomes$Matrícula <- as.numeric(gsub("[A-Z]", "", nomes$Matrícula))
 
 ## Faz o merge dos nomes com as notas
-notas.sis <- merge(nomes, notas2[, c("Matricula", "MFA")],
-                   by = "Matricula", sort = FALSE)
+notas.sis <- merge(nomes, notas2[, c("Matrícula", "MFA")],
+                   by = "Matrícula", sort = FALSE)
 
 ## Faz o merge da coluna Freq2 de notas (que e o numero de presencas)
-notas.sis <- merge(notas.sis, notas[, c("Matricula", "Freq2")],
-                   by = "Matricula", sort = FALSE)
+notas.sis <- merge(notas.sis, notas[, c("Matrícula", "Freq2")],
+                   by = "Matrícula", sort = FALSE)
 
 ## Mas Freq2 é o número de presenças para
 aulas.eff
@@ -335,11 +335,11 @@ notas.sis$S[notas.sis$MFA < 50] <- "ReNota"
 notas.sis$S[notas.sis$Faltas > 15] <- "ReFreq"
 
 ## Mantem apenas as coluna de interesse
-col.sis <- c("Matricula", "Nome", "Faltas", "MFA", "S")
+col.sis <- c("Matrícula", "Nome", "Faltas", "MFA", "S")
 
 ## Exporta tabela final
 write.table(notas.sis[, col.sis],
-            "~/Dropbox/UFPR/disciplinas/s2016-2/CE083/final_ce083_2016-2.csv",
+            "~/Dropbox/UFPR/disciplinas/s2017-2/ce083/notas_final.csv",
             sep = ",", dec = ".", col.names = TRUE, row.names = FALSE)
 
 ```
