@@ -212,36 +212,43 @@ arredondamento de nota. Mesmo que o aluno tenha frequência abaixo de
 A coluna de situação (`S`) indica se o aluno foi aprovado (`Ap`), ficou
 em exame (`Ex`), ou foi reprovado (`Re`).
 
-```{r, results='asis', include=TRUE, eval=TRUE}
+```{r, results='asis', include=FALSE, eval=TRUE}
 kable(notas2, align = "c", digits = 2)
 ```
 
-Número de alunos em cada situação:
+<!-- Número de alunos em cada situação: -->
 
-```{r, include=TRUE, eval=TRUE}
+```{r, include=FALSE, eval=TRUE}
 addmargins(table(notas2$S))
 ```
 
-Gráfico de barras com os percentuais por situação:
+<!-- Gráfico de barras com os percentuais por situação: -->
 
-```{r, include=TRUE, eval=TRUE}
+```{r, include=FALSE, eval=TRUE}
 barplot(prop.table(table(notas2$S))*100,
         xlab = "Situação", ylab = "Frequência (%)",
         ylim = c(0, 40))
 ```
 
-<!-- **Após o exame**: as notas dos exames estão na coluna `E`. A média final -->
-<!-- (`MF`) é a mesma para quem não fez exame, e é a média entre a média -->
-<!-- final (`M`) e a nota do exame (`E`) para quem fez exame. A média final -->
-<!-- arredondada (`MFA`) é a nota que será lançada no sistema. A coluna `SF` -->
-<!-- mostra a situação final dos alunos após o exame. -->
+**Após o exame**: as notas dos exames estão na coluna `E`. A média final
+(`MF`) é a mesma para quem não fez exame, e é a média entre a média
+final (`M`) e a nota do exame (`E`) para quem fez exame. A média final
+arredondada (`MFA`) é a nota que será lançada no sistema. A coluna `SF`
+mostra a situação final dos alunos após o exame.
 
-```{r, include=FALSE, eval=FALSE}
+```{r, include=FALSE, eval=TRUE}
 ##----------------------------------------------------------------------
 ## Após exame (Ex)
 
 ## Insere notas do exame
 notas2$E <- notas$E
+
+## Verifica se houveram alunos em exame que não fizeram a prova. Aqui
+## eles vão aparecer como NA, mas a nota de exame desses alunos deve ser
+## zero
+notas2[notas2$S == "Ex" & is.na(notas2$E), ]
+## Se houver, atribuir zero nestes casos
+notas2$E[notas2$S == "Ex" & is.na(notas2$E)] <- 0
 
 ## Calcula média final (MF), que é média da nota final com a nota do
 ## exame (apenas para os que ficaram de exame)
@@ -257,27 +264,29 @@ notas2$MFA <- ceiling(notas2$MF*10)
 ## Cria a coluna Situacao final (SF), que indica a situação após exame
 notas2$SF <- "Ap"
 notas2$SF[notas2$MFA < 50] <- "Re"
+```
 
+```{r, results='asis', include=TRUE, eval=TRUE}
 ## Mostra tabela
 kable(notas2, align = "c", digits = 2)
 ```
 
-<!-- Número de alunos em cada situação: -->
+Número de alunos em cada situação:
 
-<!-- - Antes do exame -->
+- Antes do exame
 
-```{r, include=FALSE, eval=FALSE}
+```{r, include=TRUE, eval=TRUE}
 addmargins(table(notas2$S))
 ```
-<!-- - Após o exame -->
+- Após o exame
 
-```{r, include=FALSE, eval=FALSE}
+```{r, include=TRUE, eval=TRUE}
 addmargins(table(notas2$SF))
 ```
 
-<!-- Gráfico de barras com os percentuais por situação: -->
+Gráfico de barras com os percentuais por situação:
 
-```{r, fig.show='hold', include=FALSE, eval=FALSE}
+```{r, fig.show='hold', include=TRUE, eval=TRUE}
 par(mfrow = c(1, 2))
 barplot(prop.table(table(notas2$S))*100,
         xlab = "Situação", ylab = "Frequência (%)",
