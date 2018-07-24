@@ -22,7 +22,7 @@ install:
   - "[ ! -d ~/R ] && mkdir ~/R"
   - R --version
   - Rscript -e '.libPaths(); sessionInfo()'
-  - Rscript -e 'install.packages(c("devtools", "roxygen2", "revealjs", "latticeExtra", "gdata"), type = "source", repos = "http://cran-r.c3sl.ufpr.br/")'
+  - Rscript -e 'install.packages(c("MASS","devtools", "roxygen2", "revealjs", "latticeExtra", "gdata"), type = "source", repos = "http://cran-r.c3sl.ufpr.br/")'
   - Rscript -e 'devtools::install_github("yihui/knitr")'
   - Rscript -e 'devtools::install_github("rstudio/rmarkdown")'
 
